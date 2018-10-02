@@ -1,0 +1,10 @@
+# Leave this to 'lora-gateway-os"
+DISTRO = "lora-gateway-os"
+
+# Select the target machine. Options are:
+# * raspberrypi3
+MACHINE = "raspberrypi3"
+
+# Parallel executed tasks
+BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()*2}"
+PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()*2}"

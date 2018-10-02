@@ -1,0 +1,13 @@
+    __          ____        _____                             _
+   / /   ____  / __ \____ _/ ___/___  ______   _____  _____  (_)___
+  / /   / __ \/ /_/ / __ `/\__ \/ _ \/ ___/ | / / _ \/ ___/ / / __ \
+ / /___/ /_/ / _, _/ /_/ /___/ /  __/ /   | |/ /  __/ /  _ / / /_/ /
+/_____/\____/_/ |_|\__,_//____/\___/_/    |___/\___/_/  (_)_/\____/
+
+                                  documentation: www.loraserver.io
+
+Commands:
+
+> sudo gateway-config  - configure the gateway
+> sudo monit status    - display service monitor
+

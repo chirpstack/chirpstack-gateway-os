@@ -1,0 +1,28 @@
+version: "3.2"
+
+services:
+  yocto:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: volume
+        source: build
+        target: /build
+        volume:
+          nocopy: true
+      - type: bind
+        source: .
+        target: /lora-gateway-os
+
+  busybox:
+    image: busybox
+    volumes:
+      - type: volume
+        source: build
+        target: /build
+        volume:
+          nocopy: true
+
+volumes:
+  build:

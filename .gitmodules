@@ -1,0 +1,16 @@
+[submodule "bitbake"]
+	path = bitbake
+	url = git://git.openembedded.org/bitbake
+	branch = 1.40
+[submodule "layers/openembedded/meta-openembedded"]
+	path = layers/openembedded/meta-openembedded
+	url = git://git.openembedded.org/meta-openembedded
+	branch = master
+[submodule "layers/openembedded/openembedded-core"]
+	path = layers/openembedded/openembedded-core
+	url = git://git.openembedded.org/openembedded-core
+	branch = master
+[submodule "layers/bsp/meta-raspberrypi"]
+	path = layers/bsp/meta-raspberrypi
+	url = git://git.yoctoproject.org/meta-raspberrypi
+	branch = master

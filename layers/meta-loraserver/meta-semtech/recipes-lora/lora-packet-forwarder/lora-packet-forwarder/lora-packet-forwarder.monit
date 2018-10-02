@@ -1,0 +1,3 @@
+check process lora-packet-forwarder with pidfile /var/run/lora-packet-forwarder.pid
+    start program = "/etc/init.d/lora-packet-forwarder start"
+    stop program = "/etc/init.d/lora-packet-forwarder stop"

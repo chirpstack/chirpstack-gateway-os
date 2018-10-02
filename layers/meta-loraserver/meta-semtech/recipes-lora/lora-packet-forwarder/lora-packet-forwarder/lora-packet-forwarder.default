@@ -1,0 +1,5 @@
+# reset the LoRa concentrator on packet-forwarder start
+CONCENTRATOR_RESET="no"
+
+# reset pin
+CONCENTRATOR_RESET_PIN=17
