@@ -10,4 +10,3 @@ IMAGE_INSTALL += "wiringpi \
 DISTRO_FEATURES += "wifi"
 
 SDIMG_COMPRESSION = "gzip"
-

@@ -1,0 +1,82 @@
+diff --git a/libloragw/src/loragw_hal.c b/libloragw/src/loragw_hal.c
+index 8103751..46f9342 100644
+--- a/libloragw/src/loragw_hal.c
++++ b/libloragw/src/loragw_hal.c
+@@ -149,7 +149,7 @@ static struct lgw_tx_gain_lut_s txgain_lut = {
+         .dig_gain = 0,
+         .pa_gain = 3,
+         .dac_gain = 3,
+-        .mix_gain = 14,
++        .mix_gain = 12,
+         .rf_power = 27
+     }};
+ 
+diff --git a/libloragw/src/loragw_spi.native.c b/libloragw/src/loragw_spi.native.c
+index c01ed1c..f1fdf67 100644
+--- a/libloragw/src/loragw_spi.native.c
++++ b/libloragw/src/loragw_spi.native.c
+@@ -54,8 +54,8 @@ Maintainer: Sylvain Miermont
+ #define READ_ACCESS     0x00
+ #define WRITE_ACCESS    0x80
+ #define SPI_SPEED       8000000
+-#define SPI_DEV_PATH    "/dev/spidev0.0"
+-//#define SPI_DEV_PATH    "/dev/spidev32766.0"
++// #define SPI_DEV_PATH    "/dev/spidev0.0"
++#define SPI_DEV_PATH    "/dev/spidev32766.0"
+ 
+ /* -------------------------------------------------------------------------- */
+ /* --- PUBLIC FUNCTIONS DEFINITION ------------------------------------------ */
+diff --git a/util_tx_continuous/src/util_tx_continuous.c b/util_tx_continuous/src/util_tx_continuous.c
+index b081cce..8a19cf3 100644
+--- a/util_tx_continuous/src/util_tx_continuous.c
++++ b/util_tx_continuous/src/util_tx_continuous.c
+@@ -50,7 +50,7 @@ Maintainer: Matthieu Leurent
+ #define DEFAULT_FREQ_HZ         868e6
+ #define DEFAULT_DIGITAL_GAIN    0
+ #define DEFAULT_DAC_GAIN        3
+-#define DEFAULT_MIXER_GAIN      14
++#define DEFAULT_MIXER_GAIN      12
+ #define DEFAULT_PA_GAIN         3
+ #define DEFAULT_MODULATION      "LORA"
+ #define DEFAULT_SF              7
+diff --git a/util_tx_test/src/util_tx_test.c b/util_tx_test/src/util_tx_test.c
+index 74c163f..b5bca4d 100644
+--- a/util_tx_test/src/util_tx_test.c
++++ b/util_tx_test/src/util_tx_test.c
+@@ -70,14 +70,14 @@ static struct lgw_tx_gain_lut_s txgain_lut = {
+         .dig_gain = 0,
+         .pa_gain = 0,
+         .dac_gain = 3,
+-        .mix_gain = 12,
++        .mix_gain = 15,
+         .rf_power = 0
+     },
+     .lut[1] = {
+         .dig_gain = 0,
+         .pa_gain = 1,
+         .dac_gain = 3,
+-        .mix_gain = 12,
++        .mix_gain = 15,
+         .rf_power = 10
+     },
+     .lut[2] = {
+@@ -89,16 +89,16 @@ static struct lgw_tx_gain_lut_s txgain_lut = {
+     },
+     .lut[3] = {
+         .dig_gain = 0,
+-        .pa_gain = 3,
++        .pa_gain = 2,
+         .dac_gain = 3,
+-        .mix_gain = 9,
++        .mix_gain = 15,
+         .rf_power = 20
+     },
+     .lut[4] = {
+         .dig_gain = 0,
+         .pa_gain = 3,
+         .dac_gain = 3,
+-        .mix_gain = 14,
++        .mix_gain = 12,
+         .rf_power = 27
+     }};
+ 

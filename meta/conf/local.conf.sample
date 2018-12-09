@@ -1,8 +1,16 @@
 # Leave this to 'lora-gateway-os"
 DISTRO = "lora-gateway-os"
 
-# Select the target machine. Options are:
-# * raspberrypi3
+# Select the target machine.
+#
+# Options are (per vendor configured in bblayers.conf):
+#
+# Vendor: raspberrypi
+#         * raspberrypi3
+#
+# Vendor: wifx
+#         * sama5d4-lorix-one-512-sd
+#         * sama5d4-lorix-one-sd
 MACHINE = "raspberrypi3"
 
 # Parallel executed tasks

@@ -32,12 +32,10 @@ function do_reset {
     fi
 
     echo "Resetting concentrator board using pin $CONCENTRATOR_RESET_PIN"
-    echo "$CONCENTRATOR_RESET_PIN" > /sys/class/gpio/export; wait_gpio
-    echo "out" > /sys/class/gpio/gpio$CONCENTRATOR_RESET_PIN/direction; wait_gpio
-    echo "1" > /sys/class/gpio/gpio$CONCENTRATOR_RESET_PIN/value; wait_gpio
-    echo "0" > /sys/class/gpio/gpio$CONCENTRATOR_RESET_PIN/value; wait_gpio
-    echo "in" > /sys/class/gpio/gpio$CONCENTRATOR_RESET_PIN/direction; wait_gpio
-    echo $CONCENTRATOR_RESET_PIN > /sys/class/gpio/unexport; wait_gpio
+    echo $CONCENTRATOR_RESET_PIN > /sys/class/gpio/export; wait_gpio
+    echo "out" > $CONCENTRATOR_RESET_PIN_PATH/direction; wait_gpio
+    echo "1" > $CONCENTRATOR_RESET_PIN_PATH/value; wait_gpio
+    echo "0" > $CONCENTRATOR_RESET_PIN_PATH/value; wait_gpio
     touch $PF_RESET
 
     sleep 1

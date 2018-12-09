@@ -1,0 +1,3334 @@
+diff --git a/contrib/board/Config.in.board b/contrib/board/Config.in.board
+index 7e6eb97..56059dd 100644
+--- a/contrib/board/Config.in.board
++++ b/contrib/board/Config.in.board
+@@ -10,3 +10,5 @@ source "contrib/board/corewind/core9g25/Config.in.board"
+ source "contrib/board/axentia/sama5d3_linea/Config.in.board"
+ source "contrib/board/mini-box/pico_sam9g45/Config.in.board"
+ source "contrib/board/stephan/sama5d3_stephan/Config.in.board"
++source "contrib/board/wifx/sama5d4_lorix_one/Config.in.board"
++source "contrib/board/wifx/sama5d4_lorix_one_512/Config.in.board"
+diff --git a/contrib/board/Config.in.boardname b/contrib/board/Config.in.boardname
+index 123ec74..101bb76 100644
+--- a/contrib/board/Config.in.boardname
++++ b/contrib/board/Config.in.boardname
+@@ -10,3 +10,5 @@ source "contrib/board/corewind/core9g25/Config.in.boardname"
+ source "contrib/board/axentia/sama5d3_linea/Config.in.boardname"
+ source "contrib/board/mini-box/pico_sam9g45/Config.in.boardname"
+ source "contrib/board/stephan/sama5d3_stephan/Config.in.boardname"
++source "contrib/board/wifx/sama5d4_lorix_one/Config.in.boardname"
++source "contrib/board/wifx/sama5d4_lorix_one_512/Config.in.boardname"
+diff --git a/contrib/board/Config.in.linux_arg b/contrib/board/Config.in.linux_arg
+index c29954d..4db7a34 100644
+--- a/contrib/board/Config.in.linux_arg
++++ b/contrib/board/Config.in.linux_arg
+@@ -10,3 +10,5 @@ source "contrib/board/corewind/core9g25/Config.in.linux_arg"
+ source "contrib/board/axentia/sama5d3_linea/Config.in.linux_arg"
+ source "contrib/board/mini-box/pico_sam9g45/Config.in.linux_arg"
+ source "contrib/board/stephan/sama5d3_stephan/Config.in.linux_arg"
++source "contrib/board/wifx/sama5d4_lorix_one/Config.in.linux_arg"
++source "contrib/board/wifx/sama5d4_lorix_one_512/Config.in.linux_arg"
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/Config.in.board b/contrib/board/wifx/sama5d4_lorix_one/Config.in.board
+new file mode 100644
+index 0000000..6fa7eaa
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/Config.in.board
+@@ -0,0 +1,23 @@
++config CONFIG_SAMA5D4_LORIX_ONE
++	bool "sama5d4_lorix_one"
++	select SAMA5D4
++	select CONFIG_CPU_V7
++	select CONFIG_DDRC
++	select ALLOW_NANDFLASH
++	select ALLOW_SDCARD
++	select ALLOW_CPU_CLK_444MHZ
++	select ALLOW_CPU_CLK_510MHZ
++	select ALLOW_CPU_CLK_528MHZ
++	select ALLOW_CPU_CLK_594MHZ
++	select ALLOW_CPU_CLK_600MHZ
++	select ALLOW_CRYSTAL_12_000MHZ
++	select CONFIG_HAS_EEPROM
++	select CONFIG_HAS_PMIC_ACT8865
++	select CONFIG_SUPPORT_PM
++	select CONFIG_HAS_EHT0_PHY
++	select SUPPORT_BUS_SPEED_176MHZ
++	select SUPPORT_BUS_SPEED_170MHZ
++	select SUPPORT_BUS_SPEED_148MHZ
++	select SUPPORT_BUS_SPEED_200MHZ
++	help
++	  Use the SAMA5D4_LORIX_One LoRa gateway board
+\ No newline at end of file
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/Config.in.boardname b/contrib/board/wifx/sama5d4_lorix_one/Config.in.boardname
+new file mode 100644
+index 0000000..3b2e7c4
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/Config.in.boardname
+@@ -0,0 +1,2 @@
++config CONFIG_BOARDNAME
++	default "sama5d4_lorix_one" if CONFIG_SAMA5D4_LORIX_ONE
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/Config.in.linux_arg b/contrib/board/wifx/sama5d4_lorix_one/Config.in.linux_arg
+new file mode 100644
+index 0000000..1caae8f
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/Config.in.linux_arg
+@@ -0,0 +1,3 @@
++config CONFIG_LINUX_KERNEL_ARG_STRING
++	default "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs" if CONFIG_SAMA5D4_LORIX_ONE && !CONFIG_SDCARD
++	default "console=ttyS0,115200 root=/dev/mmcblk0p2 rootdelay=2" if CONFIG_SAMA5D4_LORIX_ONE && CONFIG_SDCARD
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/board.mk b/contrib/board/wifx/sama5d4_lorix_one/board.mk
+new file mode 100644
+index 0000000..5570800
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/board.mk
+@@ -0,0 +1,2 @@
++CPPFLAGS += -DCONFIG_SAMA5D4_LORIX_ONE
++ASFLAGS += -DCONFIG_SAMA5D4_LORIX_ONE
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_one.c b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_one.c
+new file mode 100644
+index 0000000..6b9101c
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_one.c
+@@ -0,0 +1,813 @@
++/* ----------------------------------------------------------------------------
++ *         ATMEL Microcontroller Software Support
++ * ----------------------------------------------------------------------------
++ * Copyright (c) 2014, Atmel Corporation
++ * Copyright (c) 2016, Wifx Sàrl
++ *
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * - Redistributions of source code must retain the above copyright notice,
++ * this list of conditions and the disclaimer below.
++ *
++ * Atmel's name may not be used to endorse or promote products derived from
++ * this software without specific prior written permission.
++ *
++ * DISCLAIMER: THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
++ * DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT, INDIRECT,
++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
++ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
++ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++#include "common.h"
++#include "hardware.h"
++#include "pmc.h"
++#include "usart.h"
++#include "debug.h"
++#include "ddramc.h"
++#include "gpio.h"
++#include "timer.h"
++#include "watchdog.h"
++#include "string.h"
++
++#include "arch/at91_pmc.h"
++#include "arch/at91_rstc.h"
++#include "arch/sama5_smc.h"
++#include "arch/at91_pio.h"
++#include "arch/at91_ddrsdrc.h"
++#include "arch/at91_sfr.h"
++#include "arch/tz_matrix.h"
++#include "sama5d4_lorix_one.h"
++#include "tz_utils.h"
++#include "l2cc.h"
++#include "matrix.h"
++#include "act8865.h"
++#include "twi.h"
++
++static void at91_dbgu_hw_init(void)
++{
++	const struct pio_desc dbgu_pins[] = {
++		{"RXD", AT91C_PIN_PE(16), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{"TXD", AT91C_PIN_PE(17), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pio_configure(dbgu_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOE);
++	pmc_enable_periph_clock(AT91C_ID_USART3);
++}
++
++static void initialize_dbgu(void)
++{
++	unsigned int baudrate = 115200;
++
++	at91_dbgu_hw_init();
++
++	if (pmc_check_mck_h32mxdiv())
++		usart_init(BAUDRATE(MASTER_CLOCK / 2, baudrate));
++	else
++		usart_init(BAUDRATE(MASTER_CLOCK, baudrate));
++}
++
++#ifdef CONFIG_DDR2
++static void ddramc_reg_config(struct ddramc_register *ddramc_config)
++{
++	ddramc_config->mdr = (AT91C_DDRC2_DBW_16_BITS
++				| AT91C_DDRC2_MD_DDR2_SDRAM);
++
++	ddramc_config->cr = (AT91C_DDRC2_NC_DDR10_SDR9
++				| AT91C_DDRC2_NR_13
++				| AT91C_DDRC2_CAS_5
++				| AT91C_DDRC2_DISABLE_RESET_DLL
++				| AT91C_DDRC2_DISABLE_DLL
++				| AT91C_DDRC2_NB_BANKS_8
++				| AT91C_DDRC2_DECOD_INTERLEAVED
++				| AT91C_DDRC2_UNAL_SUPPORTED);
++
++
++#if defined(CONFIG_BUS_SPEED_148MHZ)
++
++	ddramc_config->rtr = 0x243;
++
++	/* One clock cycle @ 148 MHz = 6.7 ns */
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(7)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(9)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(2)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(31)
++			| AT91C_DDRC2_TRFC_(30));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(7)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(8)
++			| AT91C_DDRC2_TXARD_(8));
++
++#elif defined(CONFIG_BUS_SPEED_170MHZ)
++
++	ddramc_config->rtr = 0x229;
++
++	/* One clock cycle @ 170 MHz = 5.9 ns */
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(7)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(10)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(3)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(35)
++			| AT91C_DDRC2_TRFC_(34));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(6)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(2)
++			| AT91C_DDRC2_TXARD_(8));
++
++#elif defined(CONFIG_BUS_SPEED_176MHZ)
++
++	ddramc_config->rtr = 0x2b0;
++
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(8)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(10)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(3)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(36)
++			| AT91C_DDRC2_TRFC_(35));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(8)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(2)
++			| AT91C_DDRC2_TXARD_(8));
++
++#elif defined(CONFIG_BUS_SPEED_200MHZ)
++
++	ddramc_config->rtr = 0x30e;
++
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(8)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(11)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(3)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(42)
++			| AT91C_DDRC2_TRFC_(40));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(9)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(2)
++			| AT91C_DDRC2_TXARD_(8));
++
++#else
++#error "No CLK setting defined"
++#endif
++}
++
++static void ddramc_init(void)
++{
++	struct ddramc_register ddramc_reg;
++	unsigned int reg;
++
++	ddramc_reg_config(&ddramc_reg);
++
++	/* enable ddr2 clock */
++	pmc_enable_periph_clock(AT91C_ID_MPDDRC);
++	pmc_enable_system_clock(AT91C_PMC_DDR);
++
++	/* configure Shift Sampling Point of Data */
++#if defined(CONFIG_BUS_SPEED_148MHZ)
++	reg = AT91C_MPDDRC_RD_DATA_PATH_NO_SHIFT;
++#elif defined(CONFIG_BUS_SPEED_200MHZ)
++	reg = AT91C_MPDDRC_RD_DATA_PATH_TWO_CYCLES;
++#else
++	reg = AT91C_MPDDRC_RD_DATA_PATH_ONE_CYCLES;
++#endif
++	writel(reg, (AT91C_BASE_MPDDRC + MPDDRC_RD_DATA_PATH));
++
++	/* MPDDRC I/O Calibration Register */
++	reg = readl(AT91C_BASE_MPDDRC + MPDDRC_IO_CALIBR);
++	reg &= ~AT91C_MPDDRC_RDIV;
++	reg &= ~AT91C_MPDDRC_TZQIO;
++	reg &= ~AT91C_MPDDRC_CALCODEP;
++	reg &= ~AT91C_MPDDRC_CALCODEN;
++	reg |= AT91C_MPDDRC_RDIV_DDR2_RZQ_50;
++#if defined(CONFIG_BUS_SPEED_148MHZ)
++	reg |= AT91C_MPDDRC_TZQIO_4;	/* @ 133 & 148 MHz */
++#else
++	reg |= AT91C_MPDDRC_TZQIO_5;	/* @ 170 & 176 MHz */
++#endif
++	reg |= AT91C_MPDDRC_EN_CALIB;
++
++	writel(reg, (AT91C_BASE_MPDDRC + MPDDRC_IO_CALIBR));
++
++	/* DDRAM2 Controller initialize */
++	ddram_initialize(AT91C_BASE_MPDDRC, AT91C_BASE_DDRCS, &ddramc_reg);
++
++	ddramc_dump_regs(AT91C_BASE_MPDDRC);
++}
++#endif /* #ifdef CONFIG_DDR2 */
++
++#if defined(CONFIG_MATRIX)
++static int matrix_configure_slave(void)
++{
++	unsigned int ddr_port;
++	unsigned int ssr_setting, sasplit_setting, srtop_setting;
++
++	/*
++	 * Matrix 0 (H64MX)
++	 */
++
++	/*
++	 * 0: Bridge from H64MX to AXIMX
++	 * (Internal ROM, Crypto Library, PKCC RAM): Always Secured
++	 */
++
++	/* 1: H64MX Peripheral Bridge */
++
++	/* 2: Video Decoder 1M: Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_1M);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_1M);
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX64,
++					H64MX_SLAVE_VIDEO_DECODER,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 4 ~ 10 DDR2 Port1 ~ 7: Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_128M);
++	sasplit_setting = (MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_128M)
++				| MATRIX_SASPLIT(1, MATRIX_SASPLIT_VALUE_128M)
++				| MATRIX_SASPLIT(2, MATRIX_SASPLIT_VALUE_128M)
++				| MATRIX_SASPLIT(3, MATRIX_SASPLIT_VALUE_128M));
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_LANSECH_NS(1)
++			| MATRIX_LANSECH_NS(2)
++			| MATRIX_LANSECH_NS(3)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_RDNSECH_NS(1)
++			| MATRIX_RDNSECH_NS(2)
++			| MATRIX_RDNSECH_NS(3)
++			| MATRIX_WRNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(1)
++			| MATRIX_WRNSECH_NS(2)
++			| MATRIX_WRNSECH_NS(3));
++	/* DDR port 0 not used from NWd */
++	for (ddr_port = 1; ddr_port < 8; ddr_port++) {
++		matrix_configure_slave_security(AT91C_BASE_MATRIX64,
++					(H64MX_SLAVE_DDR2_PORT_0 + ddr_port),
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++	}
++
++	/*
++	 * 11: Internal SRAM 128K
++	 * TOP0 is set to 128K
++	 * SPLIT0 is set to 64K
++	 * LANSECH0 is set to 0, the low area of region 0 is the Securable one
++	 * RDNSECH0 is set to 0, region 0 Securable area is secured for reads.
++	 * WRNSECH0 is set to 0, region 0 Securable area is secured for writes
++	 */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_128K);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_64K);
++	ssr_setting = (MATRIX_LANSECH_S(0)
++			| MATRIX_RDNSECH_S(0)
++			| MATRIX_WRNSECH_S(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX64,
++					H64MX_SLAVE_INTERNAL_SRAM,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 12:  Bridge from H64MX to H32MX */
++
++	/*
++	 * Matrix 1 (H32MX)
++	 */
++
++	/* 0: Bridge from H32MX to H64MX: Not Secured */
++
++	/* 1: H32MX Peripheral Bridge 0: Not Secured */
++
++	/* 2: H32MX Peripheral Bridge 1: Not Secured */
++
++	/*
++	 * 3: External Bus Interface
++	 * EBI CS0 Memory(256M) ----> Slave Region 0, 1
++	 * EBI CS1 Memory(256M) ----> Slave Region 2, 3
++	 * EBI CS2 Memory(256M) ----> Slave Region 4, 5
++	 * EBI CS3 Memory(128M) ----> Slave Region 6
++	 * NFC Command Registers(128M) -->Slave Region 7
++	 *
++	 * NANDFlash(EBI CS3) --> Slave Region 6: Non-Secure
++	 */
++	srtop_setting =	MATRIX_SRTOP(6, MATRIX_SRTOP_VALUE_128M);
++	srtop_setting |= MATRIX_SRTOP(7, MATRIX_SRTOP_VALUE_128M);
++	sasplit_setting = MATRIX_SASPLIT(6, MATRIX_SASPLIT_VALUE_128M);
++	sasplit_setting |= MATRIX_SASPLIT(7, MATRIX_SASPLIT_VALUE_128M);
++	ssr_setting = (MATRIX_LANSECH_NS(6)
++			| MATRIX_RDNSECH_NS(6)
++			| MATRIX_WRNSECH_NS(6));
++	ssr_setting |= (MATRIX_LANSECH_NS(7)
++			| MATRIX_RDNSECH_NS(7)
++			| MATRIX_WRNSECH_NS(7));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_EXTERNAL_EBI,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 4: NFC SRAM (4K): Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_8K);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_8K);
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_NFC_SRAM,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 5:
++	 * USB Device High Speed Dual Port RAM (DPR): 1M
++	 * USB Host OHCI registers: 1M
++	 * USB Host EHCI registers: 1M
++	 */
++	srtop_setting = (MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_1M)
++			| MATRIX_SRTOP(1, MATRIX_SRTOP_VALUE_1M)
++			| MATRIX_SRTOP(2, MATRIX_SRTOP_VALUE_1M));
++	sasplit_setting = (MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_1M)
++			| MATRIX_SASPLIT(1, MATRIX_SASPLIT_VALUE_1M)
++			| MATRIX_SASPLIT(2, MATRIX_SASPLIT_VALUE_1M));
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_LANSECH_NS(1)
++			| MATRIX_LANSECH_NS(2)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_RDNSECH_NS(1)
++			| MATRIX_RDNSECH_NS(2)
++			| MATRIX_WRNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(1)
++			| MATRIX_WRNSECH_NS(2));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_USB,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 6: Soft Modem (1M): Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_1M);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_1M);
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_SMD,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++	return 0;
++}
++
++static unsigned int security_ps_peri_id[] = {
++	AT91C_ID_VDEC,
++	AT91C_ID_PIOA,
++	AT91C_ID_PIOB,
++	AT91C_ID_PIOC,
++	AT91C_ID_PIOE,
++	AT91C_ID_USART2,
++	AT91C_ID_USART3,
++	AT91C_ID_USART4,
++	AT91C_ID_TWI0,
++	AT91C_ID_TWI2,
++	AT91C_ID_HSMC,
++	AT91C_ID_HSMCI0,
++	AT91C_ID_HSMCI1,
++	AT91C_ID_TC0,
++	AT91C_ID_TC1,
++	AT91C_ID_ADC,
++	AT91C_ID_UHPHS,
++	AT91C_ID_UDPHS,
++	AT91C_ID_LCDC,
++	AT91C_ID_ISI,
++	AT91C_ID_GMAC,
++	AT91C_ID_GMAC1,
++	AT91C_ID_SPI0,
++	AT91C_ID_SPI1,
++	AT91C_ID_SMD,
++	AT91C_ID_SSC0,
++	AT91C_ID_SSC1,
++};
++
++static int matrix_config_periheral(void)
++{
++	unsigned int *peri_id = security_ps_peri_id;
++	unsigned int array_size = sizeof(security_ps_peri_id) / sizeof(unsigned int);
++	int ret;
++
++	ret = matrix_configure_peri_security(peri_id, array_size);
++	if (ret)
++		return -1;
++
++	return 0;
++}
++
++static int matrix_init(void)
++{
++	int ret;
++
++	matrix_write_protect_disable(AT91C_BASE_MATRIX64);
++	matrix_write_protect_disable(AT91C_BASE_MATRIX32);
++
++	ret = matrix_configure_slave();
++	if (ret)
++		return -1;
++
++	ret = matrix_config_periheral();
++	if (ret)
++		return -1;
++
++	return 0;
++}
++#endif	/* #if defined(CONFIG_MATRIX) */
++
++#if defined(CONFIG_TWI0)
++unsigned int at91_twi0_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_TWI0;
++
++	const struct pio_desc twi_pins[] = {
++		{"TWD0", AT91C_PIN_PA(30), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{"TWCK0", AT91C_PIN_PA(31), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pmc_enable_periph_clock(AT91C_ID_PIOA);
++	pio_configure(twi_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_TWI0);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_TWI1)
++unsigned int at91_twi1_hw_init(void)
++{
++	return 0;
++}
++#endif
++
++#if defined(CONFIG_TWI2)
++unsigned int at91_twi2_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_TWI2;
++
++	const struct pio_desc twi_pins[] = {
++		{"TWD2", AT91C_PIN_PB(29), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{"TWCK2", AT91C_PIN_PB(30), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pmc_enable_periph_clock(AT91C_ID_PIOB);
++	pio_configure(twi_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_TWI2);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_TWI3)
++unsigned int at91_twi3_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_TWI3;
++
++	const struct pio_desc twi_pins[] = {
++		{"TWD3", AT91C_PIN_PC(25), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{"TWCK3", AT91C_PIN_PC(26), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pmc_enable_periph_clock(AT91C_ID_PIOC);
++	pio_configure(twi_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_TWI3);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_AUTOCONFIG_TWI_BUS)
++void at91_board_config_twi_bus(void)
++{
++	at24xx_twi_bus = 0;
++
++	attiny_twi_bus = 2;
++
++	act8865_twi_bus = 3;
++}
++#endif
++
++#if defined(CONFIG_ACT8865_SET_VOLTAGE)
++int at91_board_act8865_set_reg_voltage(void)
++{
++	unsigned char reg, value;
++	int ret;
++
++	/* Check ACT8865 I2C interface */
++	if (act8865_check_i2c_disabled())
++		return 0;
++
++	/* Enable REG5 output 3.3V */
++	reg = REG5_0;
++	value = ACT8865_3V3;
++	ret = act8865_set_reg_voltage(reg, value);
++	if (ret)
++		dbg_loud("ACT8865: Failed to make REG5 output 3300mV\n");
++
++	/* Enable REG6 output 1.8V */
++	reg = REG6_0;
++	value = ACT8865_1V8;
++	ret = act8865_set_reg_voltage(reg, value);
++	if (ret)
++		dbg_loud("ACT8865: Failed to make REG6 output 1800mV\n");
++
++	return 0;
++}
++#endif
++
++#if defined(CONFIG_PM)
++void at91_disable_smd_clock(void)
++{
++	/*
++	 * set pin DIBP to pull-up and DIBN to pull-down
++	 * to save power on VDDIOP0
++	 */
++	pmc_enable_system_clock(AT91C_PMC_SMDCK);
++	pmc_set_smd_clock_divider(AT91C_PMC_SMDDIV);
++	pmc_enable_periph_clock(AT91C_ID_SMD);
++	writel(0xF, (0x0C + AT91C_BASE_SMD));
++	pmc_disable_periph_clock(AT91C_ID_SMD);
++	pmc_disable_system_clock(AT91C_PMC_SMDCK);
++}
++#endif
++
++#if defined(CONFIG_MAC0_PHY)
++unsigned int at91_eth0_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_GMAC;
++
++	const struct pio_desc macb_pins[] = {
++		{"G0_MDC",	AT91C_PIN_PB(16), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{"G0_MDIO",	AT91C_PIN_PB(17), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pio_configure(macb_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOB);
++
++	pmc_enable_periph_clock(AT91C_ID_GMAC);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_MACB)
++void at91_disable_mac_clock(void)
++{
++#if defined(CONFIG_MAC0_PHY)
++	pmc_disable_periph_clock(AT91C_ID_GMAC);
++#endif
++}
++#endif
++
++#ifdef CONFIG_HW_INIT
++void hw_init(void)
++{
++	/* Disable watchdog */
++	at91_disable_wdt();
++
++	/* At this stage the main oscillator is supposed
++	 * to be enabled PCK = MCK = MOSC
++	 */
++
++	/* Switch PCK/MCK on Main clock output */
++	pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
++
++	/* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
++	pmc_cfg_plla(PLLA_SETTINGS);
++
++	/* Initialize PLLA charge pump */
++	/* not needed for SAMA5D4 */
++	pmc_init_pll(0);
++
++	/* Switch MCK on PLLA output */
++	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
++
++	/* Enable External Reset */
++	writel(AT91C_RSTC_KEY_UNLOCK | AT91C_RSTC_URSTEN,
++					AT91C_BASE_RSTC + RSTC_RMR);
++
++#if defined(CONFIG_ENTER_NWD)
++	cpacr_init();
++
++	/* Program the DACR to allow client access to *all* domains */
++	dacr_swd_init();
++#endif
++
++#if defined(CONFIG_MATRIX)
++	/* Initialize the matrix */
++	matrix_init();
++#endif
++
++	/* initialize the dbgu */
++	initialize_dbgu();
++
++#if defined(CONFIG_MATRIX)
++	matrix_read_slave_security();
++	matrix_read_periperal_security();
++#endif
++
++	/* Init timer */
++	timer_init();
++
++#ifdef CONFIG_DDR2
++	/* Initialize MPDDR Controller */
++	ddramc_init();
++#endif
++
++	/* Prepare L2 cache setup */
++	l2cache_prepare();
++
++	// init PIOB IOs
++	const struct pio_desc piob_pins[] = {
++		{"G0_TXCK", AT91C_PIN_PB(0), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_TXEN", AT91C_PIN_PB(2), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXDV", AT91C_PIN_PB(6), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXER", AT91C_PIN_PB(7), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXD0", AT91C_PIN_PB(8), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXD1", AT91C_PIN_PB(9), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_TXD0", AT91C_PIN_PB(12), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_TXD1", AT91C_PIN_PB(13), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_MDC", AT91C_PIN_PB(16), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_MDIO", AT91C_PIN_PB(17), 0, PIO_DEFAULT, PIO_INPUT},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the PIO controller */
++	pio_configure(piob_pins);
++
++	// init PIOE IOs
++	const struct pio_desc pioe_pins[] = {
++		{"G0_IRQ", AT91C_PIN_PE(0), 0, PIO_DEFAULT, PIO_INPUT},
++		{"MCI1_CD", AT91C_PIN_PE(3), 0, PIO_DEFAULT, PIO_INPUT},
++		{"CTS3", AT91C_PIN_PE(5), 0, PIO_DEFAULT, PIO_INPUT},
++		{"PMIC_IRQ", AT91C_PIN_PE(25), 0, PIO_DEFAULT, PIO_INPUT},
++		{"USB_SENSE", AT91C_PIN_PE(31), 0, PIO_DEFAULT, PIO_INPUT},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the PIO controller */
++	pio_configure(pioe_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_PIOB);
++	pmc_enable_periph_clock(AT91C_ID_PIOE);
++}
++#endif /* #ifdef CONFIG_HW_INIT */
++
++#ifdef CONFIG_SDCARD
++#ifdef CONFIG_OF_LIBFDT
++void at91_board_set_dtb_name(char *of_name)
++{
++	strcpy(of_name, "at91-sama5d4_lorix_one.dtb");
++}
++#endif
++
++void at91_mci0_hw_init(void)
++{
++	const struct pio_desc mci_pins[] = {
++		{"MCI1_CK", AT91C_PIN_PE(18), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_CDA", AT91C_PIN_PE(19), 0, PIO_DEFAULT, PIO_PERIPH_C},
++
++		{"MCI1_DA0", AT91C_PIN_PE(20), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_DA1", AT91C_PIN_PE(21), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_DA2", AT91C_PIN_PE(22), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_DA3", AT91C_PIN_PE(23), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the PIO controller */
++	pio_configure(mci_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOE);
++	pmc_enable_periph_clock(AT91C_ID_HSMCI1);
++}
++#endif /* #ifdef CONFIG_SDCARD */
++
++#ifdef CONFIG_NANDFLASH
++void nandflash_hw_init(void)
++{
++	/* Configure nand pins */
++	const struct pio_desc nand_pins[] = {
++		{"NANDOE",	CONFIG_SYS_NAND_OE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDWE",	CONFIG_SYS_NAND_WE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDALE",	CONFIG_SYS_NAND_ALE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDCLE",	CONFIG_SYS_NAND_CLE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDCS",	CONFIG_SYS_NAND_ENABLE_PIN,
++					1, PIO_DEFAULT, PIO_OUTPUT},
++		{"D0",	AT91C_PIN_PC(5), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D1",	AT91C_PIN_PC(6), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D2",	AT91C_PIN_PC(7), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D3",	AT91C_PIN_PC(8), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D4",	AT91C_PIN_PC(9), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D5",	AT91C_PIN_PC(10), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D6",	AT91C_PIN_PC(11), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D7",	AT91C_PIN_PC(12), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the nand controller pins*/
++	pio_configure(nand_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOC);
++
++	/* Enable the clock */
++	pmc_enable_periph_clock(AT91C_ID_HSMC);
++
++	/* EBI Configuration Register */
++	writel((AT91C_EBICFG_DRIVE0_HIGH
++		| AT91C_EBICFG_PULL0_NONE
++		| AT91C_EBICFG_DRIVE1_HIGH
++		| AT91C_EBICFG_PULL1_NONE), SFR_EBICFG + AT91C_BASE_SFR);
++
++	/* Configure SMC CS3 for NAND/SmartMedia */
++	writel(AT91C_SMC_SETUP_NWE(1)
++		| AT91C_SMC_SETUP_NCS_WR(1)
++		| AT91C_SMC_SETUP_NRD(1)
++		| AT91C_SMC_SETUP_NCS_RD(1),
++		(ATMEL_BASE_SMC + SMC_SETUP3));
++
++	writel(AT91C_SMC_PULSE_NWE(2)
++		| AT91C_SMC_PULSE_NCS_WR(3)
++		| AT91C_SMC_PULSE_NRD(2)
++		| AT91C_SMC_PULSE_NCS_RD(3),
++		(ATMEL_BASE_SMC + SMC_PULSE3));
++
++	writel(AT91C_SMC_CYCLE_NWE(5)
++		| AT91C_SMC_CYCLE_NRD(5),
++		(ATMEL_BASE_SMC + SMC_CYCLE3));
++
++	writel(AT91C_SMC_TIMINGS_TCLR(2)
++		| AT91C_SMC_TIMINGS_TADL(7)
++		| AT91C_SMC_TIMINGS_TAR(2)
++		| AT91C_SMC_TIMINGS_TRR(3)
++		| AT91C_SMC_TIMINGS_TWB(7)
++		| AT91C_SMC_TIMINGS_RBNSEL(2)
++		| AT91C_SMC_TIMINGS_NFSEL,
++		(ATMEL_BASE_SMC + SMC_TIMINGS3));
++
++	writel(AT91C_SMC_MODE_READMODE_NRD_CTRL
++		| AT91C_SMC_MODE_WRITEMODE_NWE_CTRL
++		| AT91C_SMC_MODE_DBW_8
++		| AT91C_SMC_MODE_TDF_CYCLES(1),
++		(ATMEL_BASE_SMC + SMC_MODE3));
++}
++#endif /* #ifdef CONFIG_NANDFLASH */
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_one.h b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_one.h
+new file mode 100644
+index 0000000..46126de
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_one.h
+@@ -0,0 +1,215 @@
++/* ----------------------------------------------------------------------------
++ *         ATMEL Microcontroller Software Support
++ * ----------------------------------------------------------------------------
++ * Copyright (c) 2014, Atmel Corporation
++ * Copyright (c) 2016, Wifx Sàrl
++ *
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * - Redistributions of source code must retain the above copyright notice,
++ * this list of conditions and the disclaimer below.
++ *
++ * Atmel's name may not be used to endorse or promote products derived from
++ * this software without specific prior written permission.
++ *
++ * DISCLAIMER: THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
++ * DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT, INDIRECT,
++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
++ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
++ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++#ifndef __SAMA5D4_LORIX_ONE_H__
++#define __SAMA5D4_LORIX_ONE_H__
++
++/*
++ * PMC Setting
++ *
++ * The main oscillator is enabled as soon as possible in the lowlevel_clock_init
++ * and MCK is switched on the main oscillator.
++ */
++#define BOARD_MAINOSC		12000000
++
++#if defined(CONFIG_CPU_CLK_444MHZ)
++
++/* PCK: 444M, MCK: 148M */
++#define BOARD_PLLA_MULA		73
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		148000000
++
++#elif defined(CONFIG_CPU_CLK_510MHZ)
++/* PCK: 510M, MCK: 170M */
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * 85) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * 85) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (84 << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		170000000
++
++#elif defined(CONFIG_CPU_CLK_528MHZ)
++
++/* PCK: 528M, MCK: 176M */
++#define BOARD_PLLA_MULA		87
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		176000000
++
++#elif defined(CONFIG_CPU_CLK_594MHZ)
++
++/* PCK: 594M, MCK: 148.5M */
++#define BOARD_PLLA_MULA		98
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 4))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_4 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_4 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		148500000
++
++#elif defined(CONFIG_CPU_CLK_600MHZ)
++
++/* PCK: 600MHz, MCK: 200MHz */
++#define BOARD_PLLA_MULA		99
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		200000000
++
++#else
++#error "No CLK setting defined"
++#endif
++
++#define PLLA_SETTINGS		(BOARD_CKGR_PLLA | \
++				BOARD_PLLACOUNT | \
++				BOARD_MULA | \
++				BOARD_DIVA)
++
++#define	USART_BASE	AT91C_BASE_USART3
++
++/*
++ * DataFlash Settings
++ */
++#define CONFIG_SYS_SPI_CLOCK	AT91C_SPI_CLK
++#define CONFIG_SYS_SPI_MODE	SPI_MODE3
++
++#if defined(CONFIG_SPI_BUS0)
++#define CONFIG_SYS_BASE_SPI	AT91C_BASE_SPI0
++#if (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS0_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PC(3)
++#elif (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS1_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PC(4)
++#endif
++#elif defined(CONFIG_SPI_BUS1)
++#define CONFIG_SYS_BASE_SPI	AT91C_BASE_SPI1
++#if (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS0_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PB(21)
++#elif (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS1_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PB(22)
++#endif
++#endif
++
++/*
++ * NandFlash Settings
++ */
++#define CONFIG_SYS_NAND_BASE            AT91C_BASE_CS3
++#define CONFIG_SYS_NAND_MASK_ALE        (1 << 21)
++#define CONFIG_SYS_NAND_MASK_CLE        (1 << 22)
++
++#define CONFIG_SYS_NAND_OE_PIN			AT91C_PIN_PC(13)
++#define CONFIG_SYS_NAND_WE_PIN			AT91C_PIN_PC(14)
++#define CONFIG_SYS_NAND_ALE_PIN			AT91C_PIN_PC(17)
++#define CONFIG_SYS_NAND_CLE_PIN			AT91C_PIN_PC(18)
++#define CONFIG_SYS_NAND_ENABLE_PIN      AT91C_PIN_PC(15)
++
++#define	NO_GALOIS_TABLE_IN_ROM
++
++/*
++ * MCI Settings
++ */
++#define CONFIG_SYS_BASE_MCI	AT91C_BASE_HSMCI1
++
++#endif
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_onenf_uboot_secure_defconfig b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_onenf_uboot_secure_defconfig
+new file mode 100644
+index 0000000..c8887f7
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_onenf_uboot_secure_defconfig
+@@ -0,0 +1,233 @@
++#
++# Automatically generated make config: don't edit
++# Mon May 16 16:41:32 2016
++#
++HAVE_DOT_CONFIG=y
++# CONFIG_AT91SAM9260EK is not set
++# CONFIG_AT91SAM9261EK is not set
++# CONFIG_AT91SAM9263EK is not set
++# CONFIG_AT91SAM9RLEK is not set
++# CONFIG_AT91SAM9XEEK is not set
++# CONFIG_AT91SAM9G10EK is not set
++# CONFIG_AT91SAM9G20EK is not set
++# CONFIG_AT91SAM9M10G45EK is not set
++# CONFIG_AT91SAM9X5EK is not set
++# CONFIG_AT91SAM9N12EK is not set
++# CONFIG_SAMA5D3XEK is not set
++# CONFIG_SAMA5D3_XPLAINED is not set
++# CONFIG_SAMA5D3X_CMP is not set
++# CONFIG_SAMA5D4EK is not set
++# CONFIG_SAMA5D4_XPLAINED is not set
++# CONFIG_SAMA5D2_PTC is not set
++# CONFIG_SAMA5D2_XPLAINED is not set
++# CONFIG_VINCO is not set
++# CONFIG_AT91SAM9X5_ARIA is not set
++# CONFIG_AT91SAM9X5_ARIETTA is not set
++# CONFIG_SAMA5D3_ACQUA is not set
++CONFIG_SAMA5D4_LORIX_ONE=y
++CONFIG_BOARDNAME="sama5d4_lorix_one"
++SAMA5D4=y
++CONFIG_MACH_TYPE="9999"
++CONFIG_LINK_ADDR="0x200000"
++CONFIG_TOP_OF_MEMORY="0x210000"
++CONFIG_CRYSTAL_12_000MHZ=y
++# CONFIG_CRYSTAL_16_000MHZ is not set
++# CONFIG_CRYSTAL_16_36766MHZ is not set
++# CONFIG_CRYSTAL_18_432MHZ is not set
++# CONFIG_CRYSTAL_24_000MHZ is not set
++ALLOW_CRYSTAL_12_000MHZ=y
++CONFIG_CRYSTAL="CRYSTAL_12_000MHZ"
++# CONFIG_CPU_CLK_166MHZ is not set
++# CONFIG_CPU_CLK_180MHZ is not set
++# CONFIG_CPU_CLK_200MHZ is not set
++# CONFIG_CPU_CLK_240MHZ is not set
++# CONFIG_CPU_CLK_266MHZ is not set
++# CONFIG_CPU_CLK_332MHZ is not set
++# CONFIG_CPU_CLK_396MHZ is not set
++# CONFIG_CPU_CLK_400MHZ is not set
++# CONFIG_CPU_CLK_444MHZ is not set
++# CONFIG_CPU_CLK_498MHZ is not set
++# CONFIG_CPU_CLK_510MHZ is not set
++# CONFIG_CPU_CLK_528MHZ is not set
++# CONFIG_CPU_CLK_594MHZ is not set
++CONFIG_CPU_CLK_600MHZ=y
++ALLOW_CPU_CLK_444MHZ=y
++ALLOW_CPU_CLK_510MHZ=y
++ALLOW_CPU_CLK_528MHZ=y
++ALLOW_CPU_CLK_594MHZ=y
++ALLOW_CPU_CLK_600MHZ=y
++# DISABLE_CPU_CLK_240MHZ is not set
++# CONFIG_BUS_SPEED_83MHZ is not set
++# CONFIG_BUS_SPEED_90MHZ is not set
++# CONFIG_BUS_SPEED_100MHZ is not set
++# CONFIG_BUS_SPEED_124MHZ is not set
++# CONFIG_BUS_SPEED_133MHZ is not set
++# CONFIG_BUS_SPEED_148MHZ is not set
++# CONFIG_BUS_SPEED_166MHZ is not set
++# CONFIG_BUS_SPEED_170MHZ is not set
++# CONFIG_BUS_SPEED_176MHZ is not set
++CONFIG_BUS_SPEED_200MHZ=y
++SUPPORT_BUS_SPEED_148MHZ=y
++SUPPORT_BUS_SPEED_170MHZ=y
++SUPPORT_BUS_SPEED_176MHZ=y
++SUPPORT_BUS_SPEED_200MHZ=y
++CPU_HAS_TRUSTZONE=y
++CONFIG_CPU_V7=y
++CONFIG_HAS_PMIC_ACT8865=y
++CONFIG_SUPPORT_PM=y
++# CONFIG_HAS_ONE_WIRE is not set
++CONFIG_HAS_EEPROM=y
++CONFIG_HAS_EHT0_PHY=y
++# CONFIG_HAS_EHT1_PHY is not set
++# CONFIG_HAS_AUDIO_CODEC is not set
++# CONFIG_HAS_HDMI is not set
++# CORE_ARM926EJS is not set
++CORE_CORTEX_A5=y
++CPU_HAS_SCKC=y
++CPU_HAS_H32MXDIV=y
++CPU_HAS_HSMCI0=y
++CPU_HAS_HSMCI1=y
++# CPU_HAS_HSMCI2 is not set
++# CPU_HAS_MCI0 is not set
++# CPU_HAS_MCI1 is not set
++# CPU_HAS_SDHC0 is not set
++# CPU_HAS_SDHC1 is not set
++CPU_HAS_SPI0=y
++CPU_HAS_SPI1=y
++# CPU_HAS_SPI0_IOSET1 is not set
++# CPU_HAS_SPI0_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET1 is not set
++# CPU_HAS_SPI1_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET3 is not set
++# CPU_HAS_QSPI0 is not set
++# CPU_HAS_QSPI1 is not set
++# CPU_HAS_QSPI0_IOSET1 is not set
++# CPU_HAS_QSPI0_IOSET2 is not set
++# CPU_HAS_QSPI0_IOSET3 is not set
++# CPU_HAS_QSPI1_IOSET1 is not set
++# CPU_HAS_QSPI1_IOSET2 is not set
++# CPU_HAS_QSPI1_IOSET3 is not set
++CPU_HAS_PIO3=y
++CPU_HAS_L2CC=y
++CPU_HAS_PMECC=y
++# CONFIG_HAS_HW_INFO is not set
++CONFIG_TWI=y
++CONFIG_TWI0=y
++CONFIG_TWI1=y
++CONFIG_TWI2=y
++CONFIG_TWI3=y
++CONFIG_MACB=y
++# CONFIG_AES is not set
++# CONFIG_LOAD_HW_INFO is not set
++CPU_HAS_TWI0=y
++CPU_HAS_TWI1=y
++CPU_HAS_TWI2=y
++CPU_HAS_TWI3=y
++CPU_HAS_AES=y
++# CPU_HAS_PIO4 is not set
++
++#
++# Memory selection
++#
++# CONFIG_SDRAM is not set
++# CONFIG_SDDRC is not set
++CONFIG_DDRC=y
++# ALLOW_DATAFLASH is not set
++# ALLOW_FLASH is not set
++ALLOW_NANDFLASH=y
++ALLOW_SDCARD=y
++# ALLOW_PSRAM is not set
++# ALLOW_SDRAM_16BIT is not set
++
++#
++# RAM Configuration
++#
++# CONFIG_RAM_32MB is not set
++# CONFIG_RAM_64MB is not set
++CONFIG_RAM_128MB=y
++# CONFIG_RAM_256MB is not set
++# CONFIG_RAM_512MB is not set
++# CONFIG_LPDDR1 is not set
++# CONFIG_LPDDR2 is not set
++# CONFIG_LPDDR3 is not set
++CONFIG_DDR2=y
++# CONFIG_DDR3 is not set
++# CONFIG_DATAFLASH is not set
++# CONFIG_FLASH is not set
++CONFIG_NANDFLASH=y
++# CONFIG_SDCARD is not set
++CONFIG_MEMORY="nandflash"
++
++#
++# NAND flash configuration
++#
++# CONFIG_ENABLE_SW_ECC is not set
++CONFIG_USE_PMECC=y
++# CONFIG_ON_DIE_ECC is not set
++
++#
++# PMECC Configuration
++#
++CONFIG_PMECC_AUTO_DETECT=y
++# CONFIG_NANDFLASH_SMALL_BLOCKS is not set
++CONFIG_ONFI_DETECT_SUPPORT=y
++CONFIG_USE_ON_DIE_ECC_SUPPORT=y
++# ALLOW_NANDFLASH_RECOVERY is not set
++CONFIG_BOOTSTRAP_MAXSIZE="65536"
++CONFIG_PROJECT="nandflash"
++CONFIG_LOAD_UBOOT=y
++# CONFIG_LOAD_LINUX is not set
++# CONFIG_LOAD_ANDROID is not set
++# CONFIG_LOAD_1MB is not set
++# CONFIG_LOAD_4MB is not set
++# CONFIG_LOAD_64KB is not set
++CONFIG_IMG_ADDRESS="0x00040000"
++CONFIG_JUMP_ADDR="0x26F00000"
++
++#
++# U-Boot Image Storage Setup
++#
++CONFIG_IMG_SIZE="0x00080000"
++CONFIG_IMAGE_NAME="u-boot.bin"
++CONFIG_DEBUG=y
++CONFIG_DEBUG_INFO=y
++# CONFIG_DEBUG_LOUD is not set
++# CONFIG_DEBUG_VERY_LOUD is not set
++# CONFIG_SECURE is not set
++CONFIG_DISABLE_WATCHDOG=y
++
++#
++# Hardware Initialization Options
++#
++CONFIG_HW_DISPLAY_BANNER=y
++CONFIG_HW_BANNER="\"\\n\\nAT91Bootstrap \" AT91BOOTSTRAP_VERSION \" (\" COMPILE_TIME \")\\n\\n\""
++CONFIG_HW_INIT=y
++# CONFIG_USER_HW_INIT is not set
++
++#
++# Slow Clock Configuration Options
++#
++CONFIG_SCLK=y
++# CONFIG_SCLK_BYPASS is not set
++
++#
++# ARM TurstZone Options
++#
++CONFIG_MATRIX=y
++# CONFIG_ENTER_NWD is not set
++CONFIG_REDIRECT_ALL_INTS_AIC=y
++CONFIG_PM=y
++
++#
++# Select the Devices to the Low-power mode
++#
++CONFIG_MAC0_PHY=y
++CONFIG_PM_PMIC=y
++
++#
++# Board's Workaround Options
++#
++CONFIG_ACT8865_SET_VOLTAGE=y
++# CONFIG_DISABLE_ACT8865_I2C is not set
++CONFIG_ACT8865=y
++CONFIG_AUTOCONFIG_TWI_BUS=y
+\ No newline at end of file
+diff --git a/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_onesd_uboot_secure_defconfig b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_onesd_uboot_secure_defconfig
+new file mode 100644
+index 0000000..43a3c77
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one/sama5d4_lorix_onesd_uboot_secure_defconfig
+@@ -0,0 +1,236 @@
++#
++# Automatically generated make config: don't edit
++# Sun Sep  2 12:09:06 2018
++#
++HAVE_DOT_CONFIG=y
++# CONFIG_AT91SAM9260EK is not set
++# CONFIG_AT91SAM9261EK is not set
++# CONFIG_AT91SAM9263EK is not set
++# CONFIG_AT91SAM9RLEK is not set
++# CONFIG_AT91SAM9XEEK is not set
++# CONFIG_AT91SAM9G10EK is not set
++# CONFIG_AT91SAM9G20EK is not set
++# CONFIG_AT91SAM9M10G45EK is not set
++# CONFIG_AT91SAM9X5EK is not set
++# CONFIG_AT91SAM9N12EK is not set
++# CONFIG_SAMA5D3XEK is not set
++# CONFIG_SAMA5D3_XPLAINED is not set
++# CONFIG_SAMA5D3X_CMP is not set
++# CONFIG_SAMA5D4EK is not set
++# CONFIG_SAMA5D4_XPLAINED is not set
++# CONFIG_SAMA5D2_PTC is not set
++# CONFIG_SAMA5D2_XPLAINED is not set
++# CONFIG_SAMA5D27_SOM1_EK is not set
++# CONFIG_VINCO is not set
++# CONFIG_AT91SAM9X5_ARIA is not set
++# CONFIG_AT91SAM9X5_ARIETTA is not set
++# CONFIG_SAMA5D3_ACQUA is not set
++# CONFIG_SAMA5D2_ROADRUNNER is not set
++# CONFIG_CORE9G25 is not set
++# CONFIG_SAMA5D3_LINEA is not set
++CONFIG_SAMA5D4_LORIX_ONE=y
++# CONFIG_SAMA5D4_LORIX_ONE_512 is not set
++CONFIG_BOARDNAME="sama5d4_lorix_one"
++SAMA5D4=y
++CONFIG_MACH_TYPE="9999"
++CONFIG_LINK_ADDR="0x200000"
++CONFIG_TOP_OF_MEMORY="0x210000"
++CONFIG_CRYSTAL_12_000MHZ=y
++# CONFIG_CRYSTAL_16_000MHZ is not set
++# CONFIG_CRYSTAL_16_36766MHZ is not set
++# CONFIG_CRYSTAL_18_432MHZ is not set
++# CONFIG_CRYSTAL_24_000MHZ is not set
++ALLOW_CRYSTAL_12_000MHZ=y
++CONFIG_CRYSTAL="CRYSTAL_12_000MHZ"
++# CONFIG_CPU_CLK_166MHZ is not set
++# CONFIG_CPU_CLK_180MHZ is not set
++# CONFIG_CPU_CLK_200MHZ is not set
++# CONFIG_CPU_CLK_240MHZ is not set
++# CONFIG_CPU_CLK_266MHZ is not set
++# CONFIG_CPU_CLK_332MHZ is not set
++# CONFIG_CPU_CLK_348MHZ is not set
++# CONFIG_CPU_CLK_396MHZ is not set
++# CONFIG_CPU_CLK_400MHZ is not set
++# CONFIG_CPU_CLK_444MHZ is not set
++# CONFIG_CPU_CLK_492MHZ is not set
++# CONFIG_CPU_CLK_498MHZ is not set
++# CONFIG_CPU_CLK_510MHZ is not set
++# CONFIG_CPU_CLK_528MHZ is not set
++# CONFIG_CPU_CLK_594MHZ is not set
++CONFIG_CPU_CLK_600MHZ=y
++ALLOW_CPU_CLK_444MHZ=y
++ALLOW_CPU_CLK_510MHZ=y
++ALLOW_CPU_CLK_528MHZ=y
++ALLOW_CPU_CLK_594MHZ=y
++ALLOW_CPU_CLK_600MHZ=y
++# DISABLE_CPU_CLK_240MHZ is not set
++# CONFIG_BUS_SPEED_83MHZ is not set
++# CONFIG_BUS_SPEED_90MHZ is not set
++# CONFIG_BUS_SPEED_100MHZ is not set
++# CONFIG_BUS_SPEED_116MHZ is not set
++# CONFIG_BUS_SPEED_124MHZ is not set
++# CONFIG_BUS_SPEED_133MHZ is not set
++# CONFIG_BUS_SPEED_148MHZ is not set
++# CONFIG_BUS_SPEED_164MHZ is not set
++# CONFIG_BUS_SPEED_166MHZ is not set
++# CONFIG_BUS_SPEED_170MHZ is not set
++# CONFIG_BUS_SPEED_176MHZ is not set
++CONFIG_BUS_SPEED_200MHZ=y
++SUPPORT_BUS_SPEED_148MHZ=y
++SUPPORT_BUS_SPEED_170MHZ=y
++SUPPORT_BUS_SPEED_176MHZ=y
++SUPPORT_BUS_SPEED_200MHZ=y
++CPU_HAS_TRUSTZONE=y
++CONFIG_CPU_V7=y
++CONFIG_HAS_PMIC_ACT8865=y
++CONFIG_SUPPORT_PM=y
++# CONFIG_HAS_ONE_WIRE is not set
++CONFIG_HAS_EEPROM=y
++CONFIG_HAS_EHT0_PHY=y
++# CONFIG_HAS_EHT1_PHY is not set
++# CONFIG_HAS_AUDIO_CODEC is not set
++# CONFIG_HAS_HDMI is not set
++# CORE_ARM926EJS is not set
++CORE_CORTEX_A5=y
++CPU_HAS_SCKC=y
++CPU_HAS_H32MXDIV=y
++CPU_HAS_HSMCI0=y
++CPU_HAS_HSMCI1=y
++# CPU_HAS_HSMCI2 is not set
++# CPU_HAS_MCI0 is not set
++# CPU_HAS_MCI1 is not set
++# CPU_HAS_SDHC0 is not set
++# CPU_HAS_SDHC1 is not set
++CPU_HAS_SPI0=y
++CPU_HAS_SPI1=y
++# CPU_HAS_SPI0_IOSET1 is not set
++# CPU_HAS_SPI0_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET1 is not set
++# CPU_HAS_SPI1_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET3 is not set
++# CPU_HAS_QSPI0 is not set
++# CPU_HAS_QSPI1 is not set
++# CPU_HAS_QSPI0_IOSET1 is not set
++# CPU_HAS_QSPI0_IOSET2 is not set
++# CPU_HAS_QSPI0_IOSET3 is not set
++# CPU_HAS_QSPI1_IOSET1 is not set
++# CPU_HAS_QSPI1_IOSET2 is not set
++# CPU_HAS_QSPI1_IOSET3 is not set
++CPU_HAS_PIO3=y
++CPU_HAS_L2CC=y
++CPU_HAS_PMECC=y
++# CONFIG_HAS_HW_INFO is not set
++CONFIG_TWI=y
++CONFIG_TWI0=y
++CONFIG_TWI1=y
++CONFIG_TWI2=y
++CONFIG_TWI3=y
++CONFIG_MACB=y
++# CONFIG_AES is not set
++# CONFIG_LOAD_HW_INFO is not set
++CPU_HAS_TWI0=y
++CPU_HAS_TWI1=y
++CPU_HAS_TWI2=y
++CPU_HAS_TWI3=y
++CPU_HAS_AES=y
++# CPU_HAS_PIO4 is not set
++
++#
++# Memory selection
++#
++# CONFIG_SDRAM is not set
++# CONFIG_SDDRC is not set
++CONFIG_DDRC=y
++# ALLOW_DATAFLASH is not set
++# ALLOW_FLASH is not set
++ALLOW_NANDFLASH=y
++ALLOW_SDCARD=y
++# ALLOW_PSRAM is not set
++# ALLOW_SDRAM_16BIT is not set
++
++#
++# RAM Configuration
++#
++# CONFIG_RAM_32MB is not set
++# CONFIG_RAM_64MB is not set
++CONFIG_RAM_128MB=y
++# CONFIG_RAM_256MB is not set
++# CONFIG_RAM_512MB is not set
++# CONFIG_LPDDR1 is not set
++# CONFIG_LPDDR2 is not set
++# CONFIG_LPDDR3 is not set
++CONFIG_DDR2=y
++# CONFIG_DDR3 is not set
++# CONFIG_SAMA5D2_LPDDR2 is not set
++# CONFIG_DATAFLASH is not set
++# CONFIG_FLASH is not set
++# CONFIG_NANDFLASH is not set
++CONFIG_SDCARD=y
++CONFIG_MEMORY="sdcard"
++
++#
++# SD Card Configuration
++#
++CONFIG_AT91_MCI=y
++CONFIG_AT91_MCI0=y
++# CONFIG_AT91_MCI1 is not set
++# CONFIG_AT91_MCI2 is not set
++CONFIG_FATFS=y
++CONFIG_BOOTSTRAP_MAXSIZE="65536"
++CONFIG_PROJECT="sdcard"
++CONFIG_LOAD_UBOOT=y
++# CONFIG_LOAD_LINUX is not set
++# CONFIG_LOAD_ANDROID is not set
++# CONFIG_LOAD_1MB is not set
++# CONFIG_LOAD_4MB is not set
++# CONFIG_LOAD_64KB is not set
++CONFIG_JUMP_ADDR="0x26F00000"
++
++#
++# U-Boot Image Storage Setup
++#
++CONFIG_IMAGE_NAME="u-boot.bin"
++CONFIG_DEBUG=y
++CONFIG_DEBUG_INFO=y
++# CONFIG_DEBUG_LOUD is not set
++# CONFIG_DEBUG_VERY_LOUD is not set
++# CONFIG_SECURE is not set
++CONFIG_DISABLE_WATCHDOG=y
++
++#
++# Hardware Initialization Options
++#
++CONFIG_HW_DISPLAY_BANNER=y
++CONFIG_HW_BANNER="\"\\n\\nAT91Bootstrap \" AT91BOOTSTRAP_VERSION \" (\" COMPILE_TIME \")\\n\\n\""
++CONFIG_HW_INIT=y
++# CONFIG_USER_HW_INIT is not set
++
++#
++# Slow Clock Configuration Options
++#
++CONFIG_SCLK=y
++# CONFIG_SCLK_BYPASS is not set
++
++#
++# ARM TurstZone Options
++#
++CONFIG_MATRIX=y
++# CONFIG_ENTER_NWD is not set
++CONFIG_REDIRECT_ALL_INTS_AIC=y
++CONFIG_PM=y
++
++#
++# Select the Devices to the Low-power mode
++#
++CONFIG_MAC0_PHY=y
++CONFIG_PM_PMIC=y
++# CONFIG_BACKUP_MODE is not set
++
++#
++# Board's Workaround Options
++#
++CONFIG_ACT8865_SET_VOLTAGE=y
++# CONFIG_DISABLE_ACT8865_I2C is not set
++# CONFIG_SUSPEND_ACT8945A_CHARGER is not set
++CONFIG_ACT8865=y
++CONFIG_AUTOCONFIG_TWI_BUS=y
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.board b/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.board
+new file mode 100644
+index 0000000..a5dc729
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.board
+@@ -0,0 +1,23 @@
++config CONFIG_SAMA5D4_LORIX_ONE_512
++	bool "sama5d4_lorix_one_512"
++	select SAMA5D4
++	select CONFIG_CPU_V7
++	select CONFIG_DDRC
++	select ALLOW_NANDFLASH
++	select ALLOW_SDCARD
++	select ALLOW_CPU_CLK_444MHZ
++	select ALLOW_CPU_CLK_510MHZ
++	select ALLOW_CPU_CLK_528MHZ
++	select ALLOW_CPU_CLK_594MHZ
++	select ALLOW_CPU_CLK_600MHZ
++	select ALLOW_CRYSTAL_12_000MHZ
++	select CONFIG_HAS_EEPROM
++	select CONFIG_HAS_PMIC_ACT8865
++	select CONFIG_SUPPORT_PM
++	select CONFIG_HAS_EHT0_PHY
++	select SUPPORT_BUS_SPEED_176MHZ
++	select SUPPORT_BUS_SPEED_170MHZ
++	select SUPPORT_BUS_SPEED_148MHZ
++	select SUPPORT_BUS_SPEED_200MHZ
++	help
++	  Use the SAMA5D4_LORIX_One LoRa gateway board (512MB NAND version)
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.boardname b/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.boardname
+new file mode 100644
+index 0000000..73e11ff
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.boardname
+@@ -0,0 +1,2 @@
++config CONFIG_BOARDNAME
++	default "sama5d4_lorix_one_512" if CONFIG_SAMA5D4_LORIX_ONE_512
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.linux_arg b/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.linux_arg
+new file mode 100644
+index 0000000..80cf13d
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/Config.in.linux_arg
+@@ -0,0 +1,3 @@
++config CONFIG_LINUX_KERNEL_ARG_STRING
++	default "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs" if CONFIG_SAMA5D4_LORIX_ONE_512 && !CONFIG_SDCARD
++	default "console=ttyS0,115200 root=/dev/mmcblk0p2 rootdelay=2" if CONFIG_SAMA5D4_LORIX_ONE_512 && CONFIG_SDCARD
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/board.mk b/contrib/board/wifx/sama5d4_lorix_one_512/board.mk
+new file mode 100644
+index 0000000..014df91
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/board.mk
+@@ -0,0 +1,2 @@
++CPPFLAGS += -DCONFIG_SAMA5D4_LORIX_ONE_512
++ASFLAGS += -DCONFIG_SAMA5D4_LORIX_ONE_512
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512.c b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512.c
+new file mode 100644
+index 0000000..3ceea30
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512.c
+@@ -0,0 +1,813 @@
++/* ----------------------------------------------------------------------------
++ *         ATMEL Microcontroller Software Support
++ * ----------------------------------------------------------------------------
++ * Copyright (c) 2014, Atmel Corporation
++ * Copyright (c) 2016, Wifx Sàrl
++ *
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * - Redistributions of source code must retain the above copyright notice,
++ * this list of conditions and the disclaimer below.
++ *
++ * Atmel's name may not be used to endorse or promote products derived from
++ * this software without specific prior written permission.
++ *
++ * DISCLAIMER: THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
++ * DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT, INDIRECT,
++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
++ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
++ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++#include "common.h"
++#include "hardware.h"
++#include "pmc.h"
++#include "usart.h"
++#include "debug.h"
++#include "ddramc.h"
++#include "gpio.h"
++#include "timer.h"
++#include "watchdog.h"
++#include "string.h"
++
++#include "arch/at91_pmc.h"
++#include "arch/at91_rstc.h"
++#include "arch/sama5_smc.h"
++#include "arch/at91_pio.h"
++#include "arch/at91_ddrsdrc.h"
++#include "arch/at91_sfr.h"
++#include "arch/tz_matrix.h"
++#include "sama5d4_lorix_one_512.h"
++#include "tz_utils.h"
++#include "l2cc.h"
++#include "matrix.h"
++#include "act8865.h"
++#include "twi.h"
++
++static void at91_dbgu_hw_init(void)
++{
++	const struct pio_desc dbgu_pins[] = {
++		{"RXD", AT91C_PIN_PE(16), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{"TXD", AT91C_PIN_PE(17), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pio_configure(dbgu_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOE);
++	pmc_enable_periph_clock(AT91C_ID_USART3);
++}
++
++static void initialize_dbgu(void)
++{
++	unsigned int baudrate = 115200;
++
++	at91_dbgu_hw_init();
++
++	if (pmc_check_mck_h32mxdiv())
++		usart_init(BAUDRATE(MASTER_CLOCK / 2, baudrate));
++	else
++		usart_init(BAUDRATE(MASTER_CLOCK, baudrate));
++}
++
++#ifdef CONFIG_DDR2
++static void ddramc_reg_config(struct ddramc_register *ddramc_config)
++{
++	ddramc_config->mdr = (AT91C_DDRC2_DBW_16_BITS
++				| AT91C_DDRC2_MD_DDR2_SDRAM);
++
++	ddramc_config->cr = (AT91C_DDRC2_NC_DDR10_SDR9
++				| AT91C_DDRC2_NR_13
++				| AT91C_DDRC2_CAS_5
++				| AT91C_DDRC2_DISABLE_RESET_DLL
++				| AT91C_DDRC2_DISABLE_DLL
++				| AT91C_DDRC2_NB_BANKS_8
++				| AT91C_DDRC2_DECOD_INTERLEAVED
++				| AT91C_DDRC2_UNAL_SUPPORTED);
++
++
++#if defined(CONFIG_BUS_SPEED_148MHZ)
++
++	ddramc_config->rtr = 0x243;
++
++	/* One clock cycle @ 148 MHz = 6.7 ns */
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(7)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(9)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(2)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(31)
++			| AT91C_DDRC2_TRFC_(30));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(7)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(8)
++			| AT91C_DDRC2_TXARD_(8));
++
++#elif defined(CONFIG_BUS_SPEED_170MHZ)
++
++	ddramc_config->rtr = 0x229;
++
++	/* One clock cycle @ 170 MHz = 5.9 ns */
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(7)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(10)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(3)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(35)
++			| AT91C_DDRC2_TRFC_(34));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(6)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(2)
++			| AT91C_DDRC2_TXARD_(8));
++
++#elif defined(CONFIG_BUS_SPEED_176MHZ)
++
++	ddramc_config->rtr = 0x2b0;
++
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(8)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(10)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(3)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(36)
++			| AT91C_DDRC2_TRFC_(35));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(8)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(2)
++			| AT91C_DDRC2_TXARD_(8));
++
++#elif defined(CONFIG_BUS_SPEED_200MHZ)
++
++	ddramc_config->rtr = 0x30e;
++
++	ddramc_config->t0pr = (AT91C_DDRC2_TRAS_(8)
++			| AT91C_DDRC2_TRCD_(3)
++			| AT91C_DDRC2_TWR_(3)
++			| AT91C_DDRC2_TRC_(11)
++			| AT91C_DDRC2_TRP_(3)
++			| AT91C_DDRC2_TRRD_(3)
++			| AT91C_DDRC2_TWTR_(2)
++			| AT91C_DDRC2_TMRD_(2));
++
++	ddramc_config->t1pr = (AT91C_DDRC2_TXP_(2)
++			| AT91C_DDRC2_TXSRD_(200)
++			| AT91C_DDRC2_TXSNR_(42)
++			| AT91C_DDRC2_TRFC_(40));
++
++	ddramc_config->t2pr = (AT91C_DDRC2_TFAW_(9)
++			| AT91C_DDRC2_TRTP_(2)
++			| AT91C_DDRC2_TRPA_(3)
++			| AT91C_DDRC2_TXARDS_(2)
++			| AT91C_DDRC2_TXARD_(8));
++
++#else
++#error "No CLK setting defined"
++#endif
++}
++
++static void ddramc_init(void)
++{
++	struct ddramc_register ddramc_reg;
++	unsigned int reg;
++
++	ddramc_reg_config(&ddramc_reg);
++
++	/* enable ddr2 clock */
++	pmc_enable_periph_clock(AT91C_ID_MPDDRC);
++	pmc_enable_system_clock(AT91C_PMC_DDR);
++
++	/* configure Shift Sampling Point of Data */
++#if defined(CONFIG_BUS_SPEED_148MHZ)
++	reg = AT91C_MPDDRC_RD_DATA_PATH_NO_SHIFT;
++#elif defined(CONFIG_BUS_SPEED_200MHZ)
++	reg = AT91C_MPDDRC_RD_DATA_PATH_TWO_CYCLES;
++#else
++	reg = AT91C_MPDDRC_RD_DATA_PATH_ONE_CYCLES;
++#endif
++	writel(reg, (AT91C_BASE_MPDDRC + MPDDRC_RD_DATA_PATH));
++
++	/* MPDDRC I/O Calibration Register */
++	reg = readl(AT91C_BASE_MPDDRC + MPDDRC_IO_CALIBR);
++	reg &= ~AT91C_MPDDRC_RDIV;
++	reg &= ~AT91C_MPDDRC_TZQIO;
++	reg &= ~AT91C_MPDDRC_CALCODEP;
++	reg &= ~AT91C_MPDDRC_CALCODEN;
++	reg |= AT91C_MPDDRC_RDIV_DDR2_RZQ_50;
++#if defined(CONFIG_BUS_SPEED_148MHZ)
++	reg |= AT91C_MPDDRC_TZQIO_4;	/* @ 133 & 148 MHz */
++#else
++	reg |= AT91C_MPDDRC_TZQIO_5;	/* @ 170 & 176 MHz */
++#endif
++	reg |= AT91C_MPDDRC_EN_CALIB;
++
++	writel(reg, (AT91C_BASE_MPDDRC + MPDDRC_IO_CALIBR));
++
++	/* DDRAM2 Controller initialize */
++	ddram_initialize(AT91C_BASE_MPDDRC, AT91C_BASE_DDRCS, &ddramc_reg);
++
++	ddramc_dump_regs(AT91C_BASE_MPDDRC);
++}
++#endif /* #ifdef CONFIG_DDR2 */
++
++#if defined(CONFIG_MATRIX)
++static int matrix_configure_slave(void)
++{
++	unsigned int ddr_port;
++	unsigned int ssr_setting, sasplit_setting, srtop_setting;
++
++	/*
++	 * Matrix 0 (H64MX)
++	 */
++
++	/*
++	 * 0: Bridge from H64MX to AXIMX
++	 * (Internal ROM, Crypto Library, PKCC RAM): Always Secured
++	 */
++
++	/* 1: H64MX Peripheral Bridge */
++
++	/* 2: Video Decoder 1M: Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_1M);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_1M);
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX64,
++					H64MX_SLAVE_VIDEO_DECODER,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 4 ~ 10 DDR2 Port1 ~ 7: Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_128M);
++	sasplit_setting = (MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_128M)
++				| MATRIX_SASPLIT(1, MATRIX_SASPLIT_VALUE_128M)
++				| MATRIX_SASPLIT(2, MATRIX_SASPLIT_VALUE_128M)
++				| MATRIX_SASPLIT(3, MATRIX_SASPLIT_VALUE_128M));
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_LANSECH_NS(1)
++			| MATRIX_LANSECH_NS(2)
++			| MATRIX_LANSECH_NS(3)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_RDNSECH_NS(1)
++			| MATRIX_RDNSECH_NS(2)
++			| MATRIX_RDNSECH_NS(3)
++			| MATRIX_WRNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(1)
++			| MATRIX_WRNSECH_NS(2)
++			| MATRIX_WRNSECH_NS(3));
++	/* DDR port 0 not used from NWd */
++	for (ddr_port = 1; ddr_port < 8; ddr_port++) {
++		matrix_configure_slave_security(AT91C_BASE_MATRIX64,
++					(H64MX_SLAVE_DDR2_PORT_0 + ddr_port),
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++	}
++
++	/*
++	 * 11: Internal SRAM 128K
++	 * TOP0 is set to 128K
++	 * SPLIT0 is set to 64K
++	 * LANSECH0 is set to 0, the low area of region 0 is the Securable one
++	 * RDNSECH0 is set to 0, region 0 Securable area is secured for reads.
++	 * WRNSECH0 is set to 0, region 0 Securable area is secured for writes
++	 */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_128K);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_64K);
++	ssr_setting = (MATRIX_LANSECH_S(0)
++			| MATRIX_RDNSECH_S(0)
++			| MATRIX_WRNSECH_S(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX64,
++					H64MX_SLAVE_INTERNAL_SRAM,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 12:  Bridge from H64MX to H32MX */
++
++	/*
++	 * Matrix 1 (H32MX)
++	 */
++
++	/* 0: Bridge from H32MX to H64MX: Not Secured */
++
++	/* 1: H32MX Peripheral Bridge 0: Not Secured */
++
++	/* 2: H32MX Peripheral Bridge 1: Not Secured */
++
++	/*
++	 * 3: External Bus Interface
++	 * EBI CS0 Memory(256M) ----> Slave Region 0, 1
++	 * EBI CS1 Memory(256M) ----> Slave Region 2, 3
++	 * EBI CS2 Memory(256M) ----> Slave Region 4, 5
++	 * EBI CS3 Memory(128M) ----> Slave Region 6
++	 * NFC Command Registers(128M) -->Slave Region 7
++	 *
++	 * NANDFlash(EBI CS3) --> Slave Region 6: Non-Secure
++	 */
++	srtop_setting =	MATRIX_SRTOP(6, MATRIX_SRTOP_VALUE_128M);
++	srtop_setting |= MATRIX_SRTOP(7, MATRIX_SRTOP_VALUE_128M);
++	sasplit_setting = MATRIX_SASPLIT(6, MATRIX_SASPLIT_VALUE_128M);
++	sasplit_setting |= MATRIX_SASPLIT(7, MATRIX_SASPLIT_VALUE_128M);
++	ssr_setting = (MATRIX_LANSECH_NS(6)
++			| MATRIX_RDNSECH_NS(6)
++			| MATRIX_WRNSECH_NS(6));
++	ssr_setting |= (MATRIX_LANSECH_NS(7)
++			| MATRIX_RDNSECH_NS(7)
++			| MATRIX_WRNSECH_NS(7));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_EXTERNAL_EBI,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 4: NFC SRAM (4K): Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_8K);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_8K);
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_NFC_SRAM,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 5:
++	 * USB Device High Speed Dual Port RAM (DPR): 1M
++	 * USB Host OHCI registers: 1M
++	 * USB Host EHCI registers: 1M
++	 */
++	srtop_setting = (MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_1M)
++			| MATRIX_SRTOP(1, MATRIX_SRTOP_VALUE_1M)
++			| MATRIX_SRTOP(2, MATRIX_SRTOP_VALUE_1M));
++	sasplit_setting = (MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_1M)
++			| MATRIX_SASPLIT(1, MATRIX_SASPLIT_VALUE_1M)
++			| MATRIX_SASPLIT(2, MATRIX_SASPLIT_VALUE_1M));
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_LANSECH_NS(1)
++			| MATRIX_LANSECH_NS(2)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_RDNSECH_NS(1)
++			| MATRIX_RDNSECH_NS(2)
++			| MATRIX_WRNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(1)
++			| MATRIX_WRNSECH_NS(2));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_USB,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++
++	/* 6: Soft Modem (1M): Non-Secure */
++	srtop_setting = MATRIX_SRTOP(0, MATRIX_SRTOP_VALUE_1M);
++	sasplit_setting = MATRIX_SASPLIT(0, MATRIX_SASPLIT_VALUE_1M);
++	ssr_setting = (MATRIX_LANSECH_NS(0)
++			| MATRIX_RDNSECH_NS(0)
++			| MATRIX_WRNSECH_NS(0));
++	matrix_configure_slave_security(AT91C_BASE_MATRIX32,
++					H32MX_SMD,
++					srtop_setting,
++					sasplit_setting,
++					ssr_setting);
++	return 0;
++}
++
++static unsigned int security_ps_peri_id[] = {
++	AT91C_ID_VDEC,
++	AT91C_ID_PIOA,
++	AT91C_ID_PIOB,
++	AT91C_ID_PIOC,
++	AT91C_ID_PIOE,
++	AT91C_ID_USART2,
++	AT91C_ID_USART3,
++	AT91C_ID_USART4,
++	AT91C_ID_TWI0,
++	AT91C_ID_TWI2,
++	AT91C_ID_HSMC,
++	AT91C_ID_HSMCI0,
++	AT91C_ID_HSMCI1,
++	AT91C_ID_TC0,
++	AT91C_ID_TC1,
++	AT91C_ID_ADC,
++	AT91C_ID_UHPHS,
++	AT91C_ID_UDPHS,
++	AT91C_ID_LCDC,
++	AT91C_ID_ISI,
++	AT91C_ID_GMAC,
++	AT91C_ID_GMAC1,
++	AT91C_ID_SPI0,
++	AT91C_ID_SPI1,
++	AT91C_ID_SMD,
++	AT91C_ID_SSC0,
++	AT91C_ID_SSC1,
++};
++
++static int matrix_config_periheral(void)
++{
++	unsigned int *peri_id = security_ps_peri_id;
++	unsigned int array_size = sizeof(security_ps_peri_id) / sizeof(unsigned int);
++	int ret;
++
++	ret = matrix_configure_peri_security(peri_id, array_size);
++	if (ret)
++		return -1;
++
++	return 0;
++}
++
++static int matrix_init(void)
++{
++	int ret;
++
++	matrix_write_protect_disable(AT91C_BASE_MATRIX64);
++	matrix_write_protect_disable(AT91C_BASE_MATRIX32);
++
++	ret = matrix_configure_slave();
++	if (ret)
++		return -1;
++
++	ret = matrix_config_periheral();
++	if (ret)
++		return -1;
++
++	return 0;
++}
++#endif	/* #if defined(CONFIG_MATRIX) */
++
++#if defined(CONFIG_TWI0)
++unsigned int at91_twi0_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_TWI0;
++
++	const struct pio_desc twi_pins[] = {
++		{"TWD0", AT91C_PIN_PA(30), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{"TWCK0", AT91C_PIN_PA(31), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pmc_enable_periph_clock(AT91C_ID_PIOA);
++	pio_configure(twi_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_TWI0);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_TWI1)
++unsigned int at91_twi1_hw_init(void)
++{
++	return 0;
++}
++#endif
++
++#if defined(CONFIG_TWI2)
++unsigned int at91_twi2_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_TWI2;
++
++	const struct pio_desc twi_pins[] = {
++		{"TWD2", AT91C_PIN_PB(29), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{"TWCK2", AT91C_PIN_PB(30), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pmc_enable_periph_clock(AT91C_ID_PIOB);
++	pio_configure(twi_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_TWI2);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_TWI3)
++unsigned int at91_twi3_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_TWI3;
++
++	const struct pio_desc twi_pins[] = {
++		{"TWD3", AT91C_PIN_PC(25), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{"TWCK3", AT91C_PIN_PC(26), 0, PIO_DEFAULT, PIO_PERIPH_B},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pmc_enable_periph_clock(AT91C_ID_PIOC);
++	pio_configure(twi_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_TWI3);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_AUTOCONFIG_TWI_BUS)
++void at91_board_config_twi_bus(void)
++{
++	at24xx_twi_bus = 0;
++
++	attiny_twi_bus = 2;
++
++	act8865_twi_bus = 3;
++}
++#endif
++
++#if defined(CONFIG_ACT8865_SET_VOLTAGE)
++int at91_board_act8865_set_reg_voltage(void)
++{
++	unsigned char reg, value;
++	int ret;
++
++	/* Check ACT8865 I2C interface */
++	if (act8865_check_i2c_disabled())
++		return 0;
++
++	/* Enable REG5 output 3.3V */
++	reg = REG5_0;
++	value = ACT8865_3V3;
++	ret = act8865_set_reg_voltage(reg, value);
++	if (ret)
++		dbg_loud("ACT8865: Failed to make REG5 output 3300mV\n");
++
++	/* Enable REG6 output 1.8V */
++	reg = REG6_0;
++	value = ACT8865_1V8;
++	ret = act8865_set_reg_voltage(reg, value);
++	if (ret)
++		dbg_loud("ACT8865: Failed to make REG6 output 1800mV\n");
++
++	return 0;
++}
++#endif
++
++#if defined(CONFIG_PM)
++void at91_disable_smd_clock(void)
++{
++	/*
++	 * set pin DIBP to pull-up and DIBN to pull-down
++	 * to save power on VDDIOP0
++	 */
++	pmc_enable_system_clock(AT91C_PMC_SMDCK);
++	pmc_set_smd_clock_divider(AT91C_PMC_SMDDIV);
++	pmc_enable_periph_clock(AT91C_ID_SMD);
++	writel(0xF, (0x0C + AT91C_BASE_SMD));
++	pmc_disable_periph_clock(AT91C_ID_SMD);
++	pmc_disable_system_clock(AT91C_PMC_SMDCK);
++}
++#endif
++
++#if defined(CONFIG_MAC0_PHY)
++unsigned int at91_eth0_hw_init(void)
++{
++	unsigned int base_addr = AT91C_BASE_GMAC;
++
++	const struct pio_desc macb_pins[] = {
++		{"G0_MDC",	AT91C_PIN_PB(16), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{"G0_MDIO",	AT91C_PIN_PB(17), 0, PIO_DEFAULT, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	pio_configure(macb_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOB);
++
++	pmc_enable_periph_clock(AT91C_ID_GMAC);
++
++	return base_addr;
++}
++#endif
++
++#if defined(CONFIG_MACB)
++void at91_disable_mac_clock(void)
++{
++#if defined(CONFIG_MAC0_PHY)
++	pmc_disable_periph_clock(AT91C_ID_GMAC);
++#endif
++}
++#endif
++
++#ifdef CONFIG_HW_INIT
++void hw_init(void)
++{
++	/* Disable watchdog */
++	at91_disable_wdt();
++
++	/* At this stage the main oscillator is supposed
++	 * to be enabled PCK = MCK = MOSC
++	 */
++
++	/* Switch PCK/MCK on Main clock output */
++	pmc_cfg_mck(BOARD_PRESCALER_MAIN_CLOCK);
++
++	/* Configure PLLA = MOSC * (PLL_MULA + 1) / PLL_DIVA */
++	pmc_cfg_plla(PLLA_SETTINGS);
++
++	/* Initialize PLLA charge pump */
++	/* not needed for SAMA5D4 */
++	pmc_init_pll(0);
++
++	/* Switch MCK on PLLA output */
++	pmc_cfg_mck(BOARD_PRESCALER_PLLA);
++
++	/* Enable External Reset */
++	writel(AT91C_RSTC_KEY_UNLOCK | AT91C_RSTC_URSTEN,
++					AT91C_BASE_RSTC + RSTC_RMR);
++
++#if defined(CONFIG_ENTER_NWD)
++	cpacr_init();
++
++	/* Program the DACR to allow client access to *all* domains */
++	dacr_swd_init();
++#endif
++
++#if defined(CONFIG_MATRIX)
++	/* Initialize the matrix */
++	matrix_init();
++#endif
++
++	/* initialize the dbgu */
++	initialize_dbgu();
++
++#if defined(CONFIG_MATRIX)
++	matrix_read_slave_security();
++	matrix_read_periperal_security();
++#endif
++
++	/* Init timer */
++	timer_init();
++
++#ifdef CONFIG_DDR2
++	/* Initialize MPDDR Controller */
++	ddramc_init();
++#endif
++
++	/* Prepare L2 cache setup */
++	l2cache_prepare();
++
++	// init PIOB IOs
++	const struct pio_desc piob_pins[] = {
++		{"G0_TXCK", AT91C_PIN_PB(0), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_TXEN", AT91C_PIN_PB(2), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXDV", AT91C_PIN_PB(6), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXER", AT91C_PIN_PB(7), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXD0", AT91C_PIN_PB(8), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_RXD1", AT91C_PIN_PB(9), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_TXD0", AT91C_PIN_PB(12), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_TXD1", AT91C_PIN_PB(13), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_MDC", AT91C_PIN_PB(16), 0, PIO_DEFAULT, PIO_INPUT},
++		{"G0_MDIO", AT91C_PIN_PB(17), 0, PIO_DEFAULT, PIO_INPUT},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the PIO controller */
++	pio_configure(piob_pins);
++
++	// init PIOE IOs
++	const struct pio_desc pioe_pins[] = {
++		{"G0_IRQ", AT91C_PIN_PE(0), 0, PIO_DEFAULT, PIO_INPUT},
++		{"MCI1_CD", AT91C_PIN_PE(3), 0, PIO_DEFAULT, PIO_INPUT},
++		{"CTS3", AT91C_PIN_PE(5), 0, PIO_DEFAULT, PIO_INPUT},
++		{"PMIC_IRQ", AT91C_PIN_PE(25), 0, PIO_DEFAULT, PIO_INPUT},
++		{"USB_SENSE", AT91C_PIN_PE(31), 0, PIO_DEFAULT, PIO_INPUT},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the PIO controller */
++	pio_configure(pioe_pins);
++
++	pmc_enable_periph_clock(AT91C_ID_PIOB);
++	pmc_enable_periph_clock(AT91C_ID_PIOE);
++}
++#endif /* #ifdef CONFIG_HW_INIT */
++
++#ifdef CONFIG_SDCARD
++#ifdef CONFIG_OF_LIBFDT
++void at91_board_set_dtb_name(char *of_name)
++{
++	strcpy(of_name, "at91-sama5d4_lorix_one_512.dtb");
++}
++#endif
++
++void at91_mci0_hw_init(void)
++{
++	const struct pio_desc mci_pins[] = {
++		{"MCI1_CK", AT91C_PIN_PE(18), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_CDA", AT91C_PIN_PE(19), 0, PIO_DEFAULT, PIO_PERIPH_C},
++
++		{"MCI1_DA0", AT91C_PIN_PE(20), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_DA1", AT91C_PIN_PE(21), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_DA2", AT91C_PIN_PE(22), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{"MCI1_DA3", AT91C_PIN_PE(23), 0, PIO_DEFAULT, PIO_PERIPH_C},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the PIO controller */
++	pio_configure(mci_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOE);
++	pmc_enable_periph_clock(AT91C_ID_HSMCI1);
++}
++#endif /* #ifdef CONFIG_SDCARD */
++
++#ifdef CONFIG_NANDFLASH
++void nandflash_hw_init(void)
++{
++	/* Configure nand pins */
++	const struct pio_desc nand_pins[] = {
++		{"NANDOE",	CONFIG_SYS_NAND_OE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDWE",	CONFIG_SYS_NAND_WE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDALE",	CONFIG_SYS_NAND_ALE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDCLE",	CONFIG_SYS_NAND_CLE_PIN,
++					0, PIO_PULLUP, PIO_PERIPH_A},
++		{"NANDCS",	CONFIG_SYS_NAND_ENABLE_PIN,
++					1, PIO_DEFAULT, PIO_OUTPUT},
++		{"D0",	AT91C_PIN_PC(5), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D1",	AT91C_PIN_PC(6), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D2",	AT91C_PIN_PC(7), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D3",	AT91C_PIN_PC(8), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D4",	AT91C_PIN_PC(9), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D5",	AT91C_PIN_PC(10), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D6",	AT91C_PIN_PC(11), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{"D7",	AT91C_PIN_PC(12), 0, PIO_PULLUP, PIO_PERIPH_A},
++		{(char *)0, 0, 0, PIO_DEFAULT, PIO_PERIPH_A},
++	};
++
++	/* Configure the nand controller pins*/
++	pio_configure(nand_pins);
++	pmc_enable_periph_clock(AT91C_ID_PIOC);
++
++	/* Enable the clock */
++	pmc_enable_periph_clock(AT91C_ID_HSMC);
++
++	/* EBI Configuration Register */
++	writel((AT91C_EBICFG_DRIVE0_HIGH
++		| AT91C_EBICFG_PULL0_NONE
++		| AT91C_EBICFG_DRIVE1_HIGH
++		| AT91C_EBICFG_PULL1_NONE), SFR_EBICFG + AT91C_BASE_SFR);
++
++	/* Configure SMC CS3 for NAND/SmartMedia */
++	writel(AT91C_SMC_SETUP_NWE(1)
++		| AT91C_SMC_SETUP_NCS_WR(1)
++		| AT91C_SMC_SETUP_NRD(1)
++		| AT91C_SMC_SETUP_NCS_RD(1),
++		(ATMEL_BASE_SMC + SMC_SETUP3));
++
++	writel(AT91C_SMC_PULSE_NWE(2)
++		| AT91C_SMC_PULSE_NCS_WR(3)
++		| AT91C_SMC_PULSE_NRD(2)
++		| AT91C_SMC_PULSE_NCS_RD(3),
++		(ATMEL_BASE_SMC + SMC_PULSE3));
++
++	writel(AT91C_SMC_CYCLE_NWE(5)
++		| AT91C_SMC_CYCLE_NRD(5),
++		(ATMEL_BASE_SMC + SMC_CYCLE3));
++
++	writel(AT91C_SMC_TIMINGS_TCLR(2)
++		| AT91C_SMC_TIMINGS_TADL(7)
++		| AT91C_SMC_TIMINGS_TAR(2)
++		| AT91C_SMC_TIMINGS_TRR(3)
++		| AT91C_SMC_TIMINGS_TWB(7)
++		| AT91C_SMC_TIMINGS_RBNSEL(2)
++		| AT91C_SMC_TIMINGS_NFSEL,
++		(ATMEL_BASE_SMC + SMC_TIMINGS3));
++
++	writel(AT91C_SMC_MODE_READMODE_NRD_CTRL
++		| AT91C_SMC_MODE_WRITEMODE_NWE_CTRL
++		| AT91C_SMC_MODE_DBW_8
++		| AT91C_SMC_MODE_TDF_CYCLES(1),
++		(ATMEL_BASE_SMC + SMC_MODE3));
++}
++#endif /* #ifdef CONFIG_NANDFLASH */
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512.h b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512.h
+new file mode 100644
+index 0000000..cab577d
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512.h
+@@ -0,0 +1,215 @@
++/* ----------------------------------------------------------------------------
++ *         ATMEL Microcontroller Software Support
++ * ----------------------------------------------------------------------------
++ * Copyright (c) 2014, Atmel Corporation
++ * Copyright (c) 2016, Wifx Sàrl
++ *
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * - Redistributions of source code must retain the above copyright notice,
++ * this list of conditions and the disclaimer below.
++ *
++ * Atmel's name may not be used to endorse or promote products derived from
++ * this software without specific prior written permission.
++ *
++ * DISCLAIMER: THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
++ * DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT, INDIRECT,
++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
++ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
++ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++#ifndef __SAMA5D4_LORIX_ONE_512_H__
++#define __SAMA5D4_LORIX_ONE_512_H__
++
++/*
++ * PMC Setting
++ *
++ * The main oscillator is enabled as soon as possible in the lowlevel_clock_init
++ * and MCK is switched on the main oscillator.
++ */
++#define BOARD_MAINOSC		12000000
++
++#if defined(CONFIG_CPU_CLK_444MHZ)
++
++/* PCK: 444M, MCK: 148M */
++#define BOARD_PLLA_MULA		73
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		148000000
++
++#elif defined(CONFIG_CPU_CLK_510MHZ)
++/* PCK: 510M, MCK: 170M */
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * 85) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * 85) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (84 << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		170000000
++
++#elif defined(CONFIG_CPU_CLK_528MHZ)
++
++/* PCK: 528M, MCK: 176M */
++#define BOARD_PLLA_MULA		87
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		176000000
++
++#elif defined(CONFIG_CPU_CLK_594MHZ)
++
++/* PCK: 594M, MCK: 148.5M */
++#define BOARD_PLLA_MULA		98
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 4))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_4 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_4 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		148500000
++
++#elif defined(CONFIG_CPU_CLK_600MHZ)
++
++/* PCK: 600MHz, MCK: 200MHz */
++#define BOARD_PLLA_MULA		99
++
++#define BOARD_PCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2))
++#define BOARD_MCK		((unsigned long)((BOARD_MAINOSC * (BOARD_PLLA_MULA + 1)) / 2 / 3))
++
++#define BOARD_CKGR_PLLA		(AT91C_CKGR_SRCA | AT91C_CKGR_OUTA_0)
++#define BOARD_PLLACOUNT		(0x3F << 8)
++#define BOARD_MULA		((AT91C_CKGR_MULA << 2) & (BOARD_PLLA_MULA << 18))
++#define BOARD_DIVA		(AT91C_CKGR_DIVA & 1)
++
++/* Master Clock Register */
++#define BOARD_PRESCALER_MAIN_CLOCK	(AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_MAIN_CLK)
++
++#define BOARD_PRESCALER_PLLA		(AT91C_PMC_H32MXDIV_H32MXDIV2 \
++					| AT91C_PMC_PLLADIV2_2 \
++					| AT91C_PMC_MDIV_3 \
++					| AT91C_PMC_CSS_PLLA_CLK)
++
++#define MASTER_CLOCK		200000000
++
++#else
++#error "No CLK setting defined"
++#endif
++
++#define PLLA_SETTINGS		(BOARD_CKGR_PLLA | \
++				BOARD_PLLACOUNT | \
++				BOARD_MULA | \
++				BOARD_DIVA)
++
++#define	USART_BASE	AT91C_BASE_USART3
++
++/*
++ * DataFlash Settings
++ */
++#define CONFIG_SYS_SPI_CLOCK	AT91C_SPI_CLK
++#define CONFIG_SYS_SPI_MODE	SPI_MODE3
++
++#if defined(CONFIG_SPI_BUS0)
++#define CONFIG_SYS_BASE_SPI	AT91C_BASE_SPI0
++#if (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS0_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PC(3)
++#elif (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS1_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PC(4)
++#endif
++#elif defined(CONFIG_SPI_BUS1)
++#define CONFIG_SYS_BASE_SPI	AT91C_BASE_SPI1
++#if (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS0_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PB(21)
++#elif (AT91C_SPI_PCS_DATAFLASH == AT91C_SPI_PCS1_DATAFLASH)
++#define CONFIG_SYS_SPI_PCS	AT91C_PIN_PB(22)
++#endif
++#endif
++
++/*
++ * NandFlash Settings
++ */
++#define CONFIG_SYS_NAND_BASE            AT91C_BASE_CS3
++#define CONFIG_SYS_NAND_MASK_ALE        (1 << 21)
++#define CONFIG_SYS_NAND_MASK_CLE        (1 << 22)
++
++#define CONFIG_SYS_NAND_OE_PIN			AT91C_PIN_PC(13)
++#define CONFIG_SYS_NAND_WE_PIN			AT91C_PIN_PC(14)
++#define CONFIG_SYS_NAND_ALE_PIN			AT91C_PIN_PC(17)
++#define CONFIG_SYS_NAND_CLE_PIN			AT91C_PIN_PC(18)
++#define CONFIG_SYS_NAND_ENABLE_PIN      AT91C_PIN_PC(15)
++
++#define	NO_GALOIS_TABLE_IN_ROM
++
++/*
++ * MCI Settings
++ */
++#define CONFIG_SYS_BASE_MCI	AT91C_BASE_HSMCI1
++
++#endif
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512nf_uboot_secure_defconfig b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512nf_uboot_secure_defconfig
+new file mode 100644
+index 0000000..8862701
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512nf_uboot_secure_defconfig
+@@ -0,0 +1,236 @@
++#
++# Automatically generated make config: don't edit
++# Sat Sep  1 15:46:31 2018
++#
++HAVE_DOT_CONFIG=y
++# CONFIG_AT91SAM9260EK is not set
++# CONFIG_AT91SAM9261EK is not set
++# CONFIG_AT91SAM9263EK is not set
++# CONFIG_AT91SAM9RLEK is not set
++# CONFIG_AT91SAM9XEEK is not set
++# CONFIG_AT91SAM9G10EK is not set
++# CONFIG_AT91SAM9G20EK is not set
++# CONFIG_AT91SAM9M10G45EK is not set
++# CONFIG_AT91SAM9X5EK is not set
++# CONFIG_AT91SAM9N12EK is not set
++# CONFIG_SAMA5D3XEK is not set
++# CONFIG_SAMA5D3_XPLAINED is not set
++# CONFIG_SAMA5D3X_CMP is not set
++# CONFIG_SAMA5D4EK is not set
++# CONFIG_SAMA5D4_XPLAINED is not set
++# CONFIG_SAMA5D2_PTC is not set
++# CONFIG_SAMA5D2_XPLAINED is not set
++# CONFIG_VINCO is not set
++# CONFIG_AT91SAM9X5_ARIA is not set
++# CONFIG_AT91SAM9X5_ARIETTA is not set
++# CONFIG_SAMA5D3_ACQUA is not set
++# CONFIG_SAMA5D4_LORIX_ONE is not set
++CONFIG_SAMA5D4_LORIX_ONE_512=y
++CONFIG_BOARDNAME="sama5d4_lorix_one_512"
++SAMA5D4=y
++CONFIG_MACH_TYPE="9999"
++CONFIG_LINK_ADDR="0x200000"
++CONFIG_TOP_OF_MEMORY="0x210000"
++CONFIG_CRYSTAL_12_000MHZ=y
++# CONFIG_CRYSTAL_16_000MHZ is not set
++# CONFIG_CRYSTAL_16_36766MHZ is not set
++# CONFIG_CRYSTAL_18_432MHZ is not set
++# CONFIG_CRYSTAL_24_000MHZ is not set
++ALLOW_CRYSTAL_12_000MHZ=y
++CONFIG_CRYSTAL="CRYSTAL_12_000MHZ"
++# CONFIG_CPU_CLK_166MHZ is not set
++# CONFIG_CPU_CLK_180MHZ is not set
++# CONFIG_CPU_CLK_200MHZ is not set
++# CONFIG_CPU_CLK_240MHZ is not set
++# CONFIG_CPU_CLK_266MHZ is not set
++# CONFIG_CPU_CLK_332MHZ is not set
++# CONFIG_CPU_CLK_396MHZ is not set
++# CONFIG_CPU_CLK_400MHZ is not set
++# CONFIG_CPU_CLK_444MHZ is not set
++# CONFIG_CPU_CLK_498MHZ is not set
++# CONFIG_CPU_CLK_510MHZ is not set
++# CONFIG_CPU_CLK_528MHZ is not set
++# CONFIG_CPU_CLK_594MHZ is not set
++CONFIG_CPU_CLK_600MHZ=y
++ALLOW_CPU_CLK_444MHZ=y
++ALLOW_CPU_CLK_510MHZ=y
++ALLOW_CPU_CLK_528MHZ=y
++ALLOW_CPU_CLK_594MHZ=y
++ALLOW_CPU_CLK_600MHZ=y
++# DISABLE_CPU_CLK_240MHZ is not set
++# CONFIG_BUS_SPEED_83MHZ is not set
++# CONFIG_BUS_SPEED_90MHZ is not set
++# CONFIG_BUS_SPEED_100MHZ is not set
++# CONFIG_BUS_SPEED_124MHZ is not set
++# CONFIG_BUS_SPEED_133MHZ is not set
++# CONFIG_BUS_SPEED_148MHZ is not set
++# CONFIG_BUS_SPEED_166MHZ is not set
++# CONFIG_BUS_SPEED_170MHZ is not set
++# CONFIG_BUS_SPEED_176MHZ is not set
++CONFIG_BUS_SPEED_200MHZ=y
++SUPPORT_BUS_SPEED_148MHZ=y
++SUPPORT_BUS_SPEED_170MHZ=y
++SUPPORT_BUS_SPEED_176MHZ=y
++SUPPORT_BUS_SPEED_200MHZ=y
++CPU_HAS_TRUSTZONE=y
++CONFIG_CPU_V7=y
++CONFIG_HAS_PMIC_ACT8865=y
++CONFIG_SUPPORT_PM=y
++# CONFIG_HAS_ONE_WIRE is not set
++CONFIG_HAS_EEPROM=y
++CONFIG_HAS_EHT0_PHY=y
++# CONFIG_HAS_EHT1_PHY is not set
++# CONFIG_HAS_AUDIO_CODEC is not set
++# CONFIG_HAS_HDMI is not set
++# CORE_ARM926EJS is not set
++CORE_CORTEX_A5=y
++CPU_HAS_SCKC=y
++CPU_HAS_H32MXDIV=y
++CPU_HAS_HSMCI0=y
++CPU_HAS_HSMCI1=y
++# CPU_HAS_HSMCI2 is not set
++# CPU_HAS_MCI0 is not set
++# CPU_HAS_MCI1 is not set
++# CPU_HAS_SDHC0 is not set
++# CPU_HAS_SDHC1 is not set
++CPU_HAS_SPI0=y
++CPU_HAS_SPI1=y
++# CPU_HAS_SPI0_IOSET1 is not set
++# CPU_HAS_SPI0_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET1 is not set
++# CPU_HAS_SPI1_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET3 is not set
++# CPU_HAS_QSPI0 is not set
++# CPU_HAS_QSPI1 is not set
++# CPU_HAS_QSPI0_IOSET1 is not set
++# CPU_HAS_QSPI0_IOSET2 is not set
++# CPU_HAS_QSPI0_IOSET3 is not set
++# CPU_HAS_QSPI1_IOSET1 is not set
++# CPU_HAS_QSPI1_IOSET2 is not set
++# CPU_HAS_QSPI1_IOSET3 is not set
++CPU_HAS_PIO3=y
++CPU_HAS_L2CC=y
++CPU_HAS_PMECC=y
++# CONFIG_HAS_HW_INFO is not set
++CONFIG_TWI=y
++CONFIG_TWI0=y
++CONFIG_TWI1=y
++CONFIG_TWI2=y
++CONFIG_TWI3=y
++CONFIG_MACB=y
++# CONFIG_AES is not set
++# CONFIG_LOAD_HW_INFO is not set
++CPU_HAS_TWI0=y
++CPU_HAS_TWI1=y
++CPU_HAS_TWI2=y
++CPU_HAS_TWI3=y
++CPU_HAS_AES=y
++# CPU_HAS_PIO4 is not set
++
++#
++# Memory selection
++#
++# CONFIG_SDRAM is not set
++# CONFIG_SDDRC is not set
++CONFIG_DDRC=y
++# ALLOW_DATAFLASH is not set
++# ALLOW_FLASH is not set
++ALLOW_NANDFLASH=y
++ALLOW_SDCARD=y
++# ALLOW_PSRAM is not set
++# ALLOW_SDRAM_16BIT is not set
++
++#
++# RAM Configuration
++#
++# CONFIG_RAM_32MB is not set
++# CONFIG_RAM_64MB is not set
++CONFIG_RAM_128MB=y
++# CONFIG_RAM_256MB is not set
++# CONFIG_RAM_512MB is not set
++# CONFIG_LPDDR1 is not set
++# CONFIG_LPDDR2 is not set
++# CONFIG_LPDDR3 is not set
++CONFIG_DDR2=y
++# CONFIG_DDR3 is not set
++# CONFIG_SAMA5D2_LPDDR2 is not set
++# CONFIG_DATAFLASH is not set
++# CONFIG_FLASH is not set
++CONFIG_NANDFLASH=y
++# CONFIG_SDCARD is not set
++CONFIG_MEMORY="nandflash"
++
++#
++# NAND flash configuration
++#
++# CONFIG_ENABLE_SW_ECC is not set
++CONFIG_USE_PMECC=y
++# CONFIG_ON_DIE_ECC is not set
++
++#
++# PMECC Configuration
++#
++CONFIG_PMECC_AUTO_DETECT=y
++# CONFIG_NANDFLASH_SMALL_BLOCKS is not set
++CONFIG_ONFI_DETECT_SUPPORT=y
++CONFIG_USE_ON_DIE_ECC_SUPPORT=y
++# ALLOW_NANDFLASH_RECOVERY is not set
++CONFIG_BOOTSTRAP_MAXSIZE="65536"
++CONFIG_PROJECT="nandflash"
++CONFIG_LOAD_UBOOT=y
++# CONFIG_LOAD_LINUX is not set
++# CONFIG_LOAD_ANDROID is not set
++# CONFIG_LOAD_1MB is not set
++# CONFIG_LOAD_4MB is not set
++# CONFIG_LOAD_64KB is not set
++CONFIG_IMG_ADDRESS="0x00040000"
++CONFIG_JUMP_ADDR="0x26F00000"
++
++#
++# U-Boot Image Storage Setup
++#
++CONFIG_IMG_SIZE="0x00080000"
++CONFIG_IMAGE_NAME="u-boot.bin"
++CONFIG_DEBUG=y
++CONFIG_DEBUG_INFO=y
++# CONFIG_DEBUG_LOUD is not set
++# CONFIG_DEBUG_VERY_LOUD is not set
++# CONFIG_SECURE is not set
++CONFIG_DISABLE_WATCHDOG=y
++
++#
++# Hardware Initialization Options
++#
++CONFIG_HW_DISPLAY_BANNER=y
++CONFIG_HW_BANNER="\"\\n\\nAT91Bootstrap \" AT91BOOTSTRAP_VERSION \" (\" COMPILE_TIME \")\\n\\n\""
++CONFIG_HW_INIT=y
++# CONFIG_USER_HW_INIT is not set
++
++#
++# Slow Clock Configuration Options
++#
++CONFIG_SCLK=y
++# CONFIG_SCLK_BYPASS is not set
++
++#
++# ARM TurstZone Options
++#
++CONFIG_MATRIX=y
++# CONFIG_ENTER_NWD is not set
++CONFIG_REDIRECT_ALL_INTS_AIC=y
++CONFIG_PM=y
++
++#
++# Select the Devices to the Low-power mode
++#
++CONFIG_MAC0_PHY=y
++CONFIG_PM_PMIC=y
++
++#
++# Board's Workaround Options
++#
++CONFIG_ACT8865_SET_VOLTAGE=y
++# CONFIG_DISABLE_ACT8865_I2C is not set
++# CONFIG_SUSPEND_ACT8945A_CHARGER is not set
++CONFIG_ACT8865=y
++CONFIG_AUTOCONFIG_TWI_BUS=y
+\ No newline at end of file
+diff --git a/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512sd_uboot_secure_defconfig b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512sd_uboot_secure_defconfig
+new file mode 100644
+index 0000000..170856c
+--- /dev/null
++++ b/contrib/board/wifx/sama5d4_lorix_one_512/sama5d4_lorix_one_512sd_uboot_secure_defconfig
+@@ -0,0 +1,236 @@
++#
++# Automatically generated make config: don't edit
++# Sun Sep  2 12:10:37 2018
++#
++HAVE_DOT_CONFIG=y
++# CONFIG_AT91SAM9260EK is not set
++# CONFIG_AT91SAM9261EK is not set
++# CONFIG_AT91SAM9263EK is not set
++# CONFIG_AT91SAM9RLEK is not set
++# CONFIG_AT91SAM9XEEK is not set
++# CONFIG_AT91SAM9G10EK is not set
++# CONFIG_AT91SAM9G20EK is not set
++# CONFIG_AT91SAM9M10G45EK is not set
++# CONFIG_AT91SAM9X5EK is not set
++# CONFIG_AT91SAM9N12EK is not set
++# CONFIG_SAMA5D3XEK is not set
++# CONFIG_SAMA5D3_XPLAINED is not set
++# CONFIG_SAMA5D3X_CMP is not set
++# CONFIG_SAMA5D4EK is not set
++# CONFIG_SAMA5D4_XPLAINED is not set
++# CONFIG_SAMA5D2_PTC is not set
++# CONFIG_SAMA5D2_XPLAINED is not set
++# CONFIG_SAMA5D27_SOM1_EK is not set
++# CONFIG_VINCO is not set
++# CONFIG_AT91SAM9X5_ARIA is not set
++# CONFIG_AT91SAM9X5_ARIETTA is not set
++# CONFIG_SAMA5D3_ACQUA is not set
++# CONFIG_SAMA5D2_ROADRUNNER is not set
++# CONFIG_CORE9G25 is not set
++# CONFIG_SAMA5D3_LINEA is not set
++# CONFIG_SAMA5D4_LORIX_ONE is not set
++CONFIG_SAMA5D4_LORIX_ONE_512=y
++CONFIG_BOARDNAME="sama5d4_lorix_one_512"
++SAMA5D4=y
++CONFIG_MACH_TYPE="9999"
++CONFIG_LINK_ADDR="0x200000"
++CONFIG_TOP_OF_MEMORY="0x210000"
++CONFIG_CRYSTAL_12_000MHZ=y
++# CONFIG_CRYSTAL_16_000MHZ is not set
++# CONFIG_CRYSTAL_16_36766MHZ is not set
++# CONFIG_CRYSTAL_18_432MHZ is not set
++# CONFIG_CRYSTAL_24_000MHZ is not set
++ALLOW_CRYSTAL_12_000MHZ=y
++CONFIG_CRYSTAL="CRYSTAL_12_000MHZ"
++# CONFIG_CPU_CLK_166MHZ is not set
++# CONFIG_CPU_CLK_180MHZ is not set
++# CONFIG_CPU_CLK_200MHZ is not set
++# CONFIG_CPU_CLK_240MHZ is not set
++# CONFIG_CPU_CLK_266MHZ is not set
++# CONFIG_CPU_CLK_332MHZ is not set
++# CONFIG_CPU_CLK_348MHZ is not set
++# CONFIG_CPU_CLK_396MHZ is not set
++# CONFIG_CPU_CLK_400MHZ is not set
++# CONFIG_CPU_CLK_444MHZ is not set
++# CONFIG_CPU_CLK_492MHZ is not set
++# CONFIG_CPU_CLK_498MHZ is not set
++# CONFIG_CPU_CLK_510MHZ is not set
++# CONFIG_CPU_CLK_528MHZ is not set
++# CONFIG_CPU_CLK_594MHZ is not set
++CONFIG_CPU_CLK_600MHZ=y
++ALLOW_CPU_CLK_444MHZ=y
++ALLOW_CPU_CLK_510MHZ=y
++ALLOW_CPU_CLK_528MHZ=y
++ALLOW_CPU_CLK_594MHZ=y
++ALLOW_CPU_CLK_600MHZ=y
++# DISABLE_CPU_CLK_240MHZ is not set
++# CONFIG_BUS_SPEED_83MHZ is not set
++# CONFIG_BUS_SPEED_90MHZ is not set
++# CONFIG_BUS_SPEED_100MHZ is not set
++# CONFIG_BUS_SPEED_116MHZ is not set
++# CONFIG_BUS_SPEED_124MHZ is not set
++# CONFIG_BUS_SPEED_133MHZ is not set
++# CONFIG_BUS_SPEED_148MHZ is not set
++# CONFIG_BUS_SPEED_164MHZ is not set
++# CONFIG_BUS_SPEED_166MHZ is not set
++# CONFIG_BUS_SPEED_170MHZ is not set
++# CONFIG_BUS_SPEED_176MHZ is not set
++CONFIG_BUS_SPEED_200MHZ=y
++SUPPORT_BUS_SPEED_148MHZ=y
++SUPPORT_BUS_SPEED_170MHZ=y
++SUPPORT_BUS_SPEED_176MHZ=y
++SUPPORT_BUS_SPEED_200MHZ=y
++CPU_HAS_TRUSTZONE=y
++CONFIG_CPU_V7=y
++CONFIG_HAS_PMIC_ACT8865=y
++CONFIG_SUPPORT_PM=y
++# CONFIG_HAS_ONE_WIRE is not set
++CONFIG_HAS_EEPROM=y
++CONFIG_HAS_EHT0_PHY=y
++# CONFIG_HAS_EHT1_PHY is not set
++# CONFIG_HAS_AUDIO_CODEC is not set
++# CONFIG_HAS_HDMI is not set
++# CORE_ARM926EJS is not set
++CORE_CORTEX_A5=y
++CPU_HAS_SCKC=y
++CPU_HAS_H32MXDIV=y
++CPU_HAS_HSMCI0=y
++CPU_HAS_HSMCI1=y
++# CPU_HAS_HSMCI2 is not set
++# CPU_HAS_MCI0 is not set
++# CPU_HAS_MCI1 is not set
++# CPU_HAS_SDHC0 is not set
++# CPU_HAS_SDHC1 is not set
++CPU_HAS_SPI0=y
++CPU_HAS_SPI1=y
++# CPU_HAS_SPI0_IOSET1 is not set
++# CPU_HAS_SPI0_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET1 is not set
++# CPU_HAS_SPI1_IOSET2 is not set
++# CPU_HAS_SPI1_IOSET3 is not set
++# CPU_HAS_QSPI0 is not set
++# CPU_HAS_QSPI1 is not set
++# CPU_HAS_QSPI0_IOSET1 is not set
++# CPU_HAS_QSPI0_IOSET2 is not set
++# CPU_HAS_QSPI0_IOSET3 is not set
++# CPU_HAS_QSPI1_IOSET1 is not set
++# CPU_HAS_QSPI1_IOSET2 is not set
++# CPU_HAS_QSPI1_IOSET3 is not set
++CPU_HAS_PIO3=y
++CPU_HAS_L2CC=y
++CPU_HAS_PMECC=y
++# CONFIG_HAS_HW_INFO is not set
++CONFIG_TWI=y
++CONFIG_TWI0=y
++CONFIG_TWI1=y
++CONFIG_TWI2=y
++CONFIG_TWI3=y
++CONFIG_MACB=y
++# CONFIG_AES is not set
++# CONFIG_LOAD_HW_INFO is not set
++CPU_HAS_TWI0=y
++CPU_HAS_TWI1=y
++CPU_HAS_TWI2=y
++CPU_HAS_TWI3=y
++CPU_HAS_AES=y
++# CPU_HAS_PIO4 is not set
++
++#
++# Memory selection
++#
++# CONFIG_SDRAM is not set
++# CONFIG_SDDRC is not set
++CONFIG_DDRC=y
++# ALLOW_DATAFLASH is not set
++# ALLOW_FLASH is not set
++ALLOW_NANDFLASH=y
++ALLOW_SDCARD=y
++# ALLOW_PSRAM is not set
++# ALLOW_SDRAM_16BIT is not set
++
++#
++# RAM Configuration
++#
++# CONFIG_RAM_32MB is not set
++# CONFIG_RAM_64MB is not set
++CONFIG_RAM_128MB=y
++# CONFIG_RAM_256MB is not set
++# CONFIG_RAM_512MB is not set
++# CONFIG_LPDDR1 is not set
++# CONFIG_LPDDR2 is not set
++# CONFIG_LPDDR3 is not set
++CONFIG_DDR2=y
++# CONFIG_DDR3 is not set
++# CONFIG_SAMA5D2_LPDDR2 is not set
++# CONFIG_DATAFLASH is not set
++# CONFIG_FLASH is not set
++# CONFIG_NANDFLASH is not set
++CONFIG_SDCARD=y
++CONFIG_MEMORY="sdcard"
++
++#
++# SD Card Configuration
++#
++CONFIG_AT91_MCI=y
++CONFIG_AT91_MCI0=y
++# CONFIG_AT91_MCI1 is not set
++# CONFIG_AT91_MCI2 is not set
++CONFIG_FATFS=y
++CONFIG_BOOTSTRAP_MAXSIZE="65536"
++CONFIG_PROJECT="sdcard"
++CONFIG_LOAD_UBOOT=y
++# CONFIG_LOAD_LINUX is not set
++# CONFIG_LOAD_ANDROID is not set
++# CONFIG_LOAD_1MB is not set
++# CONFIG_LOAD_4MB is not set
++# CONFIG_LOAD_64KB is not set
++CONFIG_JUMP_ADDR="0x26F00000"
++
++#
++# U-Boot Image Storage Setup
++#
++CONFIG_IMAGE_NAME="u-boot.bin"
++CONFIG_DEBUG=y
++CONFIG_DEBUG_INFO=y
++# CONFIG_DEBUG_LOUD is not set
++# CONFIG_DEBUG_VERY_LOUD is not set
++# CONFIG_SECURE is not set
++CONFIG_DISABLE_WATCHDOG=y
++
++#
++# Hardware Initialization Options
++#
++CONFIG_HW_DISPLAY_BANNER=y
++CONFIG_HW_BANNER="\"\\n\\nAT91Bootstrap \" AT91BOOTSTRAP_VERSION \" (\" COMPILE_TIME \")\\n\\n\""
++CONFIG_HW_INIT=y
++# CONFIG_USER_HW_INIT is not set
++
++#
++# Slow Clock Configuration Options
++#
++CONFIG_SCLK=y
++# CONFIG_SCLK_BYPASS is not set
++
++#
++# ARM TurstZone Options
++#
++CONFIG_MATRIX=y
++# CONFIG_ENTER_NWD is not set
++CONFIG_REDIRECT_ALL_INTS_AIC=y
++CONFIG_PM=y
++
++#
++# Select the Devices to the Low-power mode
++#
++CONFIG_MAC0_PHY=y
++CONFIG_PM_PMIC=y
++# CONFIG_BACKUP_MODE is not set
++
++#
++# Board's Workaround Options
++#
++CONFIG_ACT8865_SET_VOLTAGE=y
++# CONFIG_DISABLE_ACT8865_I2C is not set
++# CONFIG_SUSPEND_ACT8945A_CHARGER is not set
++CONFIG_ACT8865=y
++CONFIG_AUTOCONFIG_TWI_BUS=y
+diff --git a/contrib/include/contrib_board.h b/contrib/include/contrib_board.h
+index 6579b72..2d5a160 100644
+--- a/contrib/include/contrib_board.h
++++ b/contrib/include/contrib_board.h
+@@ -65,4 +65,12 @@
+ #include "sama5d3_linea.h"
+ #endif
+ 
++#ifdef CONFIG_SAMA5D4_LORIX_ONE
++#include "sama5d4_lorix_one.h"
++#endif
++
++#ifdef CONFIG_SAMA5D4_LORIX_ONE_512
++#include "sama5d4_lorix_one_512.h"
++#endif
++
+ #endif
+diff --git a/driver/at91_twi.c b/driver/at91_twi.c
+index bdc6081..081f19f 100644
+--- a/driver/at91_twi.c
++++ b/driver/at91_twi.c
+@@ -52,6 +52,7 @@ unsigned char hdmi_twi_bus;
+ unsigned char wm8904_twi_bus;
+ unsigned char act8865_twi_bus;
+ unsigned char at24xx_twi_bus;
++unsigned char attiny_twi_bus;
+ 
+ #if defined(CONFIG_TWI0)
+ static unsigned int at91_twi0_base;
+@@ -326,6 +327,7 @@ void twi_init(void)
+ 	wm8904_twi_bus	= 0xff;
+ 	act8865_twi_bus	= 0xff;
+ 	at24xx_twi_bus	= 0xff;
++	attiny_twi_bus	= 0xff;
+ 
+ #if defined(CONFIG_AUTOCONFIG_TWI_BUS)
+ 	dbg_loud("Auto-Config the TWI Bus by the board\n");
+diff --git a/driver/board_hw_info.c b/driver/board_hw_info.c
+index ebd77db..873b754 100644
+--- a/driver/board_hw_info.c
++++ b/driver/board_hw_info.c
+@@ -473,6 +473,22 @@ static unsigned int set_default_sn(void)
+ #elif defined(CONFIG_SAMA5D2_XPLAINED)
+ 	board_id_ek = BOARD_ID_SAMA5D2_XULT;
+ 	vendor_ek = VENDOR_ATMEL_RFO;
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE)
++    /*
++     * LORIX One
++     * Display Module: no
++     * EK Module: SAMA5D4_LORIX_ONE, LORIX
++     */
++    board_id_ek = BOARD_ID_SAMA5D4_LORIX_ONE;
++    vendor_cm = VENDOR_LORIX;
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE_512)
++    /*
++     * LORIX One (512MB NAND version)
++     * Display Module: no
++     * EK Module: SAMA5D4_LORIX_ONE, LORIX
++     */
++    board_id_ek = BOARD_ID_SAMA5D4_LORIX_ONE_512;
++    vendor_cm = VENDOR_LORIX;
+ #else
+ #error "OneWire: No defined board"
+ #endif
+@@ -540,6 +556,30 @@ static unsigned int set_default_rev(void)
+ 	rev_id_cm = '1';
+ 	rev_id_dm = '1';
+ 	rev_id_ek = '1';
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE)
++    /*
++     * LORIX One
++     * Display Module: 'B', '2'
++     * EK Module: 'B','3'
++     */
++    rev_cm = 'A';
++    rev_dm = 'A';
++    rev_ek = 'A';
++    rev_id_cm = '1';
++    rev_id_dm = '1';
++    rev_id_ek = '1';
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE_512)
++    /*
++     * LORIX One (512MB NAND version)
++     * Display Module: 'B', '2'
++     * EK Module: 'B','3'
++     */
++    rev_cm = 'A';
++    rev_dm = 'A';
++    rev_ek = 'A';
++    rev_id_cm = '1';
++    rev_id_dm = '1';
++    rev_id_ek = '1';
+ #else
+ #error "OneWire: No defined board"
+ #endif
+diff --git a/include/board_hw_info.h b/include/board_hw_info.h
+index 092a918..ee26ad2 100644
+--- a/include/board_hw_info.h
++++ b/include/board_hw_info.h
+@@ -49,6 +49,8 @@
+ #define	BOARD_ID_SAMA5D4_XULT	17
+ #define	BOARD_ID_SAMA5D36_CP	18
+ #define	BOARD_ID_SAMA5D2_XULT	19
++#define BOARD_ID_SAMA5D4_LORIX_ONE_512	98
++#define BOARD_ID_SAMA5D4_LORIX_ONE	99
+ 
+ /* Vendor id definition */
+ #define VENDOR_EMBEST		1
+@@ -57,6 +59,7 @@
+ #define VENDOR_COGENT		4
+ #define VENDOR_PDA		5
+ #define VENDOR_ATMEL_RFO	6
++#define VENDOR_WIFX		7
+ 
+ #define HW_INFO_TOTAL_SIZE	0x20
+ 
+diff --git a/include/twi.h b/include/twi.h
+index 0797ff7..d4eb6ee 100644
+--- a/include/twi.h
++++ b/include/twi.h
+@@ -32,6 +32,7 @@ extern unsigned char hdmi_twi_bus;
+ extern unsigned char wm8904_twi_bus;
+ extern unsigned char act8865_twi_bus;
+ extern unsigned char at24xx_twi_bus;
++extern unsigned char attiny_twi_bus;
+ 
+ extern unsigned int twi_init_done;
+ 
+diff --git a/scripts/addpmecchead.py b/scripts/addpmecchead.py
+index 40837c8..a9fb27e 100755
+--- a/scripts/addpmecchead.py
++++ b/scripts/addpmecchead.py
+@@ -13,12 +13,14 @@ if sys.argv[3] == "sama5d2_ptc_ek":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 4, 512)
+ elif sys.argv[3].startswith("sama5d3"):
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 4, 512)
+-elif sys.argv[3] == "sama5d4ek" or sys.argv[3] == "sama5d4_xplained":
++elif sys.argv[3] == "sama5d4ek" or sys.argv[3] == "sama5d4_xplained" or sys.argv[3] == "sama5d4_lorix_one_512":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(4096, 224, 8, 512)
+ elif sys.argv[3] == "at91sam9x5ek" or sys.argv[3] == "at91sam9n12ek":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 2, 512)
+ elif sys.argv[3] == "core9g25":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 2, 512)
++elif sys.argv[3] == "sama5d4_lorix_one":
++	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 4, 512)
+ else:
+ 	sys.exit("Not support board!")
+ 

@@ -23,6 +23,8 @@ Provides the following features:
     * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
 	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
 
+* [LORIX One](https://www.lorixone.io/)
+
 ## Using
 
 ### Login
@@ -81,4 +83,3 @@ update the following configuration files to configure a different target:
 
 * `/build/config/local.conf`
 * `/build/config/bblayers.conf`
-

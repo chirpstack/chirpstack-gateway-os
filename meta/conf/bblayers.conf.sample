@@ -5,10 +5,17 @@ POKY_BBLAYERS_CONF_VERSION = "1"
 BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
+# Hardware vendor
+#
+# Options are:
+# * raspberrypi - For Raspberry Pi based gateways
+# * wifx        - For the LORIX One gateway
+VENDOR = "raspberrypi"
+
 BBLAYERS ?= " \
   ##OEROOT##/meta \
-  ##OEROOT##/layers/targets/meta-raspberrypi \
-  ##OEROOT##/layers/bsp/meta-raspberrypi \
+  ##OEROOT##/layers/targets/meta-${VENDOR} \
+  ##OEROOT##/layers/bsp/meta-${VENDOR} \
   ##OEROOT##/layers/loraserver/meta-tools \
   ##OEROOT##/layers/loraserver/meta-semtech \
   ##OEROOT##/layers/loraserver/meta-loraserver \
