@@ -1,0 +1,9 @@
+[general]
+log_level=4
+password_hash_iterations=1000
+
+[postgresql]
+dsn="postgres://loraserver_as:loraserver_as@localhost/loraserver_as?sslmode=disable"
+
+  [application_server.external_api]
+  jwt_secret="verysecret"

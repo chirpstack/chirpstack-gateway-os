@@ -136,8 +136,17 @@ quit" 25 60
     fi
 }
 
+do_resize_root_fs() {
+    dialog --title "Resize root FS" --msgbox "This will resize the root FS to utilize all available space. The gateway will reboot after which the resize process will start. Please note that depending the SD Card size, this will take some time during which the gateway cann be less responsive.\n\n
+To monitor the root FS resize, you can use the following command:\ndf -h" 25 60
+
+    clear
+    echo "The gateway will now reboot!"
+    /etc/init.d/resize-rootfs start
+}
+
 do_main_menu() {
-    FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 7 \
+    FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 8 \
         1 "Set admin password" \
         2 "Setup LoRa concentrator shield" \
         3 "Edit packet-forwarder config" \
@@ -145,6 +154,7 @@ do_main_menu() {
         5 "Restart packet-forwarder" \
         6 "Restart LoRa Gateway Bridge" \
         7 "Configure WIFI" \
+        8 "Resize root FS" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -159,6 +169,7 @@ do_main_menu() {
             5) do_restart_packet_forwarder;;
             6) do_restart_lora_gateway_bridge;;
             7) do_configure_wifi;;
+            8) do_resize_root_fs;;
         esac
     fi
 }

@@ -5,6 +5,7 @@ require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL += "packagegroup-base \
                   sudo \
                   iptables \
+                  ntp \
                   monit \
                   lora-packet-forwarder \
                   lora-gateway-bridge \

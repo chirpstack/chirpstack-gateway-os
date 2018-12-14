@@ -23,7 +23,7 @@ CONF_DIR = "${sysconfdir}/lora-gateway-bridge"
 
 do_install() {
     install -d ${D}${BIN_DIR}
-    install -m 755 lora-gateway-bridge ${D}${BIN_DIR}/
+    install -m 0755 lora-gateway-bridge ${D}${BIN_DIR}/
 
     install -d ${D}${CONF_DIR}
     install -m 0640 ${WORKDIR}/lora-gateway-bridge.toml ${D}${CONF_DIR}/lora-gateway-bridge.toml

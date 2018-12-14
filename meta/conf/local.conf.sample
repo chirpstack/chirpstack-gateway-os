@@ -8,3 +8,4 @@ MACHINE = "raspberrypi3"
 # Parallel executed tasks
 BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()*2}"
 PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()*2}"
+
