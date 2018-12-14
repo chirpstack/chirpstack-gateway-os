@@ -9,8 +9,9 @@ BBLAYERS ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/layers/targets/meta-raspberrypi \
   ##OEROOT##/layers/bsp/meta-raspberrypi \
-  ##OEROOT##/layers/meta-loraserver/meta-tools \
-  ##OEROOT##/layers/meta-loraserver/meta-semtech \
+  ##OEROOT##/layers/loraserver/meta-tools \
+  ##OEROOT##/layers/loraserver/meta-semtech \
+  ##OEROOT##/layers/loraserver/meta-loraserver \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-networking \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-filesystems \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-python \
