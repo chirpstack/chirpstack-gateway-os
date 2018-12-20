@@ -10,11 +10,29 @@ to setup, maintain and customize.
 
 ### lora-gateway-os-base
 
+An image providing the Semtech packet-forwarder and LoRa Gateway Bridge.
+
 Provides the following features:
 
 * [Monit](https://mmonit.com/monit/) based service monitoring
 * Semtech [packet-forwarder](https://github.com/lora-net/packet_forwarder)
 * [LoRa Gateway Bridge](https://github.com/brocaar/lora-gateway-bridge/)
+
+### lora-gateway-os-full
+
+An image providing a complete LoRaWAN network-server running on the
+gateway.
+
+Provides the following features:
+
+* [Monit](https://mmonit.com/monit/) based service monitoring
+* Semtech [packet-forwarder](https://github.com/lora-net/packet_forwarder)
+* [LoRa Gateway Bridge](https://github.com/brocaar/lora-gateway-bridge/)
+* [LoRa Server](https://github.com/brocaar/loraserver)
+* [LoRa App Server](https://github.com/brocaar/lora-app-server)
+* [Mosquitto MQTT broker](http://mosquitto.org/)
+* [Redis](https://redis.io/)
+* [PostgreSQL](https://www.postgresql.org/)
 
 ## Targets
 
@@ -83,3 +101,22 @@ update the following configuration files to configure a different target:
 
 * `/build/config/local.conf`
 * `/build/config/bblayers.conf`
+
+## Good to know
+
+### SD Card wearout
+
+Although LoRa Server tries to minimize the number of database writes, there
+will be regular writes to the SD Card (PostgreSQL and Redis snapshots).
+According to [Is it true that a SD/MMC Card does wear levelling with its own controller?](https://electronics.stackexchange.com/questions/27619/is-it-true-that-a-sd-mmc-card-does-wear-levelling-with-its-own-controller)
+it might make a difference which SD Card brand you use.
+
+### Updates
+
+(Currently) the LoRa Server project does not provide package updates.
+However, each image includes the `opkg` package manager,
+
+### Versioning
+
+The major version (major.minor.patch) of this project represents the major
+version of the provided LoRa Server components.
