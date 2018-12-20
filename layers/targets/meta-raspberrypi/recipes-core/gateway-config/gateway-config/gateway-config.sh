@@ -164,8 +164,8 @@ do_main_menu() {
         case "$FUN" in
             1) do_setup_admin_password;;
             2) do_setup_concentrator_shield;;
-            3) vi /etc/lora-packet-forwarder/global_conf.json && do_main_menu;;
-            4) vi /etc/lora-gateway-bridge/lora-gateway-bridge.toml && do_main_menu;;
+            3) nano /etc/lora-packet-forwarder/global_conf.json && do_main_menu;;
+            4) nano /etc/lora-gateway-bridge/lora-gateway-bridge.toml && do_main_menu;;
             5) do_restart_packet_forwarder;;
             6) do_restart_lora_gateway_bridge;;
             7) do_configure_wifi;;
