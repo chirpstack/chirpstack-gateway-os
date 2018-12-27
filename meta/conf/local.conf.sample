@@ -17,3 +17,9 @@ MACHINE = "raspberrypi3"
 BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()*2}"
 PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()*2}"
 
+# Deploy dir
+#
+# This is the place where you will find the build artifacts.
+TMPDIR = "${TOPDIR}/tmp/${VENDOR}/${MACHINE}"
+DEPLOY_DIR = "${TMPDIR}/deploy/${DISTRO_VERSION}"
+DEPLOY_DIR_IMAGE = "${DEPLOY_DIR}/images"
