@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+do_deploy() {
+    SRC_DIR=/build/tmp/$2/$3-glibc/deploy/$1
+    DEPLOY_DIR=/lora-gateway-os/deploy/$2/$3/$1
+
+    mkdir -p $DEPLOY_DIR
+
+    cp $SRC_DIR/images/*.gz $DEPLOY_DIR
+    cp -R $SRC_DIR/licenses $DEPLOY_DIR
+}
+
+
+VERSION="2.0.0test1"
+
+do_deploy $VERSION "raspberrypi" "raspberrypi3"
+do_deploy $VERSION "wifx" "sama5d4-lorix-one-sd"
+do_deploy $VERSION "wifx" "sama5d4-lorix-one-512-sd"
