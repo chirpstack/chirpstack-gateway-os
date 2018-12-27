@@ -25,4 +25,3 @@ FILES_${PN} = " \
     /etc/init.d/resize-rootfs \
     /usr/bin/resize-rootfs \
 "
-
