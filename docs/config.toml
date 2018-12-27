@@ -1,0 +1,38 @@
+baseURL = "https://www.loraserver.io/lora-gateway-os/"
+languageCode = "en-us"
+title = "LoRa Gateway OS documentation"
+googleAnalytics = "UA-3512995-9"
+pygmentsUseClasses = true
+
+[[menu.main]]
+    pre = "<i class='fas fa-hand-point-right'></i>"
+    name = "Overview"
+    identifier = "overview"
+    url = "/overview/"
+    weight = 1
+
+[[menu.main]]
+    pre = "<i class='fas fa-download'></i>"
+    name = "Install"
+    identifier = "install"
+    url = "/install/"
+    weight = 2
+
+[[menu.main]]
+    pre = "<i class='fas fa-terminal'></i>"
+    name = "Use"
+    identifier = "use"
+    url = "/use/"
+    weight = 3
+
+[[menu.main]]
+    pre = "<i class='fab fa-github'></i>"
+    name = "Community & support"
+    identifier = "community"
+    url = "/community/"
+    weight = 4
+
+[params]
+    raspberrypi_raspberrypi3_version = "2.0.0test1"
+    wifx_lorix_one_sd_version = "2.0.0test1"
+    wifx_lorix_one_512_sd_version = "2.0.0test1"

@@ -1,0 +1,16 @@
+# hidden files
+.*
+
+# build disks
+*.vdi
+
+# logfiles
+*.log
+
+# VSCode
+/vscode-bitbake-build
+
+# builds
+/build
+/deploy
+/docs/public/
