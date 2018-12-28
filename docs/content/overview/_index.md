@@ -33,7 +33,7 @@ by the **lora-gateway-os-base** image.
 
 * [Raspberry Pi 3](https://www.raspberrypi.org/) based gateways
 
-    * [RAK - RAK381 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
+    * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
     * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
 	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
 
