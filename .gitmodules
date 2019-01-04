@@ -14,3 +14,7 @@
 	path = layers/bsp/meta-raspberrypi
 	url = git://git.yoctoproject.org/meta-raspberrypi
 	branch = thud
+[submodule "layers/mender/meta-mender"]
+	path = layers/mender/meta-mender
+	url = https://github.com/mendersoftware/meta-mender.git
+	branch = thud

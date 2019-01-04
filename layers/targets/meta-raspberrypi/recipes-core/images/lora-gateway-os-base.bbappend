@@ -9,4 +9,6 @@ IMAGE_INSTALL += "wiringpi \
 
 DISTRO_FEATURES += "wifi"
 
-SDIMG_COMPRESSION = "gzip"
+# Mender configuration
+MENDER_STORAGE_TOTAL_SIZE_MB = "512"
+MENDER_DATA_PART_SIZE_MB = "32"

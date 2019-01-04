@@ -19,6 +19,7 @@ BBLAYERS ?= " \
   ##OEROOT##/layers/loraserver/meta-tools \
   ##OEROOT##/layers/loraserver/meta-semtech \
   ##OEROOT##/layers/loraserver/meta-loraserver \
+  ##OEROOT##/layers/mender/meta-mender/meta-mender-core \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-networking \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-filesystems \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-python \

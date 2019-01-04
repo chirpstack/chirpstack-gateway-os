@@ -15,5 +15,5 @@ IMAGE_INSTALL += " \
 	lora-app-server \
 "
 
-IMAGE_OVERHEAD_FACTOR = "5.0"
-
+# Mender configuration
+MENDER_ARTIFACT_NAME = "lora-gateway-os-base-${DISTRO_VERSION}"

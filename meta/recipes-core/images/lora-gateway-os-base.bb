@@ -14,3 +14,6 @@ IMAGE_INSTALL += "packagegroup-base \
 inherit extrausers
 
 EXTRA_USERS_PARAMS = "useradd -P admin admin;"
+
+# Mender configuration
+MENDER_ARTIFACT_NAME = "lora-gateway-os-base-${DISTRO_VERSION}"
