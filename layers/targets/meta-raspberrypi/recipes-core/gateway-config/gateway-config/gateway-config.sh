@@ -13,8 +13,8 @@ do_setup_admin_password() {
 do_setup_concentrator_shield() {
     FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 4 \
         1 "IMST     - iC880A" \
-        2 "RAK      - RAK381 with uBLOX GPS module" \
-        3 "RAK      - RAK381 without uBLOX GPS module" \
+        2 "RAK      - RAK831 with uBLOX GPS module" \
+        3 "RAK      - RAK831 without uBLOX GPS module" \
 		4 "RisingHF - RHF0M301" \
         3>&1 1>&2 2>&3)
     RET=$?
@@ -23,8 +23,8 @@ do_setup_concentrator_shield() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_prompt_concentrator_reset_pin && do_setup_channel_plan "ic880a" "";;
-            2) do_set_concentrator_reset_pin 17 && do_setup_channel_plan "rak381" ".gps";;
-            3) do_set_concentrator_reset_pin 17 && do_setup_channel_plan "rak381" "";;
+            2) do_set_concentrator_reset_pin 17 && do_setup_channel_plan "rak831" ".gps";;
+            3) do_set_concentrator_reset_pin 17 && do_setup_channel_plan "rak831" "";;
 			4) do_set_concentrator_reset_pin 7  && do_setup_channel_plan "rhf0m301" "";;
         esac
     fi
@@ -49,7 +49,7 @@ do_setup_channel_plan() {
 }
 
 do_prompt_concentrator_reset_pin() {
-    PIN=$(dialog --inputbox "To which pin is the concentrator reset connected: " 8 60 \
+    PIN=$(dialog --inputbox "Please enter the GPIO pin to which the concentrator reset is connected: " 8 60 \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -78,19 +78,6 @@ do_set_gateway_id() {
     if [ $RET -eq 0 ]; then
         dialog --title "Set Gateway ID" --msgbox "The Gateway ID has been set." 5 60
         do_restart_packet_forwarder
-    fi
-}
-
-do_setup_concentrator_shield_rak_rak381() {
-    FUN=$(dialog --title "RAK - RAK381 configuration" --menu "Select configuration:" 15 60 4 \
-        eu868.json     "EU868 band" \
-        eu868.json.gps "EU868 band + GPS" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        do_setup_concentrator_shield
-    elif [ $RET -eq 0 ]; then
-        return 1
     fi
 }
 
