@@ -1,0 +1,17 @@
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 31d9256a3e..e050d6e1d5 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -532,6 +532,12 @@ dtb-$(CONFIG_TARGET_SAMA5D4EK) += \
+ dtb-$(CONFIG_TARGET_SAMA5D4_XPLAINED) += \
+ 	at91-sama5d4_xplained.dtb
+ 
++dtb-$(CONFIG_TARGET_LORIX_ONE) += \
++	lorix-one.dtb
++
++dtb-$(CONFIG_TARGET_LORIX_ONE_512) += \
++	lorix-one-512.dtb
++
+ dtb-$(CONFIG_TARGET_VINCO) += \
+ 	at91-vinco.dtb
+ 

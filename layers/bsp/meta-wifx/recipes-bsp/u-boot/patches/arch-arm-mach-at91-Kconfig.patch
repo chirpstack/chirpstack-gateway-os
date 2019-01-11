@@ -1,0 +1,34 @@
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 69856c8942..df50393100 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -199,6 +199,20 @@ config TARGET_SAMA5D4EK
+ 	select SAMA5D4
+ 	select SUPPORT_SPL
+ 
++config TARGET_LORIX_ONE
++	bool "Wifx LORIX One (256MB NAND version)"
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SAMA5D4
++	select SUPPORT_SPL
++
++config TARGET_LORIX_ONE_512
++	bool "Wifx LORIX One (512MB NAND version)"
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SAMA5D4
++	select SUPPORT_SPL
++
+ config TARGET_MEESC
+ 	bool "Support meesc"
+ 	select AT91SAM9263
+@@ -291,6 +305,8 @@ source "board/siemens/taurus/Kconfig"
+ source "board/siemens/smartweb/Kconfig"
+ source "board/laird/wb45n/Kconfig"
+ source "board/laird/wb50n/Kconfig"
++source "board/wifx/lorix-one/Kconfig"
++source "board/wifx/lorix-one-512/Kconfig"
+ 
+ config SPL_LDSCRIPT
+ 	default "arch/arm/mach-at91/arm926ejs/u-boot-spl.lds" if CPU_ARM926EJS

@@ -1,0 +1,17 @@
+diff --git a/contrib/include/contrib_board.h b/contrib/include/contrib_board.h
+index 6579b72..c026b44 100644
+--- a/contrib/include/contrib_board.h
++++ b/contrib/include/contrib_board.h
+@@ -65,4 +65,12 @@
+ #include "sama5d3_linea.h"
+ #endif
+ 
++#ifdef CONFIG_LORIX_ONE
++#include "lorix_one.h"
++#endif
++
++#ifdef CONFIG_LORIX_ONE_512
++#include "lorix_one_512.h"
++#endif
++
+ #endif

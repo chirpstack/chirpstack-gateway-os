@@ -1,0 +1,10 @@
+diff --git a/contrib/board/Config.in.board b/contrib/board/Config.in.board
+index 7e6eb97..f5f7bae 100644
+--- a/contrib/board/Config.in.board
++++ b/contrib/board/Config.in.board
+@@ -10,3 +10,5 @@ source "contrib/board/corewind/core9g25/Config.in.board"
+ source "contrib/board/axentia/sama5d3_linea/Config.in.board"
+ source "contrib/board/mini-box/pico_sam9g45/Config.in.board"
+ source "contrib/board/stephan/sama5d3_stephan/Config.in.board"
++source "contrib/board/wifx/lorix_one/Config.in.board"
++source "contrib/board/wifx/lorix_one_512/Config.in.board"

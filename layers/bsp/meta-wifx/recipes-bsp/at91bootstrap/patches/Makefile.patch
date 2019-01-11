@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index e199fdb..0718159 100644
+--- a/Makefile
++++ b/Makefile
+@@ -25,7 +25,7 @@ BINDIR:=$(TOPDIR)/binaries
+ 
+ DATE := $(shell date)
+ VERSION := 3.8.12
+-REVISION :=
++REVISION := wifx
+ SCMINFO := $(shell ($(TOPDIR)/host-utilities/setlocalversion $(TOPDIR)))
+ 
+ ifeq ($(SCMINFO),)

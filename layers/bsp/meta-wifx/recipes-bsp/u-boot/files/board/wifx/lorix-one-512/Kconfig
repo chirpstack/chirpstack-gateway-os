@@ -1,0 +1,12 @@
+if TARGET_LORIX_ONE_512
+
+config SYS_BOARD
+	default "lorix-one-512"
+
+config SYS_VENDOR
+	default "wifx"
+
+config SYS_CONFIG_NAME
+	default "lorix-one-512"
+
+endif

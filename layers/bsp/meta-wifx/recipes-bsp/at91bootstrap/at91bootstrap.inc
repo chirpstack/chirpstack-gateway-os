@@ -18,10 +18,10 @@ inherit cml1 deploy
 
 AT91BOOTSTRAP_MACHINE ??= "${MACHINE}"
 
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one ??= "${AT91BOOTSTRAP_MACHINE}nf_uboot_secure"
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-sd ??= "${AT91BOOTSTRAP_MACHINE}sd_uboot_secure"
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-512 ??= "${AT91BOOTSTRAP_MACHINE}nf_uboot_secure"
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-512-sd ??= "${AT91BOOTSTRAP_MACHINE}sd_uboot_secure"
+AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one ??= "${AT91BOOTSTRAP_MACHINE}_nf_uboot"
+AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-sd ??= "${AT91BOOTSTRAP_MACHINE}_sd_uboot"
+AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-512 ??= "${AT91BOOTSTRAP_MACHINE}_nf_uboot"
+AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-512-sd ??= "${AT91BOOTSTRAP_MACHINE}_sd_uboot"
 AT91BOOTSTRAP_TARGET ??= "${AT91BOOTSTRAP_CONFIG}_defconfig"
 AT91BOOTSTRAP_LOAD_sama5d4-lorix-one ??= "nandflashboot-uboot"
 AT91BOOTSTRAP_LOAD_sama5d4-lorix-one-sd ??= "sdboot-uboot"
@@ -36,9 +36,7 @@ AT91BOOTSTRAP_SYMLINK ?= "at91bootstrap-${AT91BOOTSTRAP_MACHINE}.${AT91BOOTSTRAP
 EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
 
 do_configure() {
-        # Copy board defconfig to .config if .config does not exist. This
-	# allows recipes to manage the .config themselves in
-	# do_configure_prepend().
+	cp -r ${WORKDIR}/contrib/board/wifx ${S}/contrib/board
 	
 	if [ "${MACHINE}" = "sama5d4-lorix-one" ] || \
            [ "${MACHINE}" = "sama5d4-lorix-one-512" ] || \

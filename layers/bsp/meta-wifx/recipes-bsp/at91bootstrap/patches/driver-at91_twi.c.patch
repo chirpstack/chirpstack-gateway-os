@@ -1,0 +1,20 @@
+diff --git a/driver/at91_twi.c b/driver/at91_twi.c
+index bdc6081..081f19f 100644
+--- a/driver/at91_twi.c
++++ b/driver/at91_twi.c
+@@ -52,6 +52,7 @@ unsigned char hdmi_twi_bus;
+ unsigned char wm8904_twi_bus;
+ unsigned char act8865_twi_bus;
+ unsigned char at24xx_twi_bus;
++unsigned char attiny_twi_bus;
+ 
+ #if defined(CONFIG_TWI0)
+ static unsigned int at91_twi0_base;
+@@ -326,6 +327,7 @@ void twi_init(void)
+ 	wm8904_twi_bus	= 0xff;
+ 	act8865_twi_bus	= 0xff;
+ 	at24xx_twi_bus	= 0xff;
++	attiny_twi_bus	= 0xff;
+ 
+ #if defined(CONFIG_AUTOCONFIG_TWI_BUS)
+ 	dbg_loud("Auto-Config the TWI Bus by the board\n");

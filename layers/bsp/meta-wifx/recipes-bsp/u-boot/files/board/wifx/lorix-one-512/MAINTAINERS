@@ -1,0 +1,5 @@
+Wifx Sarl LORIX One LoRa gateway
+M:	Yannick Lanz <yannick.lanz@wifx.net>
+S:	Maintained
+F:	board/wifx/lorix-one-512/
+F:	include/configs/lorix-one-512.h

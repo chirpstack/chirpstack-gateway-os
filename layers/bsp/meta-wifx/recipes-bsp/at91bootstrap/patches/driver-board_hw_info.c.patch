@@ -1,0 +1,58 @@
+diff --git a/driver/board_hw_info.c b/driver/board_hw_info.c
+index ebd77db..873b754 100644
+--- a/driver/board_hw_info.c
++++ b/driver/board_hw_info.c
+@@ -473,6 +473,22 @@ static unsigned int set_default_sn(void)
+ #elif defined(CONFIG_SAMA5D2_XPLAINED)
+ 	board_id_ek = BOARD_ID_SAMA5D2_XULT;
+ 	vendor_ek = VENDOR_ATMEL_RFO;
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE)
++    /*
++     * LORIX One
++     * Display Module: no
++     * EK Module: SAMA5D4_LORIX_ONE, LORIX
++     */
++    board_id_ek = BOARD_ID_SAMA5D4_LORIX_ONE;
++    vendor_cm = VENDOR_LORIX;
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE_512)
++    /*
++     * LORIX One (512MB NAND version)
++     * Display Module: no
++     * EK Module: SAMA5D4_LORIX_ONE, LORIX
++     */
++    board_id_ek = BOARD_ID_SAMA5D4_LORIX_ONE_512;
++    vendor_cm = VENDOR_LORIX;
+ #else
+ #error "OneWire: No defined board"
+ #endif
+@@ -540,6 +556,30 @@ static unsigned int set_default_rev(void)
+ 	rev_id_cm = '1';
+ 	rev_id_dm = '1';
+ 	rev_id_ek = '1';
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE)
++    /*
++     * LORIX One
++     * Display Module: 'B', '2'
++     * EK Module: 'B','3'
++     */
++    rev_cm = 'A';
++    rev_dm = 'A';
++    rev_ek = 'A';
++    rev_id_cm = '1';
++    rev_id_dm = '1';
++    rev_id_ek = '1';
++#elif defined(CONFIG_SAMA5D4_LORIX_ONE_512)
++    /*
++     * LORIX One (512MB NAND version)
++     * Display Module: 'B', '2'
++     * EK Module: 'B','3'
++     */
++    rev_cm = 'A';
++    rev_dm = 'A';
++    rev_ek = 'A';
++    rev_id_cm = '1';
++    rev_id_dm = '1';
++    rev_id_ek = '1';
+ #else
+ #error "OneWire: No defined board"
+ #endif

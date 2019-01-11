@@ -1,0 +1,23 @@
+diff --git a/scripts/addpmecchead.py b/scripts/addpmecchead.py
+index 40837c8..579cc42 100755
+--- a/scripts/addpmecchead.py
++++ b/scripts/addpmecchead.py
+@@ -13,14 +13,16 @@ if sys.argv[3] == "sama5d2_ptc_ek":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 4, 512)
+ elif sys.argv[3].startswith("sama5d3"):
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 4, 512)
+-elif sys.argv[3] == "sama5d4ek" or sys.argv[3] == "sama5d4_xplained":
++elif sys.argv[3] == "sama5d4ek" or sys.argv[3] == "sama5d4_xplained" or sys.argv[3] == "lorix_one_512":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(4096, 224, 8, 512)
+ elif sys.argv[3] == "at91sam9x5ek" or sys.argv[3] == "at91sam9n12ek":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 2, 512)
+ elif sys.argv[3] == "core9g25":
+ 	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 2, 512)
++elif sys.argv[3] == "lorix_one":
++	pmecc_word = pmecc_head.gen_pmecc_header(2048, 64, 4, 512)
+ else:
+-	sys.exit("Not support board!")
++	sys.exit("Not supported board!")
+ 
+ vec = struct.pack("<I", pmecc_word)
+ 
