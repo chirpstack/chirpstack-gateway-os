@@ -8,7 +8,3 @@ IMAGE_INSTALL += "wiringpi \
 "
 
 DISTRO_FEATURES += "wifi"
-
-# Mender configuration
-MENDER_STORAGE_TOTAL_SIZE_MB = "1024"
-MENDER_DATA_PART_SIZE_MB = "512"

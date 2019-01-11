@@ -1,9 +1,6 @@
 # hidden files
 .*
 
-# build disks
-*.vdi
-
 # logfiles
 *.log
 
@@ -14,3 +11,6 @@
 /build
 /deploy
 /docs/public/
+/*.img
+/*.mender
+
