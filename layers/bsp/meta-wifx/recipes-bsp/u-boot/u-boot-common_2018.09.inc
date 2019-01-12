@@ -4,7 +4,7 @@ DEPENDS += "flex-native bison-native"
 
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
-PE = "1"
+PE = "2"
 
 # We use the revision in order to avoid having to fetch it from the
 # repo during parse
@@ -15,6 +15,9 @@ SRC_URI = "git://git.denx.de/u-boot.git"
 S = "${WORKDIR}/git"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
+
+# matching at91-sama5_common.h
+BOOTENV_SIZE = "0x4000"
 
 # LORIX One generic files
 SRC_URI_append = " \
@@ -56,9 +59,12 @@ SRC_URI_append = " \
 "
 
 do_configure_prepend() {
+    do_copy_wifx_config
+}
+
+do_copy_wifx_config() {
     cp ${WORKDIR}/arch/arm/dts/* ${S}/arch/arm/dts
     cp -r ${WORKDIR}/board/wifx ${S}/board
     cp ${WORKDIR}/configs/* ${S}/configs
     cp ${WORKDIR}/include/configs/* ${S}/include/configs
 }
-

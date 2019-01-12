@@ -15,7 +15,7 @@ INIT="/sbin/init"
 ROOT_MOUNT="/mnt/rootrw"
 
 ROOT_RODEVICE=""
-ROOT_ROFSTYPE=""
+ROOT_ROFSTYPE="ext4"
 ROOT_ROMOUNT="/mnt/root"
 ROOT_ROMOUNTOPTIONS_DEVICE="ro,noatime,nodiratime"
 
@@ -73,16 +73,19 @@ early_setup
 read_args
 
 mount_and_boot() {
+    log "mkdir -p $ROOT_MOUNT $ROOT_ROMOUNT $ROOT_RWMOUNT"
 	mkdir -p $ROOT_MOUNT $ROOT_ROMOUNT $ROOT_RWMOUNT
 
 	# Mount root file system as read only.
 	ROOT_ROMOUNTPARAMS="-t $ROOT_ROFSTYPE -o ${ROOT_ROMOUNTOPTIONS_DEVICE} $ROOT_RODEVICE"
+    log "$MOUNT $ROOT_ROMOUNTPARAMS $ROOT_ROMOUNT"
 	if ! $MOUNT $ROOT_ROMOUNTPARAMS "$ROOT_ROMOUNT"; then
 		fatal "Could not mount rootfs as read-only"
 	fi
 
 	# Mount data file system as read-write.
 	ROOT_RWMOUNTPARAMS="-t $ROOT_RWFSTYPE -o $ROOT_RWMOUNTOPTIONS_DEVICE $ROOT_RWDEVICE"
+    log "$MOUNT $ROOT_RWMOUNTPARAMS $ROOT_RWMOUNT"
 	if ! $MOUNT $ROOT_RWMOUNTPARAMS $ROOT_RWMOUNT ; then
 		fatal "Could not mount read-write rootfs"
 	fi

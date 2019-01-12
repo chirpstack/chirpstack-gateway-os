@@ -4,4 +4,3 @@ IMAGE_INSTALL += " \
     gateway-config \
 "
 
-SDIMG_COMPRESSION = "gzip"

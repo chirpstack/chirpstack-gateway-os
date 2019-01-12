@@ -83,4 +83,14 @@
 #define CONFIG_SYS_NAND_USE_FLASH_BBT
 #define CONFIG_SPL_GENERATE_ATMEL_PMECC_HEADER
 
+/* Bootcount */
+#define CONFIG_BOOTCOUNT_ENV
+#define CONFIG_BOOTCOUNT_LIMIT
+
+#ifndef CONFIG_EXTRA_ENV_SETTINGS
+#define CONFIG_EXTRA_ENV_SETTINGS \
+	"fdt_addr_r=0x21000000\0" \
+	"kernel_addr_r=22000000\0"
+#endif
+
 #endif /* __CONFIG_H */
