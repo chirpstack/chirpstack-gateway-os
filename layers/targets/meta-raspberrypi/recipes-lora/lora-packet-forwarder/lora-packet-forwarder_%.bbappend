@@ -1,10 +1,39 @@
 SRC_URI_append = "file://lora-packet-forwarder.default \
                   file://ic880a/global_conf.eu868.json \
-                  file://ic880a/global_conf.us915.json \
+                  file://rak831/global_conf.au915_0.json \
+                  file://rak831/global_conf.au915_0.json.gps \
+                  file://rak831/global_conf.au915_1.json \
+                  file://rak831/global_conf.au915_1.json.gps \
+                  file://rak831/global_conf.au915_2.json \
+                  file://rak831/global_conf.au915_2.json.gps \
+                  file://rak831/global_conf.au915_3.json \
+                  file://rak831/global_conf.au915_3.json.gps \
+                  file://rak831/global_conf.au915_4.json \
+                  file://rak831/global_conf.au915_4.json.gps \
+                  file://rak831/global_conf.au915_5.json \
+                  file://rak831/global_conf.au915_5.json.gps \
+                  file://rak831/global_conf.au915_6.json \
+                  file://rak831/global_conf.au915_6.json.gps \
+                  file://rak831/global_conf.au915_7.json \
+                  file://rak831/global_conf.au915_7.json.gps \
                   file://rak831/global_conf.eu868.json \
                   file://rak831/global_conf.eu868.json.gps \
-                  file://rak831/global_conf.us915.json \
-                  file://rak831/global_conf.us915.json.gps \
+                  file://rak831/global_conf.us915_0.json \
+                  file://rak831/global_conf.us915_0.json.gps \
+                  file://rak831/global_conf.us915_1.json \
+                  file://rak831/global_conf.us915_1.json.gps \
+                  file://rak831/global_conf.us915_2.json \
+                  file://rak831/global_conf.us915_2.json.gps \
+                  file://rak831/global_conf.us915_3.json \
+                  file://rak831/global_conf.us915_3.json.gps \
+                  file://rak831/global_conf.us915_4.json \
+                  file://rak831/global_conf.us915_4.json.gps \
+                  file://rak831/global_conf.us915_5.json \
+                  file://rak831/global_conf.us915_5.json.gps \
+                  file://rak831/global_conf.us915_6.json \
+                  file://rak831/global_conf.us915_6.json.gps \
+                  file://rak831/global_conf.us915_7.json \
+                  file://rak831/global_conf.us915_7.json.gps \
                   file://rhf0m301/global_conf.eu868.json \
                   file://rhf0m301/global_conf.us915.json \
 "
