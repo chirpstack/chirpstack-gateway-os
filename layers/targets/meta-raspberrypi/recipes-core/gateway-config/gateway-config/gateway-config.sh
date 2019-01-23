@@ -11,136 +11,55 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 4 \
-        1 "IMST     - iC880A" \
-        2 "RAK      - RAK831 with uBLOX GPS module" \
-        3 "RAK      - RAK831 without uBLOX GPS module" \
-		4 "RisingHF - RHF0M301" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        do_main_menu
-    elif [ $RET -eq 0 ]; then
-        case "$FUN" in
-            1) do_prompt_concentrator_reset_pin && do_setup_ic880a;;
-            2) do_set_concentrator_reset_pin 17 && do_setup_rak831 ".gps";;
-            3) do_set_concentrator_reset_pin 17 && do_setup_rak831 "";;
-			4) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
-        esac
-    fi
+#    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 4 \
+#        1 "RAK      - RAK831 with GPS module" \
+#        2 "RAK      - RAK831 without GPS module" \
+#        3>&1 1>&2 2>&3)
+#    RET=$?
+#    if [ $RET -eq 1 ]; then
+#        do_main_menu
+#    elif [ $RET -eq 0 ]; then
+#        case "$FUN" in
+#            1) do_set_concentrator_reset_pin 17 && do_setup_channel_plan "rak831" ".gps";;
+             do_set_concentrator_reset_pin 17 && do_setup_channel_plan "rak831" ""
+#x        esac
+#    fi
 }
-
-do_setup_ic880a() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 1 \
-        1 "EU868" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        do_main_menu
-    elif [ $RET -eq 0 ]; then
-        case "$FUN" in
-            1) do_copy_global_conf "ic880a" "eu868" "";;
-        esac
-    fi
-}
-
-do_setup_rak831() {
-    # $1: config suffix, e.g. ".gps"
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 3 \
-        1 "EU868" \
-        2 "AU915" \
-        3 "US915" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        do_main_menu
-    elif [ $RET -eq 0 ]; then
-        case "$FUN" in
-            1) do_copy_global_conf "rak831" "eu868" $1;;
-            2) do_select_au915_block "rak831" $1;;
-            3) do_select_us915_block "rak831" $1;;
-        esac
-    fi
-}
-
-do_select_us915_block() {
+ 
+do_setup_channel_plan() {
     # $1: concentrator type
-    # $2: config suffix, e.g. ".gps"
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the US915 channel-block:" 15 60 8 \
-        1 "Channels  0 -  7 + 64" \
-        2 "Channels  8 - 15 + 65" \
-        3 "Channels 16 - 23 + 66" \
-        4 "Channels 24 - 31 + 67" \
-        5 "Channels 32 - 39 + 68" \
-        6 "Channels 40 - 47 + 69" \
-        7 "Channels 48 - 55 + 70" \
-        8 "Channels 56 - 64 + 71" \
+    # $2: config suffix, eg ".gps"
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 9 \
+        1 "AS_923" \
+        2 "AU_915_928" \
+        3 "CN_470_510" \
+        4 "EU_433" \
+        5 "EU_863_870" \
+        6 "IN_865_867" \
+        7 "KR_920_923" \
+        8 "RU_864_870" \
+        9 "US_902_928" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf $1 "us915_0" $2;;
-            2) do_copy_global_conf $1 "us915_1" $2;;
-            3) do_copy_global_conf $1 "us915_2" $2;;
-            4) do_copy_global_conf $1 "us915_3" $2;;
-            5) do_copy_global_conf $1 "us915_4" $2;;
-            6) do_copy_global_conf $1 "us915_5" $2;;
-            7) do_copy_global_conf $1 "us915_6" $2;;
-            8) do_copy_global_conf $1 "us915_7" $2;;
-        esac
-    fi
-}
-
-do_select_au915_block() {
-    # $1: concentrator type
-    # $2: config suffix, e.g. ".gps"
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the AU915 channel-block:" 15 60 8 \
-        1 "Channels  0 -  7 + 64" \
-        2 "Channels  8 - 15 + 65" \
-        3 "Channels 16 - 23 + 66" \
-        4 "Channels 24 - 31 + 67" \
-        5 "Channels 32 - 39 + 68" \
-        6 "Channels 40 - 47 + 69" \
-        7 "Channels 48 - 55 + 70" \
-        8 "Channels 56 - 64 + 71" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        do_main_menu
-    elif [ $RET -eq 0 ]; then
-        case "$FUN" in
-            1) do_copy_global_conf $1 "au915_0" $2;;
-            2) do_copy_global_conf $1 "au915_1" $2;;
-            3) do_copy_global_conf $1 "au915_2" $2;;
-            4) do_copy_global_conf $1 "au915_3" $2;;
-            5) do_copy_global_conf $1 "au915_4" $2;;
-            6) do_copy_global_conf $1 "au915_5" $2;;
-            7) do_copy_global_conf $1 "au915_6" $2;;
-            8) do_copy_global_conf $1 "au915_7" $2;;
-        esac
-    fi
-}
-
-do_setup_rhf0m301() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
-        1 "EU868" \
-        2 "US915" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        do_main_menu
-    elif [ $RET -eq 0 ]; then
-        case "$FUN" in
-            1) do_copy_global_conf "rhf0m301" "eu868" "";;
-            2) do_copy_global_conf "rhf0m301" "us915" "";;
+            1) do_copy_global_conf $1 "as_923" $2;;
+            2) do_copy_global_conf $1 "au_915_928" $2;;
+			3) do_copy_global_conf $1 "cn_470_510" $2;;
+			4) do_copy_global_conf $1 "eu_433" $2;;
+            5) do_copy_global_conf $1 "eu_863_870" $2;;
+            6) do_copy_global_conf $1 "in_865_867" $2;;
+			7) do_copy_global_conf $1 "kr_920_923" $2;;
+			8) do_copy_global_conf $1 "ru_864_870" $2;;
+			9) do_copy_global_conf $1 "us_902_928" $2;;
         esac
     fi
 }
 
 do_prompt_concentrator_reset_pin() {
-    PIN=$(dialog --inputbox "Please enter the GPIO pin to which the concentrator reset is connected: " 8 60 \
+    PIN=$(dialog --inputbox "To which pin is the concentrator reset connected: " 8 60 \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -226,7 +145,7 @@ To monitor the root FS resize, you can use the following command:\ndf -h" 25 60
 do_main_menu() {
     FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 8 \
         1 "Set admin password" \
-        2 "Setup LoRa concentrator shield" \
+        2 "Setup RAK831 LoRa concentrator" \
         3 "Edit packet-forwarder config" \
         4 "Edit LoRa Gateway Bridge config" \
         5 "Restart packet-forwarder" \
