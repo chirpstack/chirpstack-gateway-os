@@ -31,15 +31,13 @@ by the **lora-gateway-os-base** image.
 
 ## Supported gateways
 
-* [Raspberry Pi 3](https://www.raspberrypi.org/) based gateways
+* [LORIX One](https://www.lorixone.io/)
 
-    * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
+* Raspberry Pi 3
     * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
+    * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
 	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
-
-* Wifx
-
-    * [LORIX One](https://www.lorixone.io/)
+    * [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)
 
 **Important:** If your gateway is not in the above list then you can still use
 the LoRa Server project! The LoRa Gateway OS is only to make things more easy,

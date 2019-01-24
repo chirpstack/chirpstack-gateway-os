@@ -16,6 +16,7 @@ do_setup_concentrator_shield() {
         2 "RAK      - RAK831 with uBLOX GPS module" \
         3 "RAK      - RAK831 without uBLOX GPS module" \
 		4 "RisingHF - RHF0M301" \
+        5 "Sandbox  - LoRaGo PORT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -26,6 +27,7 @@ do_setup_concentrator_shield() {
             2) do_set_concentrator_reset_pin 17 && do_setup_rak831 ".gps";;
             3) do_set_concentrator_reset_pin 17 && do_setup_rak831 "";;
 			4) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
+            5) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
         esac
     fi
 }
@@ -59,6 +61,22 @@ do_setup_rak831() {
             1) do_copy_global_conf "rak831" "eu868" $1;;
             2) do_select_au915_block "rak831" $1;;
             3) do_select_us915_block "rak831" $1;;
+        esac
+    fi
+}
+
+do_setup_lorago_port() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "EU868" \
+        2 "US915" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_global_conf "lorago_port" "eu868" "";;
+            2) do_select_us915_block "lorago_port" "";;
         esac
     fi
 }

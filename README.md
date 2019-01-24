@@ -36,12 +36,13 @@ Provides the following features:
 
 ## Targets
 
-* Raspberry Pi 3
-    * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
-    * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
-	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
-
 * [LORIX One](https://www.lorixone.io/)
+
+* Raspberry Pi 3
+    * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
+    * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
+	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
+    * [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)
 
 ## Using
 
