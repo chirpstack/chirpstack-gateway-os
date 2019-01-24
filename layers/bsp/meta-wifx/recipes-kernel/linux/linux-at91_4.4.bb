@@ -57,4 +57,4 @@ kernel_do_configure_append() {
 
 KERNEL_MODULE_AUTOLOAD += "atmel_usba_udc g_serial"
 
-COMPATIBLE_MACHINE = "(sama5d4-lorix-one|sama5d4-lorix-one-sd|sama5d4-lorix-one-512|sama5d4-lorix-one-512-sd)"
+COMPATIBLE_MACHINE = "(lorix-one|lorix-one-sd|lorix-one-512|lorix-one-512-sd)"

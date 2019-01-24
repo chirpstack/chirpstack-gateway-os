@@ -9,8 +9,8 @@ DISTRO = "lora-gateway-os"
 #         * raspberrypi3
 #
 # Vendor: wifx
-#         * sama5d4-lorix-one-512-sd
-#         * sama5d4-lorix-one-sd
+#         * lorix-one-512-sd
+#         * lorix-one-sd
 MACHINE = "raspberrypi3"
 
 # Parallel executed tasks

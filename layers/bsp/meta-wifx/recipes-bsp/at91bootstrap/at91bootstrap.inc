@@ -18,15 +18,15 @@ inherit cml1 deploy
 
 AT91BOOTSTRAP_MACHINE ??= "${MACHINE}"
 
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one ??= "${AT91BOOTSTRAP_MACHINE}_nf_uboot"
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-sd ??= "${AT91BOOTSTRAP_MACHINE}_sd_uboot"
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-512 ??= "${AT91BOOTSTRAP_MACHINE}_nf_uboot"
-AT91BOOTSTRAP_CONFIG_sama5d4-lorix-one-512-sd ??= "${AT91BOOTSTRAP_MACHINE}_sd_uboot"
+AT91BOOTSTRAP_CONFIG_lorix-one ??= "${AT91BOOTSTRAP_MACHINE}_nf_uboot"
+AT91BOOTSTRAP_CONFIG_lorix-one-sd ??= "${AT91BOOTSTRAP_MACHINE}_sd_uboot"
+AT91BOOTSTRAP_CONFIG_lorix-one-512 ??= "${AT91BOOTSTRAP_MACHINE}_nf_uboot"
+AT91BOOTSTRAP_CONFIG_lorix-one-512-sd ??= "${AT91BOOTSTRAP_MACHINE}_sd_uboot"
 AT91BOOTSTRAP_TARGET ??= "${AT91BOOTSTRAP_CONFIG}_defconfig"
-AT91BOOTSTRAP_LOAD_sama5d4-lorix-one ??= "nandflashboot-uboot"
-AT91BOOTSTRAP_LOAD_sama5d4-lorix-one-sd ??= "sdboot-uboot"
-AT91BOOTSTRAP_LOAD_sama5d4-lorix-one-512 ??= "nandflashboot-uboot"
-AT91BOOTSTRAP_LOAD_sama5d4-lorix-one-512-sd ??= "sdboot-uboot"
+AT91BOOTSTRAP_LOAD_lorix-one ??= "nandflashboot-uboot"
+AT91BOOTSTRAP_LOAD_lorix-one-sd ??= "sdboot-uboot"
+AT91BOOTSTRAP_LOAD_lorix-one-512 ??= "nandflashboot-uboot"
+AT91BOOTSTRAP_LOAD_lorix-one-512-sd ??= "sdboot-uboot"
 
 AT91BOOTSTRAP_SUFFIX ?= "bin"
 AT91BOOTSTRAP_IMAGE ?= "${AT91BOOTSTRAP_MACHINE}-${AT91BOOTSTRAP_LOAD}-${PV}.${AT91BOOTSTRAP_SUFFIX}"
@@ -38,10 +38,10 @@ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHA
 do_configure() {
 	cp -r ${WORKDIR}/contrib/board/wifx ${S}/contrib/board
 	
-	if [ "${MACHINE}" = "sama5d4-lorix-one" ] || \
-           [ "${MACHINE}" = "sama5d4-lorix-one-512" ] || \
-           [ "${MACHINE}" = "sama5d4-lorix-one-sd" ] || \
-	   [ "${MACHINE}" = "sama5d4-lorix-one-512-sd" ]; then
+	if [ "${MACHINE}" = "lorix-one" ] || \
+           [ "${MACHINE}" = "lorix-one-512" ] || \
+           [ "${MACHINE}" = "lorix-one-sd" ] || \
+	   [ "${MACHINE}" = "lorix-one-512-sd" ]; then
 		if [ -f "${S}/contrib/board/wifx/${AT91BOOTSTRAP_MACHINE}/${AT91BOOTSTRAP_TARGET}" ] && [ ! -f "${B}/.config" ]; then
 			cp "${S}/contrib/board/wifx/${AT91BOOTSTRAP_MACHINE}/${AT91BOOTSTRAP_TARGET}" "${B}/.config"
 		fi

@@ -15,5 +15,5 @@ do_deploy() {
 VERSION="2.0.0test1"
 
 do_deploy $VERSION "raspberrypi" "raspberrypi3"
-do_deploy $VERSION "wifx" "sama5d4-lorix-one-sd"
-do_deploy $VERSION "wifx" "sama5d4-lorix-one-512-sd"
+do_deploy $VERSION "wifx" "lorix-one-sd"
+do_deploy $VERSION "wifx" "lorix-one-512-sd"

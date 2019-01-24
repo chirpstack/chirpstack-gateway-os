@@ -2,7 +2,7 @@ require at91bootstrap.inc
 
 LIC_FILES_CHKSUM = "file://main.c;endline=27;md5=a2a70db58191379e2550cbed95449fbd"
 
-COMPATIBLE_MACHINE = '(sama5d4-lorix-one|sama5d4-lorix-one-sd|sama5d4-lorix-one-512|sama5d4-lorix-one-512-sd)'
+COMPATIBLE_MACHINE = '(lorix-one|lorix-one-sd|lorix-one-512|lorix-one-512-sd)'
 
 SRC_URI = "https://github.com/linux4sam/at91bootstrap/archive/v${PV}.tar.gz;name=tarball"
 FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
