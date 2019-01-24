@@ -11,7 +11,7 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 4 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 5 \
         1 "IMST     - iC880A" \
         2 "RAK      - RAK831 with uBLOX GPS module" \
         3 "RAK      - RAK831 without uBLOX GPS module" \
