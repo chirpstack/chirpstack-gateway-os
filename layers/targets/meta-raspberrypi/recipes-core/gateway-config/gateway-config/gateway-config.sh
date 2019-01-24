@@ -11,12 +11,11 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 5 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 4 \
         1 "IMST     - iC880A" \
-        2 "RAK      - RAK831 with uBLOX GPS module" \
-        3 "RAK      - RAK831 without uBLOX GPS module" \
-		4 "RisingHF - RHF0M301" \
-        5 "Sandbox  - LoRaGo PORT" \
+        2 "RAK      - RAK831" \
+		3 "RisingHF - RHF0M301" \
+        4 "Sandbox  - LoRaGo PORT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -24,10 +23,9 @@ do_setup_concentrator_shield() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_prompt_concentrator_reset_pin && do_setup_ic880a;;
-            2) do_set_concentrator_reset_pin 17 && do_setup_rak831 ".gps";;
-            3) do_set_concentrator_reset_pin 17 && do_setup_rak831 "";;
-			4) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
-            5) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
+            2) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
+			3) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
+            4) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
         esac
     fi
 }
@@ -41,13 +39,12 @@ do_setup_ic880a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "ic880a" "eu868" "";;
+            1) do_copy_global_conf "ic880a" "eu868";;
         esac
     fi
 }
 
 do_setup_rak831() {
-    # $1: config suffix, e.g. ".gps"
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 3 \
         1 "EU868" \
         2 "AU915" \
@@ -58,9 +55,9 @@ do_setup_rak831() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "rak831" "eu868" $1;;
-            2) do_select_au915_block "rak831" $1;;
-            3) do_select_us915_block "rak831" $1;;
+            1) do_copy_global_conf "rak831" "eu868";;
+            2) do_select_au915_block "rak831";;
+            3) do_select_us915_block "rak831";;
         esac
     fi
 }
@@ -75,15 +72,14 @@ do_setup_lorago_port() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "lorago_port" "eu868" "";;
-            2) do_select_us915_block "lorago_port" "";;
+            1) do_copy_global_conf "lorago_port" "eu868";;
+            2) do_select_us915_block "lorago_port";;
         esac
     fi
 }
 
 do_select_us915_block() {
     # $1: concentrator type
-    # $2: config suffix, e.g. ".gps"
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the US915 channel-block:" 15 60 8 \
         1 "Channels  0 -  7 + 64" \
         2 "Channels  8 - 15 + 65" \
@@ -99,21 +95,20 @@ do_select_us915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf $1 "us915_0" $2;;
-            2) do_copy_global_conf $1 "us915_1" $2;;
-            3) do_copy_global_conf $1 "us915_2" $2;;
-            4) do_copy_global_conf $1 "us915_3" $2;;
-            5) do_copy_global_conf $1 "us915_4" $2;;
-            6) do_copy_global_conf $1 "us915_5" $2;;
-            7) do_copy_global_conf $1 "us915_6" $2;;
-            8) do_copy_global_conf $1 "us915_7" $2;;
+            1) do_copy_global_conf $1 "us915_0";;
+            2) do_copy_global_conf $1 "us915_1";;
+            3) do_copy_global_conf $1 "us915_2";;
+            4) do_copy_global_conf $1 "us915_3";;
+            5) do_copy_global_conf $1 "us915_4";;
+            6) do_copy_global_conf $1 "us915_5";;
+            7) do_copy_global_conf $1 "us915_6";;
+            8) do_copy_global_conf $1 "us915_7";;
         esac
     fi
 }
 
 do_select_au915_block() {
     # $1: concentrator type
-    # $2: config suffix, e.g. ".gps"
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the AU915 channel-block:" 15 60 8 \
         1 "Channels  0 -  7 + 64" \
         2 "Channels  8 - 15 + 65" \
@@ -129,14 +124,14 @@ do_select_au915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf $1 "au915_0" $2;;
-            2) do_copy_global_conf $1 "au915_1" $2;;
-            3) do_copy_global_conf $1 "au915_2" $2;;
-            4) do_copy_global_conf $1 "au915_3" $2;;
-            5) do_copy_global_conf $1 "au915_4" $2;;
-            6) do_copy_global_conf $1 "au915_5" $2;;
-            7) do_copy_global_conf $1 "au915_6" $2;;
-            8) do_copy_global_conf $1 "au915_7" $2;;
+            1) do_copy_global_conf $1 "au915_0";;
+            2) do_copy_global_conf $1 "au915_1";;
+            3) do_copy_global_conf $1 "au915_2";;
+            4) do_copy_global_conf $1 "au915_3";;
+            5) do_copy_global_conf $1 "au915_4";;
+            6) do_copy_global_conf $1 "au915_5";;
+            7) do_copy_global_conf $1 "au915_6";;
+            8) do_copy_global_conf $1 "au915_7";;
         esac
     fi
 }
@@ -151,8 +146,8 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "rhf0m301" "eu868" "";;
-            2) do_copy_global_conf "rhf0m301" "us915" "";;
+            1) do_copy_global_conf "rhf0m301" "eu868";;
+            2) do_copy_global_conf "rhf0m301" "us915";;
         esac
     fi
 }
@@ -173,7 +168,7 @@ do_set_concentrator_reset_pin() {
 }
 
 do_copy_global_conf() {
-    cp /etc/lora-packet-forwarder/$1/global_conf.$2.json$3 /etc/lora-packet-forwarder/global_conf.json
+    cp /etc/lora-packet-forwarder/$1/global_conf.$2.json /etc/lora-packet-forwarder/global_conf.json
     RET=$?
     if [ $RET -eq 0 ]; then
         dialog --title "Channel-plan configuration" --msgbox "Channel-plan configuration has been copied." 5 60
