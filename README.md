@@ -64,6 +64,17 @@ A Docker based build environment is provided for compiling the images.
 
 ### Initial setup
 
+Run the following command to fetch the git submodules and setup directory
+permissions (to write back from the Docker container):
+
+```bash
+# update the submodules
+make submodules
+
+# setup permissions
+make permissions
+```
+
 Run the following command to set the `/build` folder permissions:
 
 ```bash
@@ -83,9 +94,6 @@ Run the following command to setup the build environment:
 docker-compose run --rm yocto bash
 
 # within the container
-
-# update the submodules
-make submodules
 
 # initialize the yocto / openembedded build environment
 source oe-init-build-env /build/ /lora-gateway-os/bitbake/
