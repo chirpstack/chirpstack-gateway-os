@@ -1,0 +1,55 @@
+diff --git a/arch/arm/dts/bcm2837-rpi-3-b.dts b/arch/arm/dts/bcm2837-rpi-3-b.dts
+index 20725ca487..96cc179b88 100644
+--- a/arch/arm/dts/bcm2837-rpi-3-b.dts
++++ b/arch/arm/dts/bcm2837-rpi-3-b.dts
+@@ -19,20 +19,6 @@
+ 	};
+ };
+ 
+-/* uart0 communicates with the BT module */
+-&uart0 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&uart0_gpio32 &gpclk2_gpio43>;
+-	status = "okay";
+-};
+-
+-/* uart1 is mapped to the pin header */
+-&uart1 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&uart1_gpio14>;
+-	status = "okay";
+-};
+-
+ /* SDHCI is used to control the SDIO for wireless */
+ &sdhci {
+ 	pinctrl-names = "default";
+diff --git a/board/raspberrypi/rpi/rpi.c b/board/raspberrypi/rpi/rpi.c
+index 153a1fdcb7..322ceb35e1 100644
+--- a/board/raspberrypi/rpi/rpi.c
++++ b/board/raspberrypi/rpi/rpi.c
+@@ -491,3 +491,10 @@ int ft_board_setup(void *blob, bd_t *bd)
+ 
+ 	return 0;
+ }
++
++int board_early_init_f(void)
++{
++	gd->flags |= (GD_FLG_SILENT | GD_FLG_DISABLE_CONSOLE);
++	return 0;
++}
++
+diff --git a/include/configs/rpi.h b/include/configs/rpi.h
+index 9ce41767a9..12cb89a891 100644
+--- a/include/configs/rpi.h
++++ b/include/configs/rpi.h
+@@ -160,5 +160,9 @@
+ 	ENV_MEM_LAYOUT_SETTINGS \
+ 	BOOTENV
+ 
++#define CONFIG_DISABLE_CONSOLE
++#define CONFIG_SILENT_CONSOLE
++#define CONFIG_SYS_DEVICE_NULLDEV
++#define CONFIG_BOARD_EARLY_INIT_F 1
+ 
+ #endif
+

@@ -10,3 +10,8 @@ SRC_URI_append_rpi_mender-uboot = "${@bb.utils.contains('MENDER_UBOOT_AUTO_CONFI
                                                         '', \
                                                         ' file://0001-CONFIGS-rpi-enable-mender-requirements.patch', \
 d)}"
+
+SRC_URI_append_rpi = " \
+    file://disable-console-to-fix-gps.patch \
+"
+
