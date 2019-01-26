@@ -6,7 +6,8 @@ do_setup_admin_password() {
     RET=$?
     if [ $RET -eq 0 ]; then
         dialog --title "Setup admin password" --msgbox "Password has been changed succesfully." 5 60
-        do_main_menu
+    else
+        exit $RET
     fi
 }
 
@@ -18,9 +19,7 @@ do_setup_concentrator_shield() {
         4 "Sandbox  - LoRaGo PORT" \
         3>&1 1>&2 2>&3)
     RET=$?
-    if [ $RET -eq 1 ]; then
-        do_main_menu
-    elif [ $RET -eq 0 ]; then
+    if [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_prompt_concentrator_reset_pin && do_setup_ic880a;;
             2) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
@@ -39,7 +38,7 @@ do_setup_ic880a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "ic880a" "eu868";;
+            1) do_copy_global_conf "ic880a" "eu868" && do_copy_loraserver_config "eu868";;
         esac
     fi
 }
@@ -55,7 +54,7 @@ do_setup_rak831() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "rak831" "eu868";;
+            1) do_copy_global_conf "rak831" "eu868" && do_copy_loraserver_config "eu868";;
             2) do_select_au915_block "rak831";;
             3) do_select_us915_block "rak831";;
         esac
@@ -72,7 +71,7 @@ do_setup_lorago_port() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "lorago_port" "eu868";;
+            1) do_copy_global_conf "lorago_port" "eu868" && do_copy_loraserver_config "eu868";;
             2) do_select_us915_block "lorago_port";;
         esac
     fi
@@ -95,14 +94,14 @@ do_select_us915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf $1 "us915_0";;
-            2) do_copy_global_conf $1 "us915_1";;
-            3) do_copy_global_conf $1 "us915_2";;
-            4) do_copy_global_conf $1 "us915_3";;
-            5) do_copy_global_conf $1 "us915_4";;
-            6) do_copy_global_conf $1 "us915_5";;
-            7) do_copy_global_conf $1 "us915_6";;
-            8) do_copy_global_conf $1 "us915_7";;
+            1) do_copy_global_conf $1 "us915_0" && do_copy_loraserver_config "us915_0";;
+            2) do_copy_global_conf $1 "us915_1" && do_copy_loraserver_config "us915_1";;
+            3) do_copy_global_conf $1 "us915_2" && do_copy_loraserver_config "us915_2";;
+            4) do_copy_global_conf $1 "us915_3" && do_copy_loraserver_config "us915_3";;
+            5) do_copy_global_conf $1 "us915_4" && do_copy_loraserver_config "us915_4";;
+            6) do_copy_global_conf $1 "us915_5" && do_copy_loraserver_config "us915_5";;
+            7) do_copy_global_conf $1 "us915_6" && do_copy_loraserver_config "us915_6";;
+            8) do_copy_global_conf $1 "us915_7" && do_copy_loraserver_config "us915_7";;
         esac
     fi
 }
@@ -124,14 +123,14 @@ do_select_au915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf $1 "au915_0";;
-            2) do_copy_global_conf $1 "au915_1";;
-            3) do_copy_global_conf $1 "au915_2";;
-            4) do_copy_global_conf $1 "au915_3";;
-            5) do_copy_global_conf $1 "au915_4";;
-            6) do_copy_global_conf $1 "au915_5";;
-            7) do_copy_global_conf $1 "au915_6";;
-            8) do_copy_global_conf $1 "au915_7";;
+            1) do_copy_global_conf $1 "au915_0" && do_copy_loraserver_config "au915_0";;
+            2) do_copy_global_conf $1 "au915_1" && do_copy_loraserver_config "au915_1";;
+            3) do_copy_global_conf $1 "au915_2" && do_copy_loraserver_config "au915_2";;
+            4) do_copy_global_conf $1 "au915_3" && do_copy_loraserver_config "au915_3";;
+            5) do_copy_global_conf $1 "au915_4" && do_copy_loraserver_config "au915_4";;
+            6) do_copy_global_conf $1 "au915_5" && do_copy_loraserver_config "au915_5";;
+            7) do_copy_global_conf $1 "au915_6" && do_copy_loraserver_config "au915_6";;
+            8) do_copy_global_conf $1 "au915_7" && do_copy_loraserver_config "au915_7";;
         esac
     fi
 }
@@ -146,8 +145,8 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "rhf0m301" "eu868";;
-            2) do_copy_global_conf "rhf0m301" "us915";;
+            1) do_copy_global_conf "rhf0m301" "eu868" && do_copy_loraserver_config "eu868";;
+            2) do_copy_global_conf "rhf0m301" "us915" && do_copy_loraserver_config "us915_0";;
         esac
     fi
 }
@@ -168,11 +167,37 @@ do_set_concentrator_reset_pin() {
 }
 
 do_copy_global_conf() {
-    cp /etc/lora-packet-forwarder/$1/global_conf.$2.json /etc/lora-packet-forwarder/global_conf.json
+    # $1 concentrator type
+    # $2 channel-plan
+    if [ -f /etc/lora-packet-forwarder/global_conf.json ]; then
+        dialog --yesno "A packet-forwarder configuration file already exists. Do you want to overwrite it?" 6 60
+    fi
     RET=$?
+
     if [ $RET -eq 0 ]; then
-        dialog --title "Channel-plan configuration" --msgbox "Channel-plan configuration has been copied." 5 60
-        do_set_gateway_id
+        cp /etc/lora-packet-forwarder/$1/global_conf.$2.json /etc/lora-packet-forwarder/global_conf.json
+        RET=$?
+        if [ $RET -eq 0 ]; then
+            dialog --title "Channel-plan configuration" --msgbox "Channel-plan configuration has been copied." 5 60
+            do_set_gateway_id
+        fi
+    fi
+}
+
+do_copy_loraserver_config() {
+    # $1 channel plan
+    if [ ! -d /etc/loraserver ]; then
+        return;
+    fi
+
+    if [ -f /etc/loraserver/loraserver.toml ]; then
+        dialog --yesno "A LoRa Server configuration file already exists. Do you want to overwrite it?" 6 60
+        RET=$?
+
+        if [ $RET -eq 0 ]; then
+            cp /etc/loraserver/config/$1.toml /etc/loraserver/$1.toml
+            do_restart_loraserver
+        fi
     fi
 }
 
@@ -190,9 +215,19 @@ do_restart_packet_forwarder() {
     RET=$?
     if [ $RET -eq 0 ]; then
         dialog --title "Restart packet-forwarder" --msgbox "The packet-forwarder has been restarted." 5 60
-        do_main_menu
+    else
+        exit $RET
     fi
+}
 
+do_restart_loraserver() {
+    monit restart loraserver
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        dialog --title "Restart LoRa Server" --msgbox "LoRa Server has been restarted." 5 60
+    else
+        exit $RET
+    fi
 }
 
 do_restart_lora_gateway_bridge() {
@@ -200,9 +235,9 @@ do_restart_lora_gateway_bridge() {
     RET=$?
     if [ $RET -eq 0 ]; then
         dialog --title "Restart LoRa Gateway Bridge" --msgbox "The LoRa Gateway Bridge has been restarted." 5 60
-        do_main_menu
+    else
+        exit $RET
     fi
-
 }
 
 do_configure_wifi() {
@@ -222,22 +257,13 @@ quit" 25 60
     clear
     connmanctl
     RET=$?
-    if [ $RET -eq 0 ]; then
-        do_main_menu
+    if [ ! $RET -eq 0 ]; then
+        exit $RET
     fi
 }
 
-do_resize_root_fs() {
-    dialog --title "Resize root FS" --msgbox "This will resize the root FS to utilize all available space. The gateway will reboot after which the resize process will start. Please note that depending the SD Card size, this will take some time during which the gateway cann be less responsive.\n\n
-To monitor the root FS resize, you can use the following command:\ndf -h" 25 60
-
-    clear
-    echo "The gateway will now reboot!"
-    /etc/init.d/resize-rootfs start
-}
-
 do_main_menu() {
-    FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 8 \
+    FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 7 \
         1 "Set admin password" \
         2 "Setup LoRa concentrator shield" \
         3 "Edit packet-forwarder config" \
@@ -245,24 +271,24 @@ do_main_menu() {
         5 "Restart packet-forwarder" \
         6 "Restart LoRa Gateway Bridge" \
         7 "Configure WIFI" \
-        8 "Resize root FS" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         clear
-        return 0
+        exit 0
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_setup_admin_password;;
             2) do_setup_concentrator_shield;;
-            3) nano /etc/lora-packet-forwarder/global_conf.json && do_main_menu;;
-            4) nano /etc/lora-gateway-bridge/lora-gateway-bridge.toml && do_main_menu;;
+            3) nano /etc/lora-packet-forwarder/global_conf.json;;
+            4) nano /etc/lora-gateway-bridge/lora-gateway-bridge.toml;;
             5) do_restart_packet_forwarder;;
             6) do_restart_lora_gateway_bridge;;
             7) do_configure_wifi;;
-            8) do_resize_root_fs;;
         esac
     fi
+
+    do_main_menu
 }
 
 do_main_menu

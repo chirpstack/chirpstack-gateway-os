@@ -1,0 +1,13 @@
+[general]
+log_level=4
+
+[postgresql]
+dsn="postgres://loraserver_ns:loraserver_ns@localhost/loraserver_ns?sslmode=disable"
+
+[network_server]
+net_id="000000"
+
+  [network_server.band]
+  name="US_902_928"
+  enabled_uplink_channels=[8, 9, 10, 11, 12, 13, 14, 15]
+
