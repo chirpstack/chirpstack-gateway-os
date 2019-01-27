@@ -14,6 +14,8 @@ menu:
 
 * Implement Mender for (OTA) system updates.
 * Implement OverlayFS over read-only root filesystem.
+* Update LoRa Gateway Bridge to v2.6.2.
+* [lora-gateway-os-full] Update LoRa Server to v2.4.1.
 
 ### Raspberry Pi
 
