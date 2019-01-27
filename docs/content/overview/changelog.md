@@ -8,6 +8,19 @@ menu:
 
 # Changelog
 
+## v2.0.0test2
+
+### General
+
+* Implement Mender for (OTA) system updates.
+* Implement OverlayFS over read-only root filesystem.
+
+### Raspberry Pi
+
+* Add support for Sandbox Electronics LoRaGo PORT concentrator.
+* Implement all US915 and AU915 channel-blocks. ([#2](https://github.com/brocaar/lora-gateway-os/pull/2))
+* [lora-gateway-os-full] Automatic (re)configure LoRa Server on setting the concentrator channel-plan.
+
 ## v2.0.0test1
 
 * Initial test release.
