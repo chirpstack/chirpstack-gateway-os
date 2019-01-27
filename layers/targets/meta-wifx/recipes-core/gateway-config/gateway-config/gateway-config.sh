@@ -34,10 +34,11 @@ do_setup_channel_plan() {
 }
 
 do_copy_global_conf() {
+    RET=0
     if [ -f /etc/lora-packet-forwarder/global_conf.json ]; then
         dialog --yesno "A packet-forwarder configuration file already exists. Do you want to overwrite it?" 6 60
+        RET=$?
     fi
-    RET=$?
 
     if [ $RET -eq 0 ]; then
         cp /etc/lora-packet-forwarder/lorixone/global_conf_$1.json /etc/lora-packet-forwarder/global_conf.json
@@ -55,14 +56,15 @@ do_copy_loraserver_config() {
         return;
     fi
 
+    RET=0
     if [ -f /etc/loraserver/loraserver.toml ]; then
         dialog --yesno "A LoRa Server configuration file already exists. Do you want to overwrite it?" 6 60
         RET=$?
+    fi
 
-        if [ $RET -eq 0 ]; then
-            cp /etc/loraserver/config/$1.toml /etc/loraserver/$1.toml
-            do_restart_loraserver
-        fi
+    if [ $RET -eq 0 ]; then
+        cp /etc/loraserver/config/$1.toml /etc/loraserver/loraserver.toml
+        do_restart_loraserver
     fi
 }
 
@@ -95,6 +97,16 @@ do_restart_lora_gateway_bridge() {
     fi
 }
 
+do_restart_loraserver() {
+    monit restart loraserver
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        dialog --title "Restart LoRa Server" --msgbox "LoRa Server has been restarted." 5 60
+    else
+        exit $RET
+    fi
+}
+
 do_main_menu() {
     FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 6 \
         1 "Set admin password" \
@@ -103,7 +115,6 @@ do_main_menu() {
         4 "Edit LoRa Gateway Bridge config" \
         5 "Restart packet-forwarder" \
         6 "Restart LoRa Gateway Bridge" \
-        7 "Resize root FS" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then

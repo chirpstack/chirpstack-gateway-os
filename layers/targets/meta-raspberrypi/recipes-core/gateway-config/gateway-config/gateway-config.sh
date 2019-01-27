@@ -169,10 +169,11 @@ do_set_concentrator_reset_pin() {
 do_copy_global_conf() {
     # $1 concentrator type
     # $2 channel-plan
+    RET=0
     if [ -f /etc/lora-packet-forwarder/global_conf.json ]; then
         dialog --yesno "A packet-forwarder configuration file already exists. Do you want to overwrite it?" 6 60
+        RET=$?
     fi
-    RET=$?
 
     if [ $RET -eq 0 ]; then
         cp /etc/lora-packet-forwarder/$1/global_conf.$2.json /etc/lora-packet-forwarder/global_conf.json
@@ -190,14 +191,15 @@ do_copy_loraserver_config() {
         return;
     fi
 
+    RET=0
     if [ -f /etc/loraserver/loraserver.toml ]; then
         dialog --yesno "A LoRa Server configuration file already exists. Do you want to overwrite it?" 6 60
         RET=$?
+    fi
 
-        if [ $RET -eq 0 ]; then
-            cp /etc/loraserver/config/$1.toml /etc/loraserver/$1.toml
-            do_restart_loraserver
-        fi
+    if [ $RET -eq 0 ]; then
+        cp /etc/loraserver/config/$1.toml /etc/loraserver/loraserver.toml
+        do_restart_loraserver
     fi
 }
 

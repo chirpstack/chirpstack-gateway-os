@@ -2,13 +2,14 @@
 
 
 do_deploy() {
-    SRC_DIR=/build/tmp/$2/$3-glibc/deploy/$1
-    DEPLOY_DIR=/lora-gateway-os/deploy/$2/$3/$1
+	SRC_DIR=/build/tmp/$2/$3-glibc/deploy/$1
+	DEPLOY_DIR=/lora-gateway-os/deploy/$2/$3/$1
 
-    mkdir -p $DEPLOY_DIR
+	mkdir -p $DEPLOY_DIR
 
-    cp $SRC_DIR/images/*.gz $DEPLOY_DIR
-    cp -R $SRC_DIR/licenses $DEPLOY_DIR
+	find $SRC_DIR/images -type f -name "*.sdimg.gz" -exec cp {} $DEPLOY_DIR \;
+	find $SRC_DIR/images -type f -name "*.mender" -exec cp {} $DEPLOY_DIR \;
+	cp -R $SRC_DIR/licenses $DEPLOY_DIR
 }
 
 
