@@ -4,7 +4,7 @@ DEPENDS += "flex-native bison-native"
 
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
-PE = "2"
+PR = "r3"
 
 # We use the revision in order to avoid having to fetch it from the
 # repo during parse
@@ -56,6 +56,8 @@ SRC_URI_append = " \
     file://arch-arm-dts-Makefile.patch \
     file://arch-arm-mach-at91-Kconfig.patch \
     file://include-configs-at91-sama5_common.h.patch \
+    file://cmd-nvedit.c.patch \
+    file://include-common.h.patch \
 "
 
 do_configure_prepend() {

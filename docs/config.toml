@@ -34,5 +34,5 @@ pygmentsUseClasses = true
 
 [params]
     raspberrypi_raspberrypi3_version = "2.0.0test2"
-    wifx_lorix_one_sd_version = "2.0.0test2"
-    wifx_lorix_one_512_sd_version = "2.0.0test2"
+    wifx_lorix_one_sd_version = "2.0.0test3"
+    wifx_lorix_one_512_sd_version = "2.0.0test3"

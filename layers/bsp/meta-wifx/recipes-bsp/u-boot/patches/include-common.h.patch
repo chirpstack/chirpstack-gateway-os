@@ -1,0 +1,23 @@
+diff --git a/include/common.h b/include/common.h
+index 940161f175..c8fc101c4a 100644
+--- a/include/common.h
++++ b/include/common.h
+@@ -212,6 +212,18 @@ int env_get_yesno(const char *var);
+  */
+ int env_set(const char *varname, const char *value);
+ 
++/**
++ * env_set_force() - set an environment variable with force flag
++ *
++ * This sets or deletes the value of an environment variable. For setting the
++ * value the variable is created if it does not already exist.
++ *
++ * @varname: Variable to adjust
++ * @value: Value to set for the variable, or NULL or "" to delete the variable
++ * @return 0 if OK, 1 on error
++ */
++int env_set_force(const char *varname, const char *value);
++
+ /**
+  * env_set_ulong() - set an environment variable to an integer
+  *

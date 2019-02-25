@@ -8,6 +8,12 @@ menu:
 
 # Changelog
 
+## v2.0.0test3
+
+### LORIX One
+
+* Fix setting the MAC address from EEPROM.
+
 ## v2.0.0test2
 
 ### General

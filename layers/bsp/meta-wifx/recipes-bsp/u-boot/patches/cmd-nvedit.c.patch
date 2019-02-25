@@ -1,0 +1,35 @@
+diff --git a/cmd/nvedit.c b/cmd/nvedit.c
+index 793b68b887..c4b5d8561f 100644
+--- a/cmd/nvedit.c
++++ b/cmd/nvedit.c
+@@ -281,7 +281,7 @@ static int _do_env_set(int flag, int argc, char * const argv[], int env_flag)
+ 	return 0;
+ }
+ 
+-int env_set(const char *varname, const char *varvalue)
++static int env_set_generic(const char *varname, const char *varvalue, int env_flag)
+ {
+ 	const char * const argv[4] = { "setenv", varname, varvalue, NULL };
+ 
+@@ -290,9 +290,19 @@ int env_set(const char *varname, const char *varvalue)
+ 		return 1;
+ 
+ 	if (varvalue == NULL || varvalue[0] == '\0')
+-		return _do_env_set(0, 2, (char * const *)argv, H_PROGRAMMATIC);
++		return _do_env_set(0, 2, (char * const *)argv, env_flag);
+ 	else
+-		return _do_env_set(0, 3, (char * const *)argv, H_PROGRAMMATIC);
++		return _do_env_set(0, 3, (char * const *)argv, env_flag);
++}
++
++int env_set(const char *varname, const char *varvalue)
++{
++	return env_set_generic(varname, varvalue, H_PROGRAMMATIC);
++}
++
++int env_set_force(const char *varname, const char *varvalue)
++{
++	return env_set_generic(varname, varvalue, H_PROGRAMMATIC | H_FORCE);
+ }
+ 
+ /**
