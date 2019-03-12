@@ -14,17 +14,19 @@ do_setup_admin_password() {
 do_setup_concentrator_shield() {
     FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 4 \
         1 "IMST     - iC880A" \
-        2 "RAK      - RAK831" \
-		3 "RisingHF - RHF0M301" \
-        4 "Sandbox  - LoRaGo PORT" \
+	2 "IMST     - iC980A" \
+        3 "RAK      - RAK831" \
+	4 "RisingHF - RHF0M301" \
+        5 "Sandbox  - LoRaGo PORT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_prompt_concentrator_reset_pin && do_setup_ic880a;;
-            2) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
-			3) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
-            4) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
+            2) do_prompt_concentrator_reset_pin && do_setup_ic980a;;
+	    3) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
+	    4) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
+            5) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
         esac
     fi
 }
@@ -39,6 +41,20 @@ do_setup_ic880a() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_copy_global_conf "ic880a" "eu868" && do_copy_loraserver_config "eu868";;
+        esac
+    fi
+}
+
+do_setup_ic980a() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 3 \
+        1 "US915" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_select_us915_block "iC980A";;
         esac
     fi
 }
