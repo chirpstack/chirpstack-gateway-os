@@ -281,32 +281,33 @@ quit" 25 60
 }
 
 do_main_menu() {
-    FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 7 \
-        1 "Set admin password" \
-        2 "Setup LoRa concentrator shield" \
-        3 "Edit packet-forwarder config" \
-        4 "Edit LoRa Gateway Bridge config" \
-        5 "Restart packet-forwarder" \
-        6 "Restart LoRa Gateway Bridge" \
-        7 "Configure WIFI" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        clear
-        exit 0
-    elif [ $RET -eq 0 ]; then
-        case "$FUN" in
-            1) do_setup_admin_password;;
-            2) do_setup_concentrator_shield;;
-            3) nano /etc/lora-packet-forwarder/global_conf.json;;
-            4) nano /etc/lora-gateway-bridge/lora-gateway-bridge.toml;;
-            5) do_restart_packet_forwarder;;
-            6) do_restart_lora_gateway_bridge;;
-            7) do_configure_wifi;;
-        esac
-    fi
-
-    do_main_menu
+    while true
+    do
+        FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 7 \
+            1 "Set admin password" \
+            2 "Setup LoRa concentrator shield" \
+            3 "Edit packet-forwarder config" \
+            4 "Edit LoRa Gateway Bridge config" \
+            5 "Restart packet-forwarder" \
+            6 "Restart LoRa Gateway Bridge" \
+            7 "Configure WIFI" \
+            3>&1 1>&2 2>&3)
+        RET=$?
+        if [ $RET -eq 1 ]; then
+            clear
+            exit 0
+        elif [ $RET -eq 0 ]; then
+            case "$FUN" in
+                1) do_setup_admin_password;;
+                2) do_setup_concentrator_shield;;
+                3) nano /etc/lora-packet-forwarder/global_conf.json;;
+                4) nano /etc/lora-gateway-bridge/lora-gateway-bridge.toml;;
+                5) do_restart_packet_forwarder;;
+                6) do_restart_lora_gateway_bridge;;
+                7) do_configure_wifi;;
+            esac
+        fi
+    done
 }
 
 do_main_menu
