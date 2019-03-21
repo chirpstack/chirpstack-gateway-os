@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+
+NAME="wireguard"
+DESC="Wireguard VPN client"
+
+# load default file
+. /etc/default/$NAME
+
+function do_start {
+    if [[ "$DISABLED" == "yes" ]]; then
+        echo "$NAME is disabled, update /etc/default/$NAME"
+        exit 0
+    fi
+
+    echo "Starting $NAME"
+    /usr/bin/wg-quick up wg0
+}
+
+function do_stop {
+    echo "Stopping $NAME"
+    /usr/bin/wg-quick down wg0
+}
+
+case "$1" in
+    "start")
+        do_start
+        ;;
+    "stop")
+        do_stop
+        ;;
+    "restart")
+        do_stop
+        do_start
+        ;;
+    *)
+        echo "Usage: $1 {start|stop|restart}"
+        exit 1
+        ;;
+esac

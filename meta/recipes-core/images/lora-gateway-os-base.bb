@@ -9,6 +9,7 @@ IMAGE_INSTALL += " \
     iptables \
     ntp \
     monit \
+    wireguard-client-config \
     lora-packet-forwarder \
     lora-gateway-bridge \
 "
