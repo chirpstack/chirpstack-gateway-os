@@ -19,7 +19,7 @@ as these changes are written to a different data partition.
 Although this gives the complete freedom to make modifications to the root
 filesystem, it also means that once you make a modification a LoRa Gateway OS
 update will never "overwrite" this changed file. In reality, a LoRa Gateway OS
-update will still update the file on the root filesystem, the the OverlayFS will
+update will still update the file on the root filesystem, the OverlayFS will
 present you the file from the data partition.
 
 To "rollback" changes, you can simply remove these from `/data/upperdir`.
