@@ -14,6 +14,7 @@ The Raspberry Pi 3 images contain out-of-the-box support for the following
 concentrator shields:
 
 * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
+* [RAK - RAK2245](https://www.rakwireless.com/en/)
 * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
 * [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
 * [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)
