@@ -3,3 +3,4 @@ require u-boot.inc
 
 DEPENDS += "bc-native dtc-native"
 
+PR = "r2"

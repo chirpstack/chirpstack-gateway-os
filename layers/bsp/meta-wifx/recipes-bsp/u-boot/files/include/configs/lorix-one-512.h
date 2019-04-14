@@ -87,4 +87,10 @@
 #define CONFIG_BOOTCOUNT_ENV
 #define CONFIG_BOOTCOUNT_LIMIT
 
+#ifndef CONFIG_EXTRA_ENV_SETTINGS
+#define CONFIG_EXTRA_ENV_SETTINGS \
+	"fdt_addr_r=0x21000000\0" \
+	"kernel_addr_r=22000000\0"
+#endif
+
 #endif /* __CONFIG_H */
