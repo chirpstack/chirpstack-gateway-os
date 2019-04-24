@@ -25,8 +25,8 @@ SRC_URI = " \
     file://config/us915_6.toml \
     file://config/us915_7.toml \
 "
-SRC_URI[md5sum] = "7b3beb5f736ccf4240ab700b66b11262"
-SRC_URI[sha256sum] = "3a4ade85822c518b9f148f4c11e79b55d5c1efad1338e432c0ea9433eda18613"
+SRC_URI[md5sum] = "81d7be439efa9afdfaa1c2def30a2bdb"
+SRC_URI[sha256sum] = "f667fd0f6759b0f325301faa76cf52dd3b184769387334aed9d1b69532012831"
 PR = "r1"
 
 inherit update-rc.d

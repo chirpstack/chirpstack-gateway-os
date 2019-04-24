@@ -8,6 +8,23 @@ menu:
 
 # Changelog
 
+## v2.0.0test4
+
+### General
+
+* Add Wiregard VPN client
+* Bump LoRa Server package versions
+
+### Raspberry Pi
+
+* Change SPI speed to 2MHz (required by RAK2245)
+* Add IMST980A configuration
+* Add RAK2245 configuration
+
+### LORIX One 512MB
+
+* Fix u-boot command
+
 ## v2.0.0test3
 
 ### LORIX One
