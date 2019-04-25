@@ -18,7 +18,7 @@ menu:
 ### Raspberry Pi
 
 * Change SPI speed to 2MHz (required by RAK2245)
-* Add IMST980A configuration
+* Add IMST iC980A configuration
 * Add RAK2245 configuration
 
 ### LORIX One 512MB

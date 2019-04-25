@@ -40,6 +40,7 @@ Provides the following features:
 
 * Raspberry Pi 3
     * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
+    * [IMST - iC980A](http://www.imst.com/)
     * [RAK - RAK2245](https://www.rakwireless.com/en/)
     * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
 	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
