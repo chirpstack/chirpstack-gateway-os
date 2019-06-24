@@ -48,7 +48,7 @@ that the gateway must use.
 
 Unlike the **lora-gateway-os-base** image, you **should not** update the
 LoRa Gateway Bridge configuration. It is configured to point to the MQTT broker
-which comes with the **lora-gateway-os-base** image.
+which comes with the **lora-gateway-os-full** image.
 
 When using the **lora-gateway-os-full** image, proceed with [the following](/guides/first-gateway-device/)
 guide to get started with LoRa App Server after you have configured the channel-plan.
