@@ -15,11 +15,11 @@ do_setup_concentrator_shield() {
     FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 7 \
         1 "IMST     - iC880A" \
         2 "IMST     - iC980A" \
-        3 "RAK      - RAK2245" \
-        4 "RAK      - RAK831" \
-        5 "RisingHF - RHF0M301" \
-        6 "Sandbox  - LoRaGo PORT" \
-        7 "Pi Supply  - LoRa Gateway HAT" \
+        3 "Pi Supply  - LoRa Gateway HAT" \
+        4 "RAK      - RAK2245" \
+        5 "RAK      - RAK831" \
+        6 "RisingHF - RHF0M301" \
+        7 "Sandbox  - LoRaGo PORT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
