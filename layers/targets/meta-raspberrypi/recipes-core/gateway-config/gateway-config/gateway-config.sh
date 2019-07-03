@@ -12,13 +12,14 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 6 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 7 \
         1 "IMST     - iC880A" \
         2 "IMST     - iC980A" \
-        3 "RAK      - RAK2245" \
-        4 "RAK      - RAK831" \
-        5 "RisingHF - RHF0M301" \
-        6 "Sandbox  - LoRaGo PORT" \
+        3 "Pi Supply  - LoRa Gateway HAT" \
+        4 "RAK      - RAK2245" \
+        5 "RAK      - RAK831" \
+        6 "RisingHF - RHF0M301" \
+        7 "Sandbox  - LoRaGo PORT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
@@ -29,6 +30,7 @@ do_setup_concentrator_shield() {
             4) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
             5) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
             6) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
+            6) do_set_concentrator_reset_pin 22 && do_setup_pislora;;
         esac
     fi
 }
@@ -75,6 +77,22 @@ do_setup_rak831() {
             1) do_copy_global_conf "rak831" "eu868" && do_copy_loraserver_config "eu868";;
             2) do_select_au915_block "rak831";;
             3) do_select_us915_block "rak831";;
+        esac
+    fi
+}
+
+do_setup_pislora() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "EU868" \
+        3 "US915" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_global_conf "pislora" "eu868" && do_copy_loraserver_config "eu868";;
+            2) do_select_us915_block "pislora";;
         esac
     fi
 }
