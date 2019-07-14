@@ -8,6 +8,18 @@ menu:
 
 # Changelog
 
+## v3.0.0test1
+
+### General
+
+* LoRa App Server v3.1.0.
+* LoRa Server v3.0.2.
+* LoRa Gateway Bridge v3.0.1.
+
+### Raspberry Pi
+
+* Fix HDMI related boot issue. ([#9](https://github.com/brocaar/lora-gateway-os/issues/9))
+
 ## v2.0.0test4
 
 ### General

@@ -9,8 +9,8 @@ SRC_URI = " \
     file://lora-app-server.monit \
     file://lora-app-server.toml \
 "
-SRC_URI[md5sum] = "1b201241a69d1fa660441533fc4bfdde"
-SRC_URI[sha256sum] = "9433b7ca3980e3457d93b2e19d9f0e26530128b0a887df6e566ffc1edae2ac2f"
+SRC_URI[md5sum] = "aa8dc1d2e26c171f2496e7b7dbc948a0"
+SRC_URI[sha256sum] = "8b75522b372d7e37b1168aa9d1de848cdb16b758b694abfbbc8eeeb0b36a8a3e"
 PR = "r1"
 
 inherit update-rc.d

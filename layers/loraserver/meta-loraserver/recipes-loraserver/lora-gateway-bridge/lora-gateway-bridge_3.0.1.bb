@@ -8,8 +8,8 @@ SRC_URI = "https://artifacts.loraserver.io/downloads/lora-gateway-bridge/lora-ga
            file://lora-gateway-bridge.init \
            file://lora-gateway-bridge.monit \
 "
-SRC_URI[md5sum] = "2847ca47e165e37855ce636fc149ab54"
-SRC_URI[sha256sum] = "a23a20e366c0dc5a0ca4c9df34e5815df4b565cbf534bb3d92d88ae8648dbceb"
+SRC_URI[md5sum] = "8ce5f8d32a0a6b9fba49b38c759f3ed4"
+SRC_URI[sha256sum] = "62fe4da1c9dfe3a0310fc700710610c94b16d33b2f993d0b4ea3f146d5bd7c7e"
 PR = "r1"
 
 inherit update-rc.d

@@ -32,6 +32,7 @@ do_init_postgresql_dbs() {
         sudo -u postgres /usr/bin/psql -c "create database loraserver_ns with owner loraserver_ns";
         sudo -u postgres /usr/bin/psql -c "create database loraserver_as with owner loraserver_as";
         sudo -u postgres /usr/bin/psql loraserver_as -c "create extension pg_trgm;"
+        sudo -u postgres /usr/bin/psql loraserver_as -c "create extension hstore;"
         touch /var/lib/firstbootinit/postgresql_dbs_created
     fi
 }
