@@ -18,6 +18,7 @@ menu:
 
 ### Raspberry Pi
 
+* Add support for the [Pi Supply LoRa Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi).
 * Fix HDMI related boot issue. ([#9](https://github.com/brocaar/lora-gateway-os/issues/9))
 
 ## v2.0.0test4

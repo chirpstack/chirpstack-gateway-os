@@ -36,6 +36,7 @@ by the **lora-gateway-os-base** image.
 * Raspberry Pi 3
     * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
     * [IMST - iC980A](http://www.imst.com/)
+    * [Pi Supply - LoRa Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi)
     * [RAK - RAK2245](https://store.rakwireless.com/products/rak2245-pi-hat)
     * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
 	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
