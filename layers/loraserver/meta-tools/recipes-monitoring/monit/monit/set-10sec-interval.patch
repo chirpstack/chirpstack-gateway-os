@@ -1,0 +1,11 @@
+--- a/monitrc
++++ b/monitrc
+@@ -16,7 +16,7 @@
+ ##
+ ## Start Monit in the background (run as a daemon):
+ #
+-set daemon  30              # check services at 30 seconds intervals
++set daemon  10              # check services at 10 seconds intervals
+ #   with start delay 240    # optional: delay the first check by 4-minutes (by
+ #                           # default Monit check immediately after Monit start)
+ #
