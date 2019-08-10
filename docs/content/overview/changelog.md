@@ -8,6 +8,21 @@ menu:
 
 # Changelog
 
+## v3.0.0test2
+
+### General
+
+* Update LoRa App Server to v3.2.0.
+* Update LoRa Gateway Bridge to v3.1.0.
+* Update LoRa Server to v3.1.0.
+* Update Monit to 5.26.0 and set check interval to 10 seconds.
+* Add `PersistentKeepalive = 25` to Wiregard example config.
+* Update openembedded layers to latest versions.
+
+### Raspberry Pi
+
+* Fix concentrator ordering.
+
 ## v3.0.0test1
 
 ### General

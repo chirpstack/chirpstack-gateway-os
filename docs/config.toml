@@ -33,6 +33,6 @@ pygmentsUseClasses = true
     weight = 4
 
 [params]
-    raspberrypi_raspberrypi3_version = "3.0.0test1"
-    wifx_lorix_one_sd_version = "3.0.0test1"
-    wifx_lorix_one_512_sd_version = "3.0.0test1"
+    raspberrypi_raspberrypi3_version = "3.0.0test2"
+    wifx_lorix_one_sd_version = "3.0.0test2"
+    wifx_lorix_one_512_sd_version = "3.0.0test2"
