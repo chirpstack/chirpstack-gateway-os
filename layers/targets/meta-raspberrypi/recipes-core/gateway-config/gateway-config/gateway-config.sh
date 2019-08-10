@@ -13,24 +13,24 @@ do_setup_admin_password() {
 
 do_setup_concentrator_shield() {
     FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 7 \
-        1 "IMST     - iC880A" \
-        2 "IMST     - iC980A" \
+        1 "IMST       - iC880A" \
+        2 "IMST       - iC980A" \
         3 "Pi Supply  - LoRa Gateway HAT" \
-        4 "RAK      - RAK2245" \
-        5 "RAK      - RAK831" \
-        6 "RisingHF - RHF0M301" \
-        7 "Sandbox  - LoRaGo PORT" \
+        4 "RAK        - RAK2245" \
+        5 "RAK        - RAK831" \
+        6 "RisingHF   - RHF0M301" \
+        7 "Sandbox    - LoRaGo PORT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_prompt_concentrator_reset_pin && do_setup_ic880a;;
             2) do_prompt_concentrator_reset_pin && do_setup_ic980a;;
-            3) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
+            3) do_set_concentrator_reset_pin 22 && do_setup_pislora;;
             4) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
-            5) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
-            6) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
-            6) do_set_concentrator_reset_pin 22 && do_setup_pislora;;
+            5) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
+            6) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
+            7) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
         esac
     fi
 }
