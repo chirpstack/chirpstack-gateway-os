@@ -8,6 +8,12 @@ menu:
 
 # Changelog
 
+## v3.0.0test3
+
+### LORIX One
+
+* Fix Wiregard kernel module dependencies.
+
 ## v3.0.0test2
 
 ### General

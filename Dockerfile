@@ -4,8 +4,8 @@ FROM ubuntu:bionic
 ENV PROJECT_PATH=/lora-gateway-os
 WORKDIR $PROJECT_PATH
 
-RUN apt update
-RUN apt install -y \
+RUN apt update && \
+    apt install -y \
       gawk \
       wget \
       git-core \
@@ -21,7 +21,9 @@ RUN apt install -y \
       python \
       vim \
       locales \
-      cpio
+      cpio \
+      screen \
+      libncurses-dev
 
 # Set the locale
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
