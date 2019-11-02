@@ -27,12 +27,12 @@ do_init_postgresql_dbs() {
             sleep 1
         done
 
-        sudo -u postgres /usr/bin/psql -c "create role loraserver_ns with login password 'loraserver_ns';"
-        sudo -u postgres /usr/bin/psql -c "create role loraserver_as with login password 'loraserver_as';"
-        sudo -u postgres /usr/bin/psql -c "create database loraserver_ns with owner loraserver_ns";
-        sudo -u postgres /usr/bin/psql -c "create database loraserver_as with owner loraserver_as";
-        sudo -u postgres /usr/bin/psql loraserver_as -c "create extension pg_trgm;"
-        sudo -u postgres /usr/bin/psql loraserver_as -c "create extension hstore;"
+        sudo -u postgres /usr/bin/psql -c "create role chirpstack_ns with login password 'chirpstack_ns';"
+        sudo -u postgres /usr/bin/psql -c "create role chirpstack_as with login password 'chirpstack_as';"
+        sudo -u postgres /usr/bin/psql -c "create database chirpstack_ns with owner chirpstack_ns";
+        sudo -u postgres /usr/bin/psql -c "create database chirpstack_as with owner chirpstack_as";
+        sudo -u postgres /usr/bin/psql chirpstack_as -c "create extension pg_trgm;"
+        sudo -u postgres /usr/bin/psql chirpstack_as -c "create extension hstore;"
         touch /var/lib/firstbootinit/postgresql_dbs_created
     fi
 }
@@ -42,4 +42,3 @@ do_init_postgresql
 do_init_postgresql_dbs
 
 update-rc.d -f firstbootinit remove
-

@@ -1,5 +1,5 @@
 ---
-title: Using the LoRa Gateway OS images
+title: Using the ChirpStack Gateway OS images
 menu:
     main:
         parent: use
@@ -7,6 +7,4 @@ menu:
 hidden: true
 ---
 
-# Using the LoRa Gateway OS images
-
-The following images are provided:
+# Using the ChirpStack Gateway OS images

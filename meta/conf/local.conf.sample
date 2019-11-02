@@ -1,5 +1,5 @@
-# Leave this to 'lora-gateway-os"
-DISTRO = "lora-gateway-os"
+# Leave this to 'chirpstack-gateway-os"
+DISTRO = "chirpstack-gateway-os"
 
 # Select the target machine.
 #

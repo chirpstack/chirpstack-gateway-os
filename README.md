@@ -1,24 +1,24 @@
-# LoRa Gateway OS
+# ChirpStack Gateway OS
 
-The LoRa Gateway OS is an embedded OS for LoRa gateways. It is part of the
-open-source [LoRa Server project](https://www.loraserver.io/).
+The ChirpStack Gateway OS is an embedded OS for LoRa gateways. It is part of the
+[ChirpStack](https://www.chirpstack.io/) open-source LoRaWAN Network Server stack.
 
-The goal of the LoRa Gateway OS is to provide firmware images that are easy
+The goal of the ChirpStack Gateway OS is to provide firmware images that are easy
 to setup, maintain and customize.
 
 ## Images
 
-### lora-gateway-os-base
+### chirpstack-gateway-os-base
 
-An image providing the Semtech packet-forwarder and LoRa Gateway Bridge.
+An image providing the Semtech Packet Forwarder and ChirpStack Gateway Bridge.
 
 Provides the following features:
 
 * [Monit](https://mmonit.com/monit/) based service monitoring
-* Semtech [packet-forwarder](https://github.com/lora-net/packet_forwarder)
-* [LoRa Gateway Bridge](https://github.com/brocaar/lora-gateway-bridge/)
+* Semtech [Packet Forwarder](https://github.com/lora-net/packet_forwarder)
+* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/)
 
-### lora-gateway-os-full
+### chirpstack-gateway-os-full
 
 An image providing a complete LoRaWAN network-server running on the
 gateway.
@@ -26,10 +26,10 @@ gateway.
 Provides the following features:
 
 * [Monit](https://mmonit.com/monit/) based service monitoring
-* Semtech [packet-forwarder](https://github.com/lora-net/packet_forwarder)
-* [LoRa Gateway Bridge](https://github.com/brocaar/lora-gateway-bridge/)
-* [LoRa Server](https://github.com/brocaar/loraserver)
-* [LoRa App Server](https://github.com/brocaar/lora-app-server)
+* Semtech [Packet Forwarder](https://github.com/lora-net/packet_forwarder)
+* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/)
+* [ChirpStack Network Server](https://www.chirpstack.io/network-server/)
+* [ChirpStack Application Server](https://www.chirpstack.io/application-server/)
 * [Mosquitto MQTT broker](http://mosquitto.org/)
 * [Redis](https://redis.io/)
 * [PostgreSQL](https://www.postgresql.org/)
@@ -99,11 +99,11 @@ docker-compose run --rm yocto bash
 # within the container
 
 # initialize the yocto / openembedded build environment
-source oe-init-build-env /build/ /lora-gateway-os/bitbake/
+source oe-init-build-env /build/ /chirpstack-gateway-os/bitbake/
 
 
-# build the lora-gateway-os-base image
-bitbake lora-gateway-os-base
+# build the chirpstack-gateway-os-base image
+bitbake chirpstack-gateway-os-base
 ```
 
 #### Configuration
@@ -118,17 +118,13 @@ update the following configuration files to configure a different target:
 
 ### SD Card wearout
 
-Although LoRa Server tries to minimize the number of database writes, there
-will be regular writes to the SD Card (PostgreSQL and Redis snapshots).
+Although ChirpStack Network Server and ChirpStack Application Server try to minimize
+the number of database writes, there will be regular writes to the SD Card
+(PostgreSQL and Redis snapshots).
 According to [Is it true that a SD/MMC Card does wear levelling with its own controller?](https://electronics.stackexchange.com/questions/27619/is-it-true-that-a-sd-mmc-card-does-wear-levelling-with-its-own-controller)
 it might make a difference which SD Card brand you use.
-
-### Updates
-
-(Currently) the LoRa Server project does not provide package updates.
-However, each image includes the `opkg` package manager,
 
 ### Versioning
 
 The major version (major.minor.patch) of this project represents the major
-version of the provided LoRa Server components.
+version of the provided ChirpStack Network Server stack.

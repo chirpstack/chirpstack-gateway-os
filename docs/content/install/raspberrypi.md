@@ -3,7 +3,7 @@ title: Raspberry Pi
 menu:
     main:
         parent: install
-description: Installing LoRa Gateway OS on a Raspberry Pi.
+description: Installing ChirpStack Gateway OS on a Raspberry Pi.
 ---
 
 # Raspberry Pi
@@ -23,6 +23,6 @@ concentrator shields:
 
 ### Installation
 
-* Download one of the provided SD Card images from the [Raspberry Pi 3 images folder](http://artifacts.loraserver.io/downloads/lora-gateway-os/raspberrypi/raspberrypi3/{{< raspberrypi_raspberrypi3_version >}}/).
+* Download one of the provided SD Card images from the [Raspberry Pi 3 images folder](http://artifacts.chirpstack.io/downloads/chirpstack-gateway-os/raspberrypi/raspberrypi3/{{< raspberrypi_raspberrypi3_version >}}/).
 * Flash the SD Card image using for example [Etcher](https://www.balena.io/etcher/) on a SD Card.
-* Continue with [Using the LoRa Gateway OS images](/lora-gateway-os/use/).
+* Continue with [Using the ChirpStack Gateway OS images](/gateway-os/use/).

@@ -1,3 +1,0 @@
-check process loraserver with pidfile /var/run/loraserver.pid
-    start program = "/etc/init.d/loraserver start"
-    stop program = "/etc/init.d/loraserver stop"

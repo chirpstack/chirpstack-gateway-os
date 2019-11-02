@@ -8,6 +8,11 @@ menu:
 
 # Changelog
 
+## v3.1.0test1
+
+This release renames LoRa Gateway OS to ChirpStack Gateway OS.
+See the [Rename Announcement](https://www.chirpstack.io/r/rename-announcement) for more information.
+
 ## v3.0.0test3
 
 ### LORIX One

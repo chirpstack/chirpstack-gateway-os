@@ -4,15 +4,15 @@ menu:
     main:
         parent: use
 weight: 2
-description: Getting started with the LoRa Gateway OS.
+description: Getting started with the ChirpStack Gateway OS.
 ---
 
-# Getting started with LoRa Gateway OS
+# Getting started with ChirpStack Gateway OS
 
-These steps describe how to get started with LoRa Gateway OS **after** you
-have [installed](/lora-gateway-os/install/) LoRa Gateway OS on your gateway.
+These steps describe how to get started with ChirpStack Gateway OS **after** you
+have [installed](/gateway-os/install/) ChirpStack Gateway OS on your gateway.
 
-**Important:** The **lora-gateway-os-full** image will setup the PostgreSQL
+**Important:** The **chirpstack-gateway-os-full** image will setup the PostgreSQL
 on its first boot. This could take a couple of minutes and during this time,
 the gateway will be less responsive!
 
@@ -28,16 +28,17 @@ The default username is `admin`, the default password is `admin`.
 This will prompt the following message:
 
 {{<highlight text>}}
-    __          ____        _____                             _
-   / /   ____  / __ \____ _/ ___/___  ______   _____  _____  (_)___
-  / /   / __ \/ /_/ / __ `/\__ \/ _ \/ ___/ | / / _ \/ ___/ / / __ \
- / /___/ /_/ / _, _/ /_/ /___/ /  __/ /   | |/ /  __/ /  _ / / /_/ /
-/_____/\____/_/ |_|\__,_//____/\___/_/    |___/\___/_/  (_)_/\____/
+   ________    _           _____ __             __     _     
+  / ____/ /_  (_)________ / ___// /_____ ______/ /__  (_)___ 
+ / /   / __ \/ / ___/ __ \\__ \/ __/ __ `/ ___/ //_/ / / __ \
+/ /___/ / / / / /  / /_/ /__/ / /_/ /_/ / /__/ ,< _ / / /_/ /
+\____/_/ /_/_/_/  / .___/____/\__/\__,_/\___/_/|_(_)_/\____/ 
+                 /_/
 
-        documentation and copyright information: www.loraserver.io
+Documentation and copyright information:
+> www.chirpstack.io
 
 Commands:
-
 > sudo gateway-config  - configure the gateway
 > sudo monit status    - display service monitor
 
@@ -46,18 +47,19 @@ Commands:
 Then execute the `sudo gateway-config` to configure the channel-configuration
 that the gateway must use.
 
-Unlike the **lora-gateway-os-base** image, you **should not** update the
-LoRa Gateway Bridge configuration. It is configured to point to the MQTT broker
-which comes with the **lora-gateway-os-full** image.
+Unlike the **chirpstack-gateway-os-base** image, you **should not** update the
+ChirpStack Gateway Bridge configuration. It is configured to point to the MQTT broker
+which comes with the **chirpstack-gateway-os-full** image.
 
-When using the **lora-gateway-os-full** image, proceed with [the following](/guides/first-gateway-device/)
-guide to get started with LoRa App Server after you have configured the channel-plan.
+When using the **chirpstack-gateway-os-full** image, proceed with [the following](/guides/first-gateway-device/)
+guide to get started with ChirpStack Application Server after you have configured the channel-plan.
 
 ## Important to know
 
 ### SD Card wearout
 
-Although LoRa Server tries to minimize the number of database writes, there
-will be regular writes to the SD Card (PostgreSQL and Redis snapshots).
+Although ChirpStack Network Server and ChirpStack Application Server will try to
+minimize the number of database writes, there will be regular writes to
+the SD Card (PostgreSQL and Redis snapshots).
 According to [Is it true that a SD/MMC Card does wear levelling with its own controller?](https://electronics.stackexchange.com/questions/27619/is-it-true-that-a-sd-mmc-card-does-wear-levelling-with-its-own-controller)
 it might make a difference which SD Card brand you use.

@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 # FROM debian:9
 
-ENV PROJECT_PATH=/lora-gateway-os
+ENV PROJECT_PATH=/chirpstack-gateway-os
 WORKDIR $PROJECT_PATH
 
 RUN apt update && \

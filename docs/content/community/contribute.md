@@ -4,7 +4,7 @@ menu:
     main:
         parent: community
         weight: 2
-description: Information how you can contribute to the LoRa Gateway OS project.
+description: Information how you can contribute to the ChirpStack Gateway OS project.
 ---
 
 # Contribute
@@ -12,8 +12,8 @@ description: Information how you can contribute to the LoRa Gateway OS project.
 There are a couple of ways to get involved:
 
 * Join the discussions:
-    * LoRa Server project forum [https://forum.loraserver.io/](https://forum.loraserver.io/)
-* Report bugs or make feature-requests by opening an issue at [https://github.com/brocaar/lora-gateway-os/issues](https://github.com/brocaar/lora-gateway-os/issues)
+    * ChirpStack community forum [https://forum.chirpstack.io/](https://forum.chirpstack.io/)
+* Report bugs or make feature-requests by opening an issue at [https://github.com/brocaar/chirpstack-gateway-os/issues](https://github.com/brocaar/chirpstack-gateway-os/issues)
 * Help fixing issues or improve documentation by creating pull-requests
 
 

@@ -13,7 +13,7 @@ services:
           nocopy: true
       - type: bind
         source: .
-        target: /lora-gateway-os
+        target: /chirpstack-gateway-os
 
   busybox:
     image: busybox

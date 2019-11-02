@@ -4,40 +4,40 @@ menu:
     main:
         parent: use
 weight: 1
-description: Available LoRa Gateway OS image types.
+description: Available ChirpStack Gateway OS image types.
 ---
 
-# LoRa Gateway OS image types
+# ChirpStack Gateway OS image types
 
-## `lora-gateway-os-base`
+## `chirpstack-gateway-os-base`
 
-The **lora-gateway-os-base** image provides all the features and components
+The **chirpstack-gateway-os-base** image provides all the features and components
 to operate a LoRa gateway.
 
 ### Semtech packet-forwarder
 
-The [Semtech packet-forwarder](https://github.com/lora-net/packet_forwarder)
-handles the interaction with the LoRa concentrator chipset.
+The [Semtech Packet Forwarder](https://github.com/lora-net/packet_forwarder)
+handles the interaction with the LoRa<sup>&reg;</sup> concentrator chipset.
 
-### LoRa Gateway Bridge
+### ChirpStack Gateway Bridge
 
-The [LoRa Gateway Bridge](/lora-gateway-bridge/) abstracts the Semtech
-packet-forwarder UDP data into MQTT messages.
+The [ChirpStack Gateway Bridge](/gateway-bridge/) abstracts the Semtech
+Packet Forwarder UDP data into MQTT messages.
 
-## `lora-gateway-os-full`
+## `chirpstack-gateway-os-full`
 
-The **lora-gateway-os-full** provides all the features of the
-**lora-gateway-os-base** image, but also includes with [LoRa Server](/loraserver/)
-and [LoRa App Server](/lora-app-server/) installed, including all requirements.
-This makes it possible to run the complete LoRaWAN infrastructure **on** the
+The **chirpstack-gateway-os-full** provides all the features of the
+**chirpstack-gateway-os-base** image, but also comes with [ChirpStack Network Server](/network-server/)
+and [ChirpStack Application Server](/application-server/) installed, including all requirements.
+This makes it possible to run the complete LoRaWAN<sup>&reg;</sup> infrastructure **on** the
 gateway. This is intended for small deployments or getting started with LoRaWAN.
 
-### LoRa Server
+### ChirpStack Network Server
 
-[LoRa Server](/loraserver/) provides a LoRaWAN network-server.
+[ChirpStack Network Server](/network-server/) is an open-source LoRaWAN Network Server implementation.
 
-### LoRa (App) Server
+### ChirpStack Application Server
 
-[LoRa App Server](/lora-app-server/) provides a LoRaWAN application-server
+[ChirpStack Application Server](/application-server/) is an open-source LoRaWAN Application Server
 and web-interface for managing the gateway, applications and devices.
 

@@ -18,3 +18,6 @@
 	path = layers/mender/meta-mender
 	url = https://github.com/mendersoftware/meta-mender.git
 	branch = thud
+[submodule "docs/themes/chirpstack-hugo-theme"]
+	path = docs/themes/chirpstack-hugo-theme
+	url = git@github.com:brocaar/chirpstack-hugo-theme.git

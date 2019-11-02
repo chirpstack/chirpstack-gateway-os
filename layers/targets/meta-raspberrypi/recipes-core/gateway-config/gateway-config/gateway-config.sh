@@ -44,7 +44,7 @@ do_setup_ic880a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "ic880a" "eu868" && do_copy_loraserver_config "eu868";;
+            1) do_copy_global_conf "ic880a" "eu868" && do_copy_chirpstack_config "eu868";;
         esac
     fi
 }
@@ -74,7 +74,7 @@ do_setup_rak831() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "rak831" "eu868" && do_copy_loraserver_config "eu868";;
+            1) do_copy_global_conf "rak831" "eu868" && do_copy_chirpstack_config "eu868";;
             2) do_select_au915_block "rak831";;
             3) do_select_us915_block "rak831";;
         esac
@@ -91,7 +91,7 @@ do_setup_pislora() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "pislora" "eu868" && do_copy_loraserver_config "eu868";;
+            1) do_copy_global_conf "pislora" "eu868" && do_copy_chirpstack_config "eu868";;
             2) do_select_us915_block "pislora";;
         esac
     fi
@@ -107,7 +107,7 @@ do_setup_lorago_port() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "lorago_port" "eu868" && do_copy_loraserver_config "eu868";;
+            1) do_copy_global_conf "lorago_port" "eu868" && do_copy_chirpstack_config "eu868";;
             2) do_select_us915_block "lorago_port";;
         esac
     fi
@@ -130,14 +130,14 @@ do_select_us915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf $1 "us915_0" && do_copy_loraserver_config "us915_0";;
-            2) do_copy_global_conf $1 "us915_1" && do_copy_loraserver_config "us915_1";;
-            3) do_copy_global_conf $1 "us915_2" && do_copy_loraserver_config "us915_2";;
-            4) do_copy_global_conf $1 "us915_3" && do_copy_loraserver_config "us915_3";;
-            5) do_copy_global_conf $1 "us915_4" && do_copy_loraserver_config "us915_4";;
-            6) do_copy_global_conf $1 "us915_5" && do_copy_loraserver_config "us915_5";;
-            7) do_copy_global_conf $1 "us915_6" && do_copy_loraserver_config "us915_6";;
-            8) do_copy_global_conf $1 "us915_7" && do_copy_loraserver_config "us915_7";;
+            1) do_copy_global_conf $1 "us915_0" && do_copy_chirpstack_config "us915_0";;
+            2) do_copy_global_conf $1 "us915_1" && do_copy_chirpstack_config "us915_1";;
+            3) do_copy_global_conf $1 "us915_2" && do_copy_chirpstack_config "us915_2";;
+            4) do_copy_global_conf $1 "us915_3" && do_copy_chirpstack_config "us915_3";;
+            5) do_copy_global_conf $1 "us915_4" && do_copy_chirpstack_config "us915_4";;
+            6) do_copy_global_conf $1 "us915_5" && do_copy_chirpstack_config "us915_5";;
+            7) do_copy_global_conf $1 "us915_6" && do_copy_chirpstack_config "us915_6";;
+            8) do_copy_global_conf $1 "us915_7" && do_copy_chirpstack_config "us915_7";;
         esac
     fi
 }
@@ -159,14 +159,14 @@ do_select_au915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf $1 "au915_0" && do_copy_loraserver_config "au915_0";;
-            2) do_copy_global_conf $1 "au915_1" && do_copy_loraserver_config "au915_1";;
-            3) do_copy_global_conf $1 "au915_2" && do_copy_loraserver_config "au915_2";;
-            4) do_copy_global_conf $1 "au915_3" && do_copy_loraserver_config "au915_3";;
-            5) do_copy_global_conf $1 "au915_4" && do_copy_loraserver_config "au915_4";;
-            6) do_copy_global_conf $1 "au915_5" && do_copy_loraserver_config "au915_5";;
-            7) do_copy_global_conf $1 "au915_6" && do_copy_loraserver_config "au915_6";;
-            8) do_copy_global_conf $1 "au915_7" && do_copy_loraserver_config "au915_7";;
+            1) do_copy_global_conf $1 "au915_0" && do_copy_chirpstack_config "au915_0";;
+            2) do_copy_global_conf $1 "au915_1" && do_copy_chirpstack_config "au915_1";;
+            3) do_copy_global_conf $1 "au915_2" && do_copy_chirpstack_config "au915_2";;
+            4) do_copy_global_conf $1 "au915_3" && do_copy_chirpstack_config "au915_3";;
+            5) do_copy_global_conf $1 "au915_4" && do_copy_chirpstack_config "au915_4";;
+            6) do_copy_global_conf $1 "au915_5" && do_copy_chirpstack_config "au915_5";;
+            7) do_copy_global_conf $1 "au915_6" && do_copy_chirpstack_config "au915_6";;
+            8) do_copy_global_conf $1 "au915_7" && do_copy_chirpstack_config "au915_7";;
         esac
     fi
 }
@@ -181,8 +181,8 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_global_conf "rhf0m301" "eu868" && do_copy_loraserver_config "eu868";;
-            2) do_copy_global_conf "rhf0m301" "us915" && do_copy_loraserver_config "us915_0";;
+            1) do_copy_global_conf "rhf0m301" "eu868" && do_copy_chirpstack_config "eu868";;
+            2) do_copy_global_conf "rhf0m301" "us915" && do_copy_chirpstack_config "us915_0";;
         esac
     fi
 }
@@ -221,21 +221,21 @@ do_copy_global_conf() {
     fi
 }
 
-do_copy_loraserver_config() {
+do_copy_chirpstack_config() {
     # $1 channel plan
-    if [ ! -d /etc/loraserver ]; then
+    if [ ! -d /etc/chirpstack-network-server ]; then
         return;
     fi
 
     RET=0
-    if [ -f /etc/loraserver/loraserver.toml ]; then
-        dialog --yesno "A LoRa Server configuration file already exists. Do you want to overwrite it?" 6 60
+    if [ -f /etc/chirpstack-network-server/chirpstack-network-server.toml ]; then
+        dialog --yesno "A ChirpStack Network Server configuration file already exists. Do you want to overwrite it?" 6 60
         RET=$?
     fi
 
     if [ $RET -eq 0 ]; then
-        cp /etc/loraserver/config/$1.toml /etc/loraserver/loraserver.toml
-        do_restart_loraserver
+        cp /etc/chirpstack-network-server/config/$1.toml /etc/chirpstack-network-server/chirpstack-network-server.toml
+        do_restart_chirpstack
     fi
 }
 
@@ -258,21 +258,21 @@ do_restart_packet_forwarder() {
     fi
 }
 
-do_restart_loraserver() {
-    monit restart loraserver
+do_restart_chirpstack() {
+    monit restart chirpstack-network-server
     RET=$?
     if [ $RET -eq 0 ]; then
-        dialog --title "Restart LoRa Server" --msgbox "LoRa Server has been restarted." 5 60
+        dialog --title "Restart ChirpStack Network Server" --msgbox "ChirpStack Network Server has been restarted." 5 60
     else
         exit $RET
     fi
 }
 
-do_restart_lora_gateway_bridge() {
-    monit restart lora-gateway-bridge
+do_restart_chirpstack_gateway_bridge() {
+    monit restart chirpstack-gateway-bridge
     RET=$?
     if [ $RET -eq 0 ]; then
-        dialog --title "Restart LoRa Gateway Bridge" --msgbox "The LoRa Gateway Bridge has been restarted." 5 60
+        dialog --title "Restart ChirpStack Gateway Bridge" --msgbox "The ChirpStack Gateway Bridge has been restarted." 5 60
     else
         exit $RET
     fi
@@ -303,13 +303,13 @@ quit" 25 60
 do_main_menu() {
     while true
     do
-        FUN=$(dialog --title "LoRa Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 7 \
+        FUN=$(dialog --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 7 \
             1 "Set admin password" \
             2 "Setup LoRa concentrator shield" \
             3 "Edit packet-forwarder config" \
-            4 "Edit LoRa Gateway Bridge config" \
+            4 "Edit ChirpStack Gateway Bridge config" \
             5 "Restart packet-forwarder" \
-            6 "Restart LoRa Gateway Bridge" \
+            6 "Restart ChirpStack Gateway Bridge" \
             7 "Configure WIFI" \
             3>&1 1>&2 2>&3)
         RET=$?
@@ -321,9 +321,9 @@ do_main_menu() {
                 1) do_setup_admin_password;;
                 2) do_setup_concentrator_shield;;
                 3) nano /etc/lora-packet-forwarder/global_conf.json;;
-                4) nano /etc/lora-gateway-bridge/lora-gateway-bridge.toml;;
+                4) nano /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml;;
                 5) do_restart_packet_forwarder;;
-                6) do_restart_lora_gateway_bridge;;
+                6) do_restart_chirpstack_gateway_bridge;;
                 7) do_configure_wifi;;
             esac
         fi

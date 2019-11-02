@@ -16,9 +16,9 @@ BBLAYERS ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/layers/targets/meta-${VENDOR} \
   ##OEROOT##/layers/bsp/meta-${VENDOR} \
-  ##OEROOT##/layers/loraserver/meta-tools \
-  ##OEROOT##/layers/loraserver/meta-semtech \
-  ##OEROOT##/layers/loraserver/meta-loraserver \
+  ##OEROOT##/layers/chirpstack/meta-tools \
+  ##OEROOT##/layers/chirpstack/meta-semtech \
+  ##OEROOT##/layers/chirpstack/meta-chirpstack \
   ##OEROOT##/layers/mender/meta-mender/meta-mender-core \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-networking \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-filesystems \

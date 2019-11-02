@@ -9,8 +9,8 @@ description: Monitoring services running on the gateway.
 
 # Service monitoring
 
-LoRa Gateway OS uses [Monit](https://mmonit.com/monit/) for monitoring
-the LoRa Server services. It will periodically check if the configured services
+ChirpStack Gateway OS uses [Monit](https://mmonit.com/monit/) for monitoring
+the ChirpStack components. It will periodically check if the configured services
 are still running and if not, re-try to start them. It also allows for
 monitoring the usage of resources (e.g. memory, cpu) and restart services
 after a configured threshold. Please refer to the

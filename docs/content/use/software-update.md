@@ -4,12 +4,12 @@ menu:
     main:
         parent: use
 weight: 2
-description: Updating LoRa Gateway OS to the latest version.
+description: Updating ChirpStack Gateway OS to the latest version.
 ---
 
-# Updating the LoRa Gateway OS
+# Updating the ChirpStack Gateway OS
 
-LoRa Gateway OS uses [Mender](https://mender.io/) for handling updates.
+ChirpStack Gateway OS uses [Mender](https://mender.io/) for handling updates.
 Mender is open-source and can be used either as a CLI utility on the gateway
 or as a [hosted](https://mender.io/product/hosted-mender) or 
 [self hosted](https://docs.mender.io/1.7/getting-started) platform from which
@@ -17,7 +17,7 @@ updates can be deployed to one or a group of gateways.
 
 ## Partition layout
 
-LoRa Gateway OS uses 4 partitions:
+ChirpStack Gateway OS uses 4 partitions:
 
 * Boot partition
 * RootFS partition A
@@ -84,10 +84,10 @@ Alternatively, you can also use the `mender` CLI utility to update the gateway.
 For this you can execute the following command:
 
 {{<highlight bash>}}
-sudo mender -rootfs https://artifacts.loraserver.io/path/to/mender-artifact.mender
+sudo mender -rootfs https://artifacts.chirpstack.io/path/to/mender-artifact.mender
 {{</highlight>}}
 
-Please refer to the [Install](/lora-gateway-os/install/) section to find the
+Please refer to the [Install](/gateway-os/install/) section to find the
 correct `.mender` artifact for your gateway.
 
 **Important:** after a succesful update, you must execute the following command
@@ -99,4 +99,3 @@ mender -commit
 
 If you do not do this, then Mender will rollback to the previous installed
 version on the next reboot.
-

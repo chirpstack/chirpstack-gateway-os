@@ -1,4 +1,4 @@
-DESCRIPTION = "Small image capable of mounting an overlayfs on top of a ready-only root-filesyste."
+DESCRIPTION = "Small image capable of mounting an overlayfs on top of a ready-only root-filesystem."
 LICENSE = "MIT"
 
 do_image_mender[noexec] = "1"

@@ -1,8 +1,9 @@
-baseURL = "https://www.loraserver.io/lora-gateway-os/"
+baseURL = "https://www.chirpstack.io/gateway-os/"
 languageCode = "en-us"
-title = "LoRa Gateway OS documentation"
+title = "ChirpStack Gateway OS documentation"
 googleAnalytics = "UA-3512995-9"
 pygmentsUseClasses = true
+theme = "chirpstack-hugo-theme"
 
 [[menu.main]]
     pre = "<i class='fas fa-hand-point-right'></i>"
@@ -33,6 +34,7 @@ pygmentsUseClasses = true
     weight = 4
 
 [params]
-    raspberrypi_raspberrypi3_version = "3.0.0test2"
-    wifx_lorix_one_sd_version = "3.0.0test2"
-    wifx_lorix_one_512_sd_version = "3.0.0test2"
+    raspberrypi_raspberrypi3_version = "3.1.0test1"
+    wifx_lorix_one_sd_version = "3.1.0test1"
+    wifx_lorix_one_512_sd_version = "3.1.0test1"
+	component = "chirpstack-gateway-os"

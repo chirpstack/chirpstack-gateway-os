@@ -4,17 +4,17 @@ menu:
     main:
         parent: community
         weight: 3
-description: How to compile the LoRa Gateway OS images yourself.
+description: How to compile the ChirpStack Gateway OS images yourself.
 ---
 
-# LoRa Gateway OS source
+# ChirpStack Gateway OS source
 
 The [Yocto](https://www.yoctoproject.org/) recipes can be found at:
-[https://github.com/brocaar/lora-gateway-os](https://github.com/brocaar/lora-gateway-os).
+[https://github.com/brocaar/chirpstack-gateway-os](https://github.com/brocaar/chirpstack-gateway-os).
 
 ## Building
 
-The LoRa Gateway OS uses [Docker](https://www.docker.com/) and
+The ChirpStack Gateway OS uses [Docker](https://www.docker.com/) and
 [Docker Compose](https://docs.docker.com/compose/). Make sure you have
 these tools installed.
 
@@ -45,11 +45,11 @@ docker-compose run --rm yocto bash
 make submodules
 
 # initialize the yocto / openembedded build environment
-source oe-init-build-env /build/ /lora-gateway-os/bitbake/
+source oe-init-build-env /build/ /chirpstack-gateway-os/bitbake/
 
 
-# build the lora-gateway-os-base image
-bitbake lora-gateway-os-base
+# build the chirpstack-gateway-os-base image
+bitbake chirpstack-gateway-os-base
 ```
 
 #### Configuration
