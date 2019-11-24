@@ -66,6 +66,13 @@ log() {
 	echo "rorootfs-overlay: $1" >$CONSOLE
 }
 
+wait_for_device() {
+	while [ ! -b $ROOT_RWDEVICE ]; do
+		sleep 1
+		log "waiting for $ROOT_RWDEVICE"
+	done
+}
+
 early_setup
 
 [ -z "${CONSOLE+x}" ] && CONSOLE="/dev/console"
@@ -119,4 +126,5 @@ mount_and_boot() {
 		fatal "Couldn't chroot, dropping to shell"
 }
 
+wait_for_device
 mount_and_boot
