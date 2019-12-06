@@ -9,4 +9,6 @@ net_id="000000"
 
   [network_server.band]
   name="AU_915_928"
+
+  [network_server.network_settings]
   enabled_uplink_channels=[0, 1, 2, 3, 4, 5, 6, 7]

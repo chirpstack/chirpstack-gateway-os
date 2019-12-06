@@ -9,5 +9,7 @@ net_id="000000"
 
   [network_server.band]
   name="US_902_928"
+
+  [network_server.network_settings]
   enabled_uplink_channels=[16, 17, 18, 19, 20, 21, 22, 23]
 
