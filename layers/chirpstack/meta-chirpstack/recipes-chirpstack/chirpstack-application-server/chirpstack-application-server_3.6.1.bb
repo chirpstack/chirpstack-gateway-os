@@ -9,8 +9,8 @@ SRC_URI = " \
     file://chirpstack-application-server.monit \
     file://chirpstack-application-server.toml \
 "
-SRC_URI[md5sum] = "8b9a99dc70cf851c4e793d84b9f7e437"
-SRC_URI[sha256sum] = "8f05560b6cf8eb34cad77a8ebb8355ce903f0bc04a5071721051f70803127c6c"
+SRC_URI[md5sum] = "f84af892eb4313169652571acd1d3eda"
+SRC_URI[sha256sum] = "8179988e8b4886f88605ebe447641a9a71c1c306ab541405e285a03718050f82"
 PR = "r1"
 
 inherit update-rc.d

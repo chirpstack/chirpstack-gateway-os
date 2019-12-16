@@ -10,6 +10,12 @@ menu:
 
 ## v3.2.0test1
 
+### General
+
+* Update ChirpStack Gateway Bridge to v3.5.0.
+* Update ChirpStack Network Server to v3.5.0.
+* Update ChirpStack Application Server to v3.6.1.
+
 ### Features
 
 * Add support for [Semtech SX1302 CoreCell](https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302cxxxgw1) evaluation kit.
