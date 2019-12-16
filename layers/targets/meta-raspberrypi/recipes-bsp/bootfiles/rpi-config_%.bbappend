@@ -1,6 +1,8 @@
 do_deploy_append() {
     echo "dtparam=spi=on" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt    
     echo "enable_uart=1" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
+    echo "dtparam=i2c1=on" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
+    echo "dtparam=i2c_arm=on" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
 }
 
 do_deploy_append_raspberrypi3() {

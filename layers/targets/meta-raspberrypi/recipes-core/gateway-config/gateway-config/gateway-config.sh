@@ -12,7 +12,7 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 7 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 15 60 8 \
         1 "IMST       - iC880A" \
         2 "IMST       - iC980A" \
         3 "Pi Supply  - LoRa Gateway HAT" \
@@ -20,17 +20,53 @@ do_setup_concentrator_shield() {
         5 "RAK        - RAK831" \
         6 "RisingHF   - RHF0M301" \
         7 "Sandbox    - LoRaGo PORT" \
+        8 "Semtech    - SX1302 CoreCell" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_prompt_concentrator_reset_pin && do_setup_ic880a;;
-            2) do_prompt_concentrator_reset_pin && do_setup_ic980a;;
-            3) do_set_concentrator_reset_pin 22 && do_setup_pislora;;
-            4) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
-            5) do_set_concentrator_reset_pin 17 && do_setup_rak831;;
-            6) do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
-            7) do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
+            1) do_enable_sx1301 && do_prompt_concentrator_reset_pin && do_setup_ic880a;;
+            2) do_enable_sx1301 && do_prompt_concentrator_reset_pin && do_setup_ic980a;;
+            3) do_enable_sx1301 && do_set_concentrator_reset_pin 22 && do_setup_pislora;;
+            4) do_enable_sx1301 && do_set_concentrator_reset_pin 17 && do_setup_rak831;;
+            5) do_enable_sx1301 && do_set_concentrator_reset_pin 17 && do_setup_rak831;;
+            6) do_enable_sx1301 && do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
+            7) do_enable_sx1301 && do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
+            8) do_enable_sx1302 && do_setup_corecell;;
+        esac
+    fi
+}
+
+do_enable_sx1301() {
+	monit stop lora-sx1302-hal-packet-forwarder
+
+	# without configuration the SX1302 forwarder will not start
+	rm -f /etc/lora-sx1302-hal-packet-forwarder/global_conf.json
+
+	monit start lora-packet-forwarder
+}
+
+do_enable_sx1302() {
+	monit stop lora-packet-forwarder
+
+	# without configuration the SX1301 forwarder will not start
+	rm -f /etc/lora-packet-forwarder/global_conf.conf
+
+	monit start lora-sx1302-hal-packet-forwarder
+}
+
+do_setup_corecell() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "EU868" \
+		2 "US915 (8 - 15)" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_sx1302_global_conf "corecell" "eu868" && do_copy_chirpstack_config "eu868";;
+            2) do_copy_sx1302_global_conf "corecell" "us915_1" && do_copy_chirpstack_config "us915_1";;
         esac
     fi
 }
@@ -221,6 +257,27 @@ do_copy_global_conf() {
     fi
 }
 
+do_copy_sx1302_global_conf() {
+    # $1 concentrator type
+    # $2 channel-plan
+    RET=0
+    if [ -f /etc/lora-sx1302-hal-packet-forwarder/global_conf.json ]; then
+        dialog --yesno "A packet-forwarder configuration file already exists. Do you want to overwrite it?" 6 60
+        RET=$?
+    fi
+
+    if [ $RET -eq 0 ]; then
+        cp /etc/lora-sx1302-hal-packet-forwarder/$1/global_conf.$2.json /etc/lora-sx1302-hal-packet-forwarder/global_conf.json
+        RET=$?
+        if [ $RET -eq 0 ]; then
+            dialog --title "Channel-plan configuration" --msgbox "Channel-plan configuration has been copied." 5 60
+			# TODO
+            # do_set_sx1302_gateway_id
+			do_restart_sx1302_packet_forwarder
+        fi
+    fi
+}
+
 do_copy_chirpstack_config() {
     # $1 channel plan
     if [ ! -d /etc/chirpstack-network-server ]; then
@@ -250,6 +307,16 @@ do_set_gateway_id() {
 
 do_restart_packet_forwarder() {
     monit restart lora-packet-forwarder
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        dialog --title "Restart packet-forwarder" --msgbox "The packet-forwarder has been restarted." 5 60
+    else
+        exit $RET
+    fi
+}
+
+do_restart_sx1302_packet_forwarder() {
+    monit restart lora-sx1302-hal-packet-forwarder
     RET=$?
     if [ $RET -eq 0 ]; then
         dialog --title "Restart packet-forwarder" --msgbox "The packet-forwarder has been restarted." 5 60

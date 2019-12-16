@@ -20,6 +20,7 @@ concentrator shields:
 * [RAK - RAK831 Gateway Developer Kit](https://www.rakwireless.com/en/WisKeyOSH/RAK831)
 * [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
 * [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)
+* [Semtech - SX1302 CoreCell](https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302cxxxgw1)
 
 ### Installation
 

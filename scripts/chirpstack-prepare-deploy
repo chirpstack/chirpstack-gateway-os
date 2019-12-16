@@ -13,7 +13,7 @@ do_deploy() {
 }
 
 
-VERSION="3.1.0test1"
+VERSION="3.2.0test1"
 
 do_deploy $VERSION "raspberrypi" "raspberrypi3"
 do_deploy $VERSION "wifx" "lorix-one-sd"

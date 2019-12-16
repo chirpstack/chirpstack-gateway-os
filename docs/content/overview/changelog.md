@@ -8,6 +8,17 @@ menu:
 
 # Changelog
 
+## v3.2.0test1
+
+### Features
+
+* Add support for [Semtech SX1302 CoreCell](https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302cxxxgw1) evaluation kit.
+
+### Bugfixes
+
+* Fix boot issue due to storage device not yet initialized. ([#9](https://github.com/brocaar/chirpstack-gateway-os/issues/9))
+* Fix ChirpStack Network Server `enabled_uplink_channels` configuration. ([#26](https://github.com/brocaar/chirpstack-gateway-os/issues/26))
+
 ## v3.1.0test1
 
 This release renames LoRa Gateway OS to ChirpStack Gateway OS.

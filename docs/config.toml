@@ -34,7 +34,7 @@ theme = "chirpstack-hugo-theme"
     weight = 4
 
 [params]
-    raspberrypi_raspberrypi3_version = "3.1.0test1"
-    wifx_lorix_one_sd_version = "3.1.0test1"
-    wifx_lorix_one_512_sd_version = "3.1.0test1"
+    raspberrypi_raspberrypi3_version = "3.2.0test1"
+    wifx_lorix_one_sd_version = "3.2.0test1"
+    wifx_lorix_one_512_sd_version = "3.2.0test1"
 	component = "chirpstack-gateway-os"

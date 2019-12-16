@@ -1,0 +1,3 @@
+check process lora-sx1302-hal-packet-forwarder with pidfile /var/run/lora-sx1302-hal-packet-forwarder.pid
+    start program = "/etc/init.d/lora-sx1302-hal-packet-forwarder start"
+    stop program = "/etc/init.d/lora-sx1302-hal-packet-forwarder stop"
