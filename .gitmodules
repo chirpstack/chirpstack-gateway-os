@@ -20,4 +20,4 @@
 	branch = thud
 [submodule "docs/themes/chirpstack-hugo-theme"]
 	path = docs/themes/chirpstack-hugo-theme
-	url = https://github.com:brocaar/chirpstack-hugo-theme.git
+	url = https://github.com/brocaar/chirpstack-hugo-theme.git
