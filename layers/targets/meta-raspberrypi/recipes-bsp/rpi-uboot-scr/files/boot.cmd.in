@@ -1,0 +1,26 @@
+fdt addr ${fdt_addr} && fdt get value bootargs /chosen bootargs
+
+if test ${bootcount} > 2; then
+	echo "${bootcount} > 2 triggered, looking for backup partition"
+
+	if env exists part_backup; then
+		echo "Rolling back to partition ${part_backup}"
+		setenv part_active ${part_backup}
+		setenv bootcount 0
+		setenv upgrade_available 0
+		saveenv
+	fi
+fi
+
+if env exists part_active; then
+else
+	echo "Active partition is not set, defaulting to 2"
+	setenv part_active 2
+	setenv bootcount 0
+	saveenv
+fi
+
+
+load mmc 0:${part_active} ${kernel_addr_r} /boot/@@KERNEL_IMAGETYPE@@
+setenv bootargs ${bootargs} root=/dev/mmcblk0p${part_active}
+@@KERNEL_BOOTCMD@@ ${kernel_addr_r} - ${fdt_addr}

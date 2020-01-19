@@ -14,11 +14,13 @@ VENDOR = "raspberrypi"
 BBLAYERS ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/layers/targets/meta-${VENDOR} \
-  ##OEROOT##/layers/bsp/meta-${VENDOR} \
   ##OEROOT##/layers/chirpstack/meta-tools \
   ##OEROOT##/layers/chirpstack/meta-semtech \
   ##OEROOT##/layers/chirpstack/meta-chirpstack \
-  ##OEROOT##/layers/mender/meta-mender/meta-mender-core \
+  ##OEROOT##/layers/meta-swupdate \
+  ##OEROOT##/layers/meta-rust \
+  ##OEROOT##/layers/meta-clang \
+  ##OEROOT##/layers/bsp/meta-${VENDOR} \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-networking \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-filesystems \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-python \

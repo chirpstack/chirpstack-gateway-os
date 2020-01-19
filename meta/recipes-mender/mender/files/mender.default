@@ -1,3 +1,0 @@
-# Settings this variable to "yes" disables the Mender Agent.
-# Any other values enables it.
-DISABLED="yes"

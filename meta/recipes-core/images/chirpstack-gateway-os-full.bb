@@ -3,7 +3,6 @@ DESCRIPTION = "Image including the LoRa packet-forwarder and the full ChirpStack
 require recipes-core/images/chirpstack-gateway-os-base.bb
 
 IMAGE_INSTALL += " \
-	bash \
     postgresql \
     postgresql-client \
     postgresql-contrib \

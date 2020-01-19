@@ -5,13 +5,18 @@ require recipes-core/images/core-image-minimal.bb
 IMAGE_INSTALL += " \
     packagegroup-base \
     ca-certificates \
+	bash \
     sudo \
     iptables \
     ntp \
+    opkg \
+    swupdate \
+    swupdate-tools \
+    u-boot-fw-utils \
+    lua \
     monit \
     tcpdump \
     wireguard-client-config \
-    lora-packet-forwarder \
     chirpstack-gateway-bridge \
 "
 

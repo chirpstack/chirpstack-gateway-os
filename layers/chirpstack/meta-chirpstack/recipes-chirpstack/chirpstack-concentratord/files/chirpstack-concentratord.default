@@ -1,0 +1,11 @@
+# reset the LoRa concentrator on Concentratord start
+CONCENTRATOR_RESET="no"
+
+# reset pin
+CONCENTRATOR_RESET_PIN=17
+
+# power enable pin
+CONCENTRATOR_POWER_EN_PIN=18
+
+# concentratord version
+CONCENTRATORD_VERSION="sx1301"

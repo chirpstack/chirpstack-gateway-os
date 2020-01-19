@@ -1,5 +1,4 @@
-FROM ubuntu:bionic
-# FROM debian:9
+FROM debian:buster
 
 ENV PROJECT_PATH=/chirpstack-gateway-os
 WORKDIR $PROJECT_PATH

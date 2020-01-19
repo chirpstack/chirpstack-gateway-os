@@ -2,7 +2,7 @@
 
 NAME="chirpstack-application-server"
 DESC="ChirpStack Application Server"
-DAEMON_BIN=/opt/$NAME/$NAME
+DAEMON_BIN=/usr/bin/$NAME
 DAEMON_CONF=/etc/$NAME
 DAEMON_PID=/var/run/$NAME.pid
 

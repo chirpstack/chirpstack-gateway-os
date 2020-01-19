@@ -1,0 +1,12 @@
+diff --git a/configs/rpi_3_32b_defconfig b/configs/rpi_3_32b_defconfig
+index c33ea584..64dd47c1 100644
+--- a/configs/rpi_3_32b_defconfig
++++ b/configs/rpi_3_32b_defconfig
+@@ -41,3 +41,7 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
+ CONFIG_OF_LIBFDT_OVERLAY=y
++CONFIG_BOOTCOUNT_LIMIT=y
++CONFIG_BOOTCOUNT_ENV=y
++CONFIG_FS_EXT4=y
++CONFIG_CMD_EXT4=y

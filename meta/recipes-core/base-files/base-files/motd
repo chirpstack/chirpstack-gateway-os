@@ -10,5 +10,5 @@ Documentation and copyright information:
 
 Commands:
 > sudo gateway-config  - configure the gateway
-> sudo monit status    - display service monitor
+> sudo monit summary   - display service monitor
 

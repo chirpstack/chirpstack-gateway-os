@@ -1,0 +1,3 @@
+check process chirpstack-concentratord with pidfile /var/run/chirpstack-concentratord.pid
+    start program = "/etc/init.d/chirpstack-concentratord start"
+    stop program = "/etc/init.d/chirpstack-concentratord stop"

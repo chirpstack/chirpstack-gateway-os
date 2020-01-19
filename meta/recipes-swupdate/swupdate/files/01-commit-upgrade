@@ -1,0 +1,5 @@
+upgrade_available=`fw_printenv upgrade_available |cut -d '=' -f 2`
+
+if [ "$upgrade_available" = 1 ]; then
+	fw_setenv upgrade_available 0
+fi
