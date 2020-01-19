@@ -7,10 +7,6 @@ DISTRO = "chirpstack-gateway-os"
 #
 # Vendor: raspberrypi
 #         * raspberrypi3
-#
-# Vendor: wifx
-#         * lorix-one-512-sd
-#         * lorix-one-sd
 MACHINE = "raspberrypi3"
 
 # Parallel executed tasks

@@ -1,3 +1,0 @@
-config CONFIG_LINUX_KERNEL_ARG_STRING
-	default "console=ttyS0,115200 mtdparts=atmel_nand:8M(bootstrap/kernel)ro,-(rootfs) rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs" if CONFIG_LORIX_ONE && !CONFIG_SDCARD
-	default "console=ttyS0,115200 root=/dev/mmcblk0p2 rootdelay=2" if CONFIG_LORIX_ONE && CONFIG_SDCARD

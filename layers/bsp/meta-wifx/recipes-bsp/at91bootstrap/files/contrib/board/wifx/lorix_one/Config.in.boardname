@@ -1,2 +1,0 @@
-config CONFIG_BOARDNAME
-	default "lorix_one" if CONFIG_LORIX_ONE

@@ -9,7 +9,6 @@ BBFILES ?= ""
 #
 # Options are:
 # * raspberrypi - For Raspberry Pi based gateways
-# * wifx        - For the LORIX One gateway
 VENDOR = "raspberrypi"
 
 BBLAYERS ?= " \

@@ -1,8 +1,0 @@
-# reset the LoRa concentrator on packet-forwarder start
-CONCENTRATOR_RESET="yes"
-
-# reset pin
-CONCENTRATOR_RESET_PIN=1
-
-# reset pin path
-CONCENTRATOR_RESET_PIN_PATH=/sys/class/gpio/pioA1
