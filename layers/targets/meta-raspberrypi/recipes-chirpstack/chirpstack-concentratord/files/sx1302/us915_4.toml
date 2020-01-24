@@ -1,67 +1,20 @@
-# Concentratord configuration.
-[concentratord]
+# LoRa concentrator configuration.
+[gateway.concentrator]
 
-# Log level.
-#
-# Valid options are:
-#   * TRACE
-#   * DEBUG
-#   * INFO
-#   * WARN
-#   * ERROR
-#   * OFF
-log_level="INFO"
+# Multi spreading-factor channels (LoRa).
+multi_sf_channels=[
+  908700000,
+  908900000,
+  909100000,
+  909300000,
+  909500000,
+  909700000,
+  909900000,
+  910100000,
+]
 
-# Log to syslog.
-#
-# When set to true, log messages are being written to syslog instead of stdout.
-log_to_syslog=true
-
-# Statistics interval.
-stats_interval="30s"
-
-  # Configuration for the (ZeroMQ based) API.
-  [concentratord.api]
-
-  # Event PUB socket bind.
-  event_bind="ipc:///tmp/concentratord_event"
-
-  # Command REP socket bind.
-  command_bind="ipc:///tmp/concentratord_command"
-
-
-# LoRa gateway configuration.
-[gateway]
-
-# Antenna gain (dB).
-antenna_gain=0
-
-# Public LoRaWAN network.
-lorawan_public=true
-
-# Gateway vendor / model.
-#
-# This configures various vendor and model specific settings like the min / max
-# frequency, TX gain table.
-model="generic_sx1250_eu868"
-
-  # LoRa concentrator configuration.
-  [gateway.concentrator]
-
-  # Multi spreading-factor channels (LoRa).
-  multi_sf_channels=[
-  	908700000,
-  	908900000,
-  	909100000,
-  	909300000,
-  	909500000,
-  	909700000,
-  	909900000,
-  	910100000,
-  ]
-
-  # LoRa std channel (single spreading-factor).
-  [gateway.concentrator.lora_std]
-  frequency=909400000
-  bandwidth=500000
-  spreading_factor=8
+# LoRa std channel (single spreading-factor).
+[gateway.concentrator.lora_std]
+frequency=909400000
+bandwidth=500000
+spreading_factor=8

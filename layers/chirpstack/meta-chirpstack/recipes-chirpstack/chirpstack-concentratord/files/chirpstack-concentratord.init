@@ -8,10 +8,12 @@ if [ -f "/etc/default/${NAME}" ]; then
 fi
 
 DAEMON_BIN=/usr/bin/${NAME}-${CONCENTRATORD_VERSION}
-DAEMON_CONF=/etc/${NAME}/${NAME}-${CONCENTRATORD_VERSION}.toml
+DAEMON_CONF_GLOBAL=/etc/${NAME}/${CONCENTRATORD_VERSION}/global.toml
+DAEMON_CONF_BAND=/etc/${NAME}/${CONCENTRATORD_VERSION}/band.toml
+DAEMON_CONF_CHANNELS=/etc/${NAME}/${CONCENTRATORD_VERSION}/channels.toml
 DAEMON_PID=/var/run/${NAME}.pid
 
-if [ ! -f "${DAEMON_CONF}" ]; then
+if [ ! -f "${DAEMON_CONF_GLOBAL}" ] || [ ! -f "${DAEMON_CONF_BAND}" ] || [ ! -f "${DAEMON_CONF_CHANNELS}" ]; then
     echo "Configuration file ${DAEMON_CONF} does not exist"
     exit 1
 fi
@@ -55,7 +57,7 @@ do_start() {
         --background \
         --make-pidfile \
         --pidfile ${DAEMON_PID} \
-        --exec ${DAEMON_BIN} -- -c ${DAEMON_CONF}
+        --exec ${DAEMON_BIN} -- -c ${DAEMON_CONF_GLOBAL} -c ${DAEMON_CONF_BAND} -c ${DAEMON_CONF_CHANNELS}
 }
 
 do_stop() {

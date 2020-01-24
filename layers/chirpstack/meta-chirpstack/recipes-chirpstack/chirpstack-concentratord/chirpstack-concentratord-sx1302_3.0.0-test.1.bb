@@ -1,7 +1,7 @@
 require chirpstack-concentratord.inc
 
 SUMMARY = "ChirpStack Concentratord for SX1302"
-PR = "r1"
+PR = "r2"
 
 CARGO_SRC_DIR = "chirpstack-concentratord-sx1302"
 

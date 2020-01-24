@@ -76,7 +76,7 @@ do_setup_ic880a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-			1) do_copy_concentratord_config "sx1301" "generic_eu868" "eu868" && do_copy_chirpstack_ns_config "eu868";
+			1) do_copy_concentratord_config "sx1301" "generic_eu868" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";
         esac
     fi
 }
@@ -105,7 +105,7 @@ do_setup_pislora() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868" "eu868" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1301" "generic_eu868" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915";;
         esac
     fi
@@ -122,7 +122,7 @@ do_setup_rak831() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868_gps" "eu868" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1301" "generic_eu868_gps" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_au915_block "sx1301" "generic_au915_gps";;
             3) do_select_us915_block "sx1301" "generic_us915_gps";;
         esac
@@ -139,7 +139,7 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868" "eu868" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1301" "generic_eu868" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915";;
         esac
     fi
@@ -155,7 +155,7 @@ do_setup_lorago_port() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868_gps" "eu868" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1301" "generic_eu868_gps" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915_gps";;
         esac
     fi
@@ -171,7 +171,7 @@ do_setup_semtech_corecell() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "generic_sx1250_eu868" "eu868" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1302" "generic_sx1250_eu868" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_us915_block "sx1302" "generic_sx1250_us915";;
         esac
     fi
@@ -195,14 +195,14 @@ do_select_us915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config $1 $2 "us915_0" && do_copy_chirpstack_ns_config "us915_0";;
-            2) do_copy_concentratord_config $1 $2 "us915_1" && do_copy_chirpstack_ns_config "us915_1";;
-            3) do_copy_concentratord_config $1 $2 "us915_2" && do_copy_chirpstack_ns_config "us915_2";;
-            4) do_copy_concentratord_config $1 $2 "us915_3" && do_copy_chirpstack_ns_config "us915_3";;
-            5) do_copy_concentratord_config $1 $2 "us915_4" && do_copy_chirpstack_ns_config "us915_4";;
-            6) do_copy_concentratord_config $1 $2 "us915_5" && do_copy_chirpstack_ns_config "us915_5";;
-            7) do_copy_concentratord_config $1 $2 "us915_6" && do_copy_chirpstack_ns_config "us915_6";;
-            8) do_copy_concentratord_config $1 $2 "us915_7" && do_copy_chirpstack_ns_config "us915_7";;
+            1) do_copy_concentratord_config $1 $2 "us915" "0" && do_copy_chirpstack_ns_config "us915_0";;
+            2) do_copy_concentratord_config $1 $2 "us915" "1" && do_copy_chirpstack_ns_config "us915_1";;
+            3) do_copy_concentratord_config $1 $2 "us915" "2" && do_copy_chirpstack_ns_config "us915_2";;
+            4) do_copy_concentratord_config $1 $2 "us915" "3" && do_copy_chirpstack_ns_config "us915_3";;
+            5) do_copy_concentratord_config $1 $2 "us915" "4" && do_copy_chirpstack_ns_config "us915_4";;
+            6) do_copy_concentratord_config $1 $2 "us915" "5" && do_copy_chirpstack_ns_config "us915_5";;
+            7) do_copy_concentratord_config $1 $2 "us915" "6" && do_copy_chirpstack_ns_config "us915_6";;
+            8) do_copy_concentratord_config $1 $2 "us915" "7" && do_copy_chirpstack_ns_config "us915_7";;
         esac
     fi
 }
@@ -225,14 +225,14 @@ do_select_au915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config $1 $2 "au915_0" && do_copy_chirpstack_ns_config "au915_0";;
-            2) do_copy_concentratord_config $1 $2 "au915_1" && do_copy_chirpstack_ns_config "au915_1";;
-            3) do_copy_concentratord_config $1 $2 "au915_2" && do_copy_chirpstack_ns_config "au915_2";;
-            4) do_copy_concentratord_config $1 $2 "au915_3" && do_copy_chirpstack_ns_config "au915_3";;
-            5) do_copy_concentratord_config $1 $2 "au915_4" && do_copy_chirpstack_ns_config "au915_4";;
-            6) do_copy_concentratord_config $1 $2 "au915_5" && do_copy_chirpstack_ns_config "au915_5";;
-            7) do_copy_concentratord_config $1 $2 "au915_6" && do_copy_chirpstack_ns_config "au915_6";;
-            8) do_copy_concentratord_config $1 $2 "au915_7" && do_copy_chirpstack_ns_config "au915_7";;
+            1) do_copy_concentratord_config $1 $2 "au915" "0" && do_copy_chirpstack_ns_config "au915_0";;
+            2) do_copy_concentratord_config $1 $2 "au915" "1" && do_copy_chirpstack_ns_config "au915_1";;
+            3) do_copy_concentratord_config $1 $2 "au915" "2" && do_copy_chirpstack_ns_config "au915_2";;
+            4) do_copy_concentratord_config $1 $2 "au915" "3" && do_copy_chirpstack_ns_config "au915_3";;
+            5) do_copy_concentratord_config $1 $2 "au915" "4" && do_copy_chirpstack_ns_config "au915_4";;
+            6) do_copy_concentratord_config $1 $2 "au915" "5" && do_copy_chirpstack_ns_config "au915_5";;
+            7) do_copy_concentratord_config $1 $2 "au915" "6" && do_copy_chirpstack_ns_config "au915_6";;
+            8) do_copy_concentratord_config $1 $2 "au915" "7" && do_copy_chirpstack_ns_config "au915_7";;
         esac
     fi
 }
@@ -266,25 +266,29 @@ do_set_concentratord_power_en_pin() {
 do_copy_concentratord_config() {
 	# $1 concentratord version
 	# $2 model
-	# $3 config file
+	# $3 region
+	# $4 sub-band
     RET=0
-    if [ -f "/etc/chirpstack-concentratord/chirpstack-concentratord-$1.toml" ]; then
+    if [ -f "/etc/chirpstack-concentratord/$1/global.toml" ] || [ -f "/etc/chirpstack-concentratord/$1/band.toml"] || [ -f "/etc/chirpstack-concentratord/$1/channels.toml" ]; then
         dialog --yesno "A ChirpStack Concentratord configuration file already exists. Do you want to overwrite it?" 6 60
         RET=$?
     fi
 
     if [ $RET -eq 0 ]; then
-		cp /etc/chirpstack-concentratord/config/$1/$3.toml /etc/chirpstack-concentratord/chirpstack-concentratord-$1.toml
+		cp /etc/chirpstack-concentratord/$1/examples/global.toml /etc/chirpstack-concentratord/$1/global.toml
+		cp /etc/chirpstack-concentratord/$1/examples/$3.toml /etc/chirpstack-concentratord/$1/band.toml
+		cp /etc/chirpstack-concentratord/$1/examples/$3_$4.toml /etc/chirpstack-concentratord/$1/channels.toml
+
         RET=$?
         if [ $RET -eq 0 ]; then
 			# set model
-			sed -i "s/model=.*/model=\"${2}\"/" /etc/chirpstack-concentratord/chirpstack-concentratord-$1.toml	
+			sed -i "s/model=.*/model=\"${2}\"/" /etc/chirpstack-concentratord/$1/global.toml	
 
 			# set gateway id
 			GWID_MIDFIX="fffe"
 			GWID_BEGIN=$(ip link show eth0 | awk '/ether/ {print $2}' | awk -F\: '{print $1$2$3}')
 			GWID_END=$(ip link show eth0 | awk '/ether/ {print $2}' | awk -F\: '{print $4$5$6}')
-			sed -i "s/gateway_id=.*/gateway_id=\"${GWID_BEGIN}${GWID_MIDFIX}${GWID_END}\"/" /etc/chirpstack-concentratord/chirpstack-concentratord-$1.toml
+			sed -i "s/gateway_id=.*/gateway_id=\"${GWID_BEGIN}${GWID_MIDFIX}${GWID_END}\"/" /etc/chirpstack-concentratord/$1/global.toml
 
             dialog --title "Channel-plan configuration" --msgbox "Channel-plan configuration has been copied." 5 60
 			do_restart_chirpstack_concentratord
@@ -321,8 +325,21 @@ do_restart_chirpstack_ns() {
 }
 
 do_edit_chirpstack_concentratord_config() {
-	source /etc/default/chirpstack-concentratord
-	nano "/etc/chirpstack-concentratord/chirpstack-concentratord-${CONCENTRATORD_VERSION}.toml"
+    FUN=$(dialog --title "Edit ChirpStack Concentratord config" --menu "Select shield:" 15 60 3 \
+        1 "General configuration" \
+        2 "Beacon configuration" \
+        3 "Channel configuration" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 0 ]; then
+		source /etc/default/chirpstack-concentratord
+
+        case "$FUN" in
+			1) nano "/etc/chirpstack-concentratord/${CONCENTRATORD_VERSION}/global.toml";;
+			2) nano "/etc/chirpstack-concentratord/${CONCENTRATORD_VERSION}/band.toml";;
+			3) nano "/etc/chirpstack-concentratord/${CONCENTRATORD_VERSION}/channels.toml";;
+        esac
+    fi
 }
 
 do_edit_chirpstack_gateway_bridge_config() {
