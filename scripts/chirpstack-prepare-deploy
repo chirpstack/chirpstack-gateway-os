@@ -7,14 +7,12 @@ do_deploy() {
 
 	mkdir -p $DEPLOY_DIR
 
-	find $SRC_DIR/images -type f -name "*.sdimg.gz" -exec cp {} $DEPLOY_DIR \;
-	find $SRC_DIR/images -type f -name "*.mender" -exec cp {} $DEPLOY_DIR \;
+	find $SRC_DIR/images -type f -name "*.wic.gz" -exec cp {} $DEPLOY_DIR \;
+	find $SRC_DIR/images -type f -name "*.swu" -exec cp {} $DEPLOY_DIR \;
 	cp -R $SRC_DIR/licenses $DEPLOY_DIR
 }
 
 
-VERSION="3.2.0test1"
+VERSION="3.3.0test1"
 
 do_deploy $VERSION "raspberrypi" "raspberrypi3"
-do_deploy $VERSION "wifx" "lorix-one-sd"
-do_deploy $VERSION "wifx" "lorix-one-512-sd"

@@ -8,8 +8,8 @@ SRC_URI = "https://artifacts.chirpstack.io/downloads/chirpstack-gateway-bridge/c
            file://chirpstack-gateway-bridge.init \
            file://chirpstack-gateway-bridge.monit \
 "
-SRC_URI[md5sum] = "cf50b3aa58cb303f0782c7024e5fa783"
-SRC_URI[sha256sum] = "08c525adf8f15d1764c246da91f324e931e66e9bdc3ad6d14015c24f711286bd"
+SRC_URI[md5sum] = "1a9bcb8b0d3cc7bf85587dc721263b47"
+SRC_URI[sha256sum] = "6775dad166c718d694afed9717ecd6dfb3c95bf9a50074f424eb2f784bea9f4e"
 PR = "r1"
 
 inherit update-rc.d

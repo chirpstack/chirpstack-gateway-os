@@ -1,6 +1,7 @@
 [general]
 log_level=4
 password_hash_iterations=1000
+log_to_syslog=true
 
 [postgresql]
 dsn="postgres://chirpstack_as:chirpstack_as@localhost/chirpstack_as?sslmode=disable"
