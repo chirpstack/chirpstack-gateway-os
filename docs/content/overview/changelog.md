@@ -8,6 +8,27 @@ menu:
 
 # Changelog
 
+## v3.3.0-test.1
+
+**This is a rewrite of the ChirpStack Gateway OS, you must re-flash your SD Card
+to update!** Currently this version only targets the Raspberry Pi 3.
+
+### Features
+
+* Yocto has been updated to version 3.0.
+* Software updates are now handled by [SWUpdate](https://github.com/sbabic/swupdate).
+* The Semtech UDP Packet Forwarder has been replaced by [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord).
+
+### Updates
+
+* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/) is updated to v3.7.0-test.2.
+* [ChirpStack Network Server](https://www.chirpstack.io/network-server/) is updated to v3.7.0-test.1.
+* [ChirpStack Application Server](https://www.chirpstack.io/application-server/) is updated to v3.8.0-test.1.
+
+### Fixes
+
+* Redis database does not start on boot after power failure that corrupts append only file. ([#32](https://github.com/brocaar/chirpstack-gateway-os/issues/32))
+
 ## v3.2.0test1
 
 ### General

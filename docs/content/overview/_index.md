@@ -20,7 +20,7 @@ your gateway(s).
 
 ### chirpstack-gateway-os-base
 
-Provides the Semtech packet-forwarder and ChirpStack Gateway Bridge pre-installed
+Provides the ChirpStack Concentratord and ChirpStack Gateway Bridge pre-installed
 including a CLI utility for gateway configuration.
 
 ### chirpstack-gateway-os-full

@@ -24,6 +24,13 @@ concentrator shields:
 
 ### Installation
 
+There are two file types:
+
+* `.wic.gz` - Image to use for an initial installation
+* `.swu` - Software update file, see [Software update]({{<ref "use/software-update.md">}})
+
+For an initial installation:
+
 * Download one of the provided SD Card images from the [Raspberry Pi 3 images folder](http://artifacts.chirpstack.io/downloads/chirpstack-gateway-os/raspberrypi/raspberrypi3/{{< raspberrypi_raspberrypi3_version >}}/).
 * Flash the SD Card image using for example [Etcher](https://www.balena.io/etcher/) on a SD Card.
 * Continue with [Using the ChirpStack Gateway OS images](/gateway-os/use/).

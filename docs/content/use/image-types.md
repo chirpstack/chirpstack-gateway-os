@@ -14,15 +14,17 @@ description: Available ChirpStack Gateway OS image types.
 The **chirpstack-gateway-os-base** image provides all the features and components
 to operate a LoRa gateway.
 
-### Semtech packet-forwarder
+### ChirpStack Concentratord
 
-The [Semtech Packet Forwarder](https://github.com/lora-net/packet_forwarder)
-handles the interaction with the LoRa<sup>&reg;</sup> concentrator chipset.
+The [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord)
+is an open-source concentrator daemon which is responsible for the configuration
+and communication with the SX1301 / SX1302 based chipset.
 
 ### ChirpStack Gateway Bridge
 
-The [ChirpStack Gateway Bridge](/gateway-bridge/) abstracts the Semtech
-Packet Forwarder UDP data into MQTT messages.
+The [ChirpStack Gateway Bridge](/gateway-bridge/) is a service which converts
+LoRa<sup>&reg;</sup> Packet Forwarder protocols into a JSON or Protobuf over
+MQTT. It connects to the Concentratord using [ZeroMQ](https://zeromq.org/).
 
 ## `chirpstack-gateway-os-full`
 
@@ -40,4 +42,3 @@ gateway. This is intended for small deployments or getting started with LoRaWAN.
 
 [ChirpStack Application Server](/application-server/) is an open-source LoRaWAN Application Server
 and web-interface for managing the gateway, applications and devices.
-
