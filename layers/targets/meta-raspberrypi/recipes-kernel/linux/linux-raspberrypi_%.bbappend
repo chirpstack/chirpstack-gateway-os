@@ -6,4 +6,6 @@ KERNEL_MODULE_AUTOLOAD += "i2c-dev"
 
 do_configure_prepend() {
     kernel_configure_variable OVERLAY_FS y
+    kernel_configure_variable CONFIG_NET_UDP_TUNNEL y
+    kernel_configure_variable NET_FOU y
 }

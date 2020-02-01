@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 # procps is needed to work around the following wireguard error:
 # sysctl: invalid option -- 'r'
-RDEPENDS_${PN} = "wireguard-tools wireguard-module procps"
+# iproute2 is needed as busybox ip command does not implement all needed features.
+RDEPENDS_${PN} = "wireguard-tools wireguard-module procps iproute2"
 
 SRC_URI = " \
     file://wireguard.init \
