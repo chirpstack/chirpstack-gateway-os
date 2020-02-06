@@ -21,10 +21,10 @@
 	path = layers/meta-swupdate
 	url = https://github.com/sbabic/meta-swupdate
 	branch = zeus
-[submodule "layers/meta-rust"]
-	path = layers/meta-rust
-	url = https://github.com/meta-rust/meta-rust
 [submodule "layers/meta-clang"]
 	path = layers/meta-clang
 	url = https://github.com/kraj/meta-clang.git
 	branch = zeus
+[submodule "layers/meta-rust-bin"]
+	path = layers/meta-rust-bin
+	url = https://github.com/rust-embedded/meta-rust-bin.git

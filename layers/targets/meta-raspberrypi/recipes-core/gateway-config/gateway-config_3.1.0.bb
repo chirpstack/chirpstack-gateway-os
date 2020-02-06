@@ -7,7 +7,7 @@ RDEPENDS_${PN} = "dialog nano"
 
 SRC_URI = "file://gateway-config.sh \
 "
-PR = "r4"
+PR = "r1"
 
 do_install() {
     install -d ${D}/usr

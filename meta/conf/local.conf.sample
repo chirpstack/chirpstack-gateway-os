@@ -6,6 +6,7 @@ DISTRO = "chirpstack-gateway-os"
 # Options are (per vendor configured in bblayers.conf):
 #
 # Vendor: raspberrypi
+#         * raspberrypi
 #         * raspberrypi3
 MACHINE = "raspberrypi3"
 

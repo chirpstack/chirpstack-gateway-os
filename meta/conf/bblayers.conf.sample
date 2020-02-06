@@ -18,7 +18,7 @@ BBLAYERS ?= " \
   ##OEROOT##/layers/chirpstack/meta-semtech \
   ##OEROOT##/layers/chirpstack/meta-chirpstack \
   ##OEROOT##/layers/meta-swupdate \
-  ##OEROOT##/layers/meta-rust \
+  ##OEROOT##/layers/meta-rust-bin \
   ##OEROOT##/layers/meta-clang \
   ##OEROOT##/layers/bsp/meta-${VENDOR} \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-networking \

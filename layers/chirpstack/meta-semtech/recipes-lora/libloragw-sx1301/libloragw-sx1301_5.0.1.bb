@@ -3,10 +3,11 @@ HOMEPAGE = "https://github.com/Lora-net/lora_gateway"
 PRIORITY = "optional"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=a2bdef95625509f821ba00460e3ae0eb"
-PR = "r7"
+PR = "r8"
+PRR = "r2"
 
 SRC_URI = "\
-    git://github.com/Lora-net/lora_gateway.git;protocol=git;tag=v${PV} \
+    git://github.com/brocaar/lora_gateway.git;protocol=git;tag=v${PV}${PRR} \
     file://library.cfg \
 "
 
