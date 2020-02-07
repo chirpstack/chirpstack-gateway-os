@@ -8,6 +8,20 @@ menu:
 
 # Changelog
 
+## v3.3.0-test.2
+
+### Updates
+
+* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/) is updated to v3.7.0.
+* [ChirpStack Network Server](https://www.chirpstack.io/network-server/) is updated to v3.7.0.
+* [ChirpStack Application Server](https://www.chirpstack.io/application-server/) is updated to v3.8.0.
+* [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord) is updated to v3.0.0-test.5.
+
+### Supported hardware
+
+* Raspberry Pi 1 B+ support has been added (for IMST Lite Gateway)
+* [IMST Lite Gateway](https://wireless-solutions.de/products/long-range-radio/lora-lite-gateway.html) has been added to gateway configuration script.
+
 ## v3.3.0-test.1
 
 **This is a rewrite of the ChirpStack Gateway OS, you must re-flash your SD Card

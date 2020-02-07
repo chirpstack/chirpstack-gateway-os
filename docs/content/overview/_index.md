@@ -29,22 +29,21 @@ Provides a full [ChirpStack Network Server](/network-server/) and [ChirpStack Ap
 environment running on the gateway, on top of all the features that are provided
 by the **chirpstack-gateway-os-base** image.
 
-## Supported gateways
+## Targets
 
-* [LORIX One](https://www.lorixone.io/)
+### Raspberry Pi
 
+* Raspberry Pi 1
 * Raspberry Pi 3
-    * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
-    * [IMST - iC980A](http://www.imst.com/)
-    * [Pi Supply - LoRa Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi)
-    * [RAK - RAK2245](https://store.rakwireless.com/products/rak2245-pi-hat)
-    * [RAK - RAK831 Gateway Developer Kit](https://store.rakwireless.com/products/rak831-gateway-module?variant=22375114801252)
-	* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
-    * [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)
 
-**Important:** If your gateway is not in the above list then you can still use
-the ChirpStack open-source LoRaWAN Network Server stack! The ChirpStack Gateway OS is only to make things more easy,
-it is not a requirement.
+#### Shields / kits
 
-If you are a gateway vendor and would like to see your gateway added to the
-above list, please reach out!
+* [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
+* [IMST - iC980A](http://www.imst.com/)
+* [IMST - Lite Gateway](https://wireless-solutions.de/products/long-range-radio/lora-lite-gateway.html)
+* [Pi Supply - LoRa Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi)
+* [RAK - RAK2245](https://store.rakwireless.com/products/rak2245-pi-hat)
+* [RAK - RAK831 Gateway Developer Kit](https://store.rakwireless.com/products/rak831-gateway-module?variant=22375114801252)
+* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
+* [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)
+* [Semtech - SX1302 CoreCell](https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302cxxxgw1)
