@@ -8,6 +8,12 @@ menu:
 
 # Changelog
 
+## v3.3.0-test.3
+
+### Updates
+
+* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/) is updated to v3.7.1.
+
 ## v3.3.0-test.2
 
 ### Updates
