@@ -44,3 +44,6 @@ lorawan_public=true
 # This configures various vendor and model specific settings like the min / max
 # frequency, TX gain table.
 model="generic_sx1250_eu868"
+
+# Gateway vendor / model flags.
+model_flags=[]

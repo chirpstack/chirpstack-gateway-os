@@ -45,5 +45,8 @@ lorawan_public=true
 # frequency, TX gain table.
 model="generic_eu868"
 
+# Gateway vendor / model flags.
+model_flags=[]
+
 # Gateway ID.
 gateway_id="0101010101010101"
