@@ -8,6 +8,15 @@ menu:
 
 # Changelog
 
+## v3.3.0-test.4
+
+When updating from a previous v3.3.0 version, it is recommended to re-run the
+`gateway-config` utility to update the concentrator configuration.
+
+### Updates
+
+* [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord) is updated to v3.0.0-test.6.
+
 ## v3.3.0-test.3
 
 ### Updates
