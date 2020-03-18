@@ -132,15 +132,17 @@ do_setup_rak831() {
         1 "EU868" \
         2 "AU915" \
         3 "US915" \
+        4 "AS923" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-			1) do_copy_concentratord_config "sx1301" "generic_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+			      1) do_copy_concentratord_config "sx1301" "generic_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_au915_block "sx1301" "generic_au915_gps";;
             3) do_select_us915_block "sx1301" "generic_us915_gps";;
+            4) do_select_as923_block "sx1301" "rak_2245_as923" "GNSS";;
         esac
     fi
 }
@@ -256,6 +258,23 @@ do_select_au915_block() {
 }
 
 
+do_select_as923_block() {
+  # $1: concentratord version
+	# $2: model
+	# $3: model flags
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the AS923 channel-block:" 15 60 8 \
+        1 "Channels  0 -  7 + 64" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config $1 $2 $3 "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+        esac
+    fi
+}
+
 do_set_concentratord() {
 	monit stop chirpstack-concentratord
 	sed -i "s/CONCENTRATORD_VERSION=.*/CONCENTRATORD_VERSION=\"$1\"/" /etc/default/chirpstack-concentratord
@@ -301,7 +320,7 @@ do_copy_concentratord_config() {
         RET=$?
         if [ $RET -eq 0 ]; then
 			# set model
-			sed -i "s/model=.*/model=\"${2}\"/" /etc/chirpstack-concentratord/$1/global.toml	
+			sed -i "s/model=.*/model=\"${2}\"/" /etc/chirpstack-concentratord/$1/global.toml
 
 			# set model flags
 			IFS=' '; read -ra model_flags <<< $3
@@ -414,7 +433,7 @@ quit" 25 60
 }
 
 if [ $EUID -ne 0 ]; then
-   echo "This script must be run as root" 
+   echo "This script must be run as root"
    exit 1
 fi
 
