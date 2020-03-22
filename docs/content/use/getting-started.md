@@ -16,11 +16,19 @@ have [installed](/gateway-os/install/) ChirpStack Gateway OS on your gateway.
 on its first boot. This could take a couple of minutes and during this time,
 the gateway will be less responsive!
 
-After booting the gateway, you need to login using SSH. When the IP of your
-gateway is `192.168.1.5`:
+After booting the gateway, you need to login using SSH. In case the gateway
+running the ChirpStack Gateway OS supports WIFI, then it will be configured
+as access-point with the name `ChirpStackAP` and password `ChirpStackAP`.
+Once connected with `ChirpStackAP` the IP of the gateway is `192.168.0.1`.
+
+If you are connected using ethernet, then it uses DHCP to obtain an IP address.
+Many internet routers provide a web-interface with the IP addresses of conncted
+devices.
+
+If the IP of your gateway is `192.168.0.1`:
 
 {{<highlight bash>}}
-ssh admin@192.168.1.5
+ssh admin@192.168.0.1
 {{< /highlight >}}
 
 The default username is `admin`, the default password is `admin`.

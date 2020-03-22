@@ -392,25 +392,32 @@ do_restart_chirpstack_gateway_bridge() {
 }
 
 do_configure_wifi() {
-    dialog --title "Configure WIFI" --msgbox "This will open the 'connmanctl' utility to configure the WIFI." 5 75
-    dialog --title "connmanctl quickstart" --msgbox "1) Enable wifi:\n
-enable wifi\n\n
-2) Scan available wifi networks:\n
-scan wifi\n\n
-3) Display available wifi networks:\n
-services\n\n
-4) Turn on agent:\n
-agent on\n\n
-5) Connect to network:\n
-connect wifi_...\n\n
-6) Quit connmanctl:\n
-quit" 25 60
-    clear
-    connmanctl
+	NAME=$(dialog --title "Configure WIFI" --inputbox "Please enter the name of WiFi network: " 8 60 \
+        3>&1 1>&2 2>&3)
     RET=$?
-    if [ ! $RET -eq 0 ]; then
-        exit $RET
-    fi
+	if [ ! $RET -eq 0 ]; then
+		do_main_menu
+	fi
+
+	PASSWORD=$(dialog --title "Configure WIFI" --inputbox "Please enter the password: " 8 60 \
+        3>&1 1>&2 2>&3)
+    RET=$?
+	if [ ! $RET -eq 0 ]; then
+		do_main_menu
+	fi
+	
+	dialog --title "Configure WIFI" --msgbox "The system will reboot to apply the new configuration." 5 60
+
+	cat > /var/lib/connman/wifi.config << EOF
+[service_wifi]
+Type=wifi
+Name=$NAME
+Passphrase=$PASSWORD
+IPv4=dhcp
+EOF
+
+	sed -i "s/Tethering=true/Tethering=false/" /var/lib/connman/settings
+	reboot
 }
 
 if [ $EUID -ne 0 ]; then
