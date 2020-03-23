@@ -92,7 +92,7 @@ do_setup_ic980a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_select_us915_block "sx1301" "generic_eu868";;
+            1) do_select_us915_block "sx1301" "generic_eu868" "";;
         esac
     fi
 }
@@ -122,7 +122,7 @@ do_setup_pislora() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
 			1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_us915_block "sx1301" "generic_us915";;
+            2) do_select_us915_block "sx1301" "generic_us915" "";;
         esac
     fi
 }
@@ -139,8 +139,8 @@ do_setup_rak831() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
 			1) do_copy_concentratord_config "sx1301" "generic_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_au915_block "sx1301" "generic_au915_gps";;
-            3) do_select_us915_block "sx1301" "generic_us915_gps";;
+            2) do_select_au915_block "sx1301" "generic_au915" "GNSS";;
+            3) do_select_us915_block "sx1301" "generic_us915" "GNSS";;
         esac
     fi
 }
@@ -156,7 +156,7 @@ do_setup_rhf0m301() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
 			1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_us915_block "sx1301" "generic_us915";;
+            2) do_select_us915_block "sx1301" "generic_us915" "";;
         esac
     fi
 }
@@ -172,7 +172,7 @@ do_setup_lorago_port() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
 			1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_us915_block "sx1301" "generic_us915_gps";;
+            2) do_select_us915_block "sx1301" "generic_us915" "";;
         esac
     fi
 }
@@ -187,8 +187,8 @@ do_setup_semtech_corecell() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-			1) do_copy_concentratord_config "sx1302" "generic_sx1250_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_us915_block "sx1302" "generic_sx1250_us915";;
+            1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            2) do_select_us915_block "sx1302" "semtech_sx1302c915gw1_us915" "";;
         esac
     fi
 }
