@@ -142,7 +142,7 @@ do_setup_rak831() {
 			      1) do_copy_concentratord_config "sx1301" "generic_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_au915_block "sx1301" "generic_au915_gps";;
             3) do_select_us915_block "sx1301" "generic_us915_gps";;
-            4) do_select_as923_block "sx1301" "rak_2245_as923" "GNSS";;
+            4) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
         esac
     fi
 }
@@ -253,24 +253,6 @@ do_select_au915_block() {
             6) do_copy_concentratord_config $1 $2 $3 "au915" "5" && do_copy_chirpstack_ns_config "au915_5";;
             7) do_copy_concentratord_config $1 $2 $3 "au915" "6" && do_copy_chirpstack_ns_config "au915_6";;
             8) do_copy_concentratord_config $1 $2 $3 "au915" "7" && do_copy_chirpstack_ns_config "au915_7";;
-        esac
-    fi
-}
-
-
-do_select_as923_block() {
-  # $1: concentratord version
-	# $2: model
-	# $3: model flags
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the AS923 channel-block:" 15 60 8 \
-        1 "Channels  0 -  7 + 64" \
-        3>&1 1>&2 2>&3)
-    RET=$?
-    if [ $RET -eq 1 ]; then
-        do_main_menu
-    elif [ $RET -eq 0 ]; then
-        case "$FUN" in
-            1) do_copy_concentratord_config $1 $2 $3 "as923" "0" && do_copy_chirpstack_ns_config "as923";;
         esac
     fi
 }
