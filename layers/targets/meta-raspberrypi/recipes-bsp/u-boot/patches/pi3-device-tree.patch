@@ -29,31 +29,3 @@ index ce71f578..8d88e782 100644
  /* SDHCI is used to control the SDIO for wireless */
  &sdhci {
  	#address-cells = <1>;
-diff --git a/board/raspberrypi/rpi/rpi.c b/board/raspberrypi/rpi/rpi.c
-index 617c892d..2c24b05c 100644
---- a/board/raspberrypi/rpi/rpi.c
-+++ b/board/raspberrypi/rpi/rpi.c
-@@ -496,3 +496,9 @@ int ft_board_setup(void *blob, bd_t *bd)
- 
- 	return 0;
- }
-+
-+int board_early_init_f(void)
-+{
-+	gd->flags |= (GD_FLG_SILENT | GD_FLG_DISABLE_CONSOLE);
-+	return 0;
-+}
-diff --git a/include/configs/rpi.h b/include/configs/rpi.h
-index f76c7d18..7d0d3562 100644
---- a/include/configs/rpi.h
-+++ b/include/configs/rpi.h
-@@ -187,4 +187,9 @@
- 	BOOTENV
- 
- 
-+#define CONFIG_DISABLE_CONSOLE
-+#define CONFIG_SILENT_CONSOLE
-+#define CONFIG_SYS_DEVICE_NULLDEV
-+#define CONFIG_BOARD_EARLY_INIT_F 1
-+
- #endif
