@@ -38,6 +38,7 @@ Provides the following features:
 
 ### Raspberry Pi
 
+* Raspberry Pi Zero W
 * Raspberry Pi 1
 * Raspberry Pi 3
 
