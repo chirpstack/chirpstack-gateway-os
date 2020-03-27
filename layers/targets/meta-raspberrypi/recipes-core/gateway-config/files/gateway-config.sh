@@ -60,8 +60,8 @@ do_setup_concentrator_shield() {
             2) do_set_concentratord "sx1301" && do_prompt_concentrator_reset_pin && do_setup_ic980a;;
             3) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 5  && do_setup_imst_lite;;
             4) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 22 && do_setup_pislora;;
-            5) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak831;;
-            6) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak831;;
+            5) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak2245;;
+            6) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak2245;;
             7) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
             8) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
             9) do_set_concentratord "sx1302" && do_set_concentrator_reset_pin 23 && do_set_concentratord_power_en_pin 18 && do_setup_semtech_corecell;;
@@ -127,22 +127,22 @@ do_setup_pislora() {
     fi
 }
 
-do_setup_rak831() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 3 \
-        1 "EU868" \
-        2 "AU915" \
-        3 "US915" \
-        4 "AS923" \
+do_setup_rak2245() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
+        1 "AS923" \
+        1 "AU915" \
+        3 "EU868" \
+        4 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-			      1) do_copy_concentratord_config "sx1301" "generic_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_au915_block "sx1301" "generic_au915_gps";;
-            3) do_select_us915_block "sx1301" "generic_us915_gps";;
-            4) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+            1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+            2) do_select_au915_block "sx1301" "rak_2245_au915" "GNSS";;
+            3) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            4) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
         esac
     fi
 }
