@@ -40,6 +40,7 @@ Provides the following features:
 
 * Raspberry Pi 1
 * Raspberry Pi 3
+* Raspberry Pi 4
 
 #### Shields / kits
 
