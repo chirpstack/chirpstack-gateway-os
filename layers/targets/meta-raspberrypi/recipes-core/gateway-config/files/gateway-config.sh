@@ -3,14 +3,21 @@
 do_main_menu() {
     while true
     do
-        FUN=$(dialog --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Configuration options:" 15 60 7 \
-            1 "Set admin password" \
-            2 "Setup LoRa concentrator shield" \
-            3 "Edit ChirpStack Concentratord config" \
-            4 "Edit ChirpStack Gateway Bridge config" \
-            5 "Restart ChirpStack Concentratord" \
-            6 "Restart ChirpStack Gateway Bridge" \
-            7 "Configure WIFI" \
+        VERSION=$(cat /etc/version)
+        GATEWAY_ID=$(/usr/bin/gateway-id)
+        RET=$?
+        if [ ! $RET -eq 0 ]; then
+            GATEWAY_ID="not configured"
+        fi
+
+        FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 17 65 7 \
+            1 "Setup LoRa concentrator shield" \
+            2 "Edit ChirpStack Concentratord config" \
+            3 "Edit ChirpStack Gateway Bridge config" \
+            4 "Restart ChirpStack Concentratord" \
+            5 "Restart ChirpStack Gateway Bridge" \
+            6 "Configure WIFI" \
+            7 "Set admin password" \
             3>&1 1>&2 2>&3)
         RET=$?
         if [ $RET -eq 1 ]; then
@@ -18,13 +25,13 @@ do_main_menu() {
             exit 0
         elif [ $RET -eq 0 ]; then
             case "$FUN" in
-                1) do_setup_admin_password;;
-                2) do_setup_concentrator_shield;;
-                3) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
-                4) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
-                5) do_restart_chirpstack_concentratord;;
-                6) do_restart_chirpstack_gateway_bridge;;
-                7) do_configure_wifi;;
+                1) do_setup_concentrator_shield;;
+                2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
+                3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
+                4) do_restart_chirpstack_concentratord;;
+                5) do_restart_chirpstack_gateway_bridge;;
+                6) do_configure_wifi;;
+                7) do_setup_admin_password;;
             esac
         fi
     done
