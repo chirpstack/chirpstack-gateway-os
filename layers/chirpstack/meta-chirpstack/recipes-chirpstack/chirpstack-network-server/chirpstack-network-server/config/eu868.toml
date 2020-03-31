@@ -9,7 +9,7 @@ dsn="postgres://chirpstack_ns:chirpstack_ns@localhost/chirpstack_ns?sslmode=disa
 net_id="000000"
 
   [network_server.band]
-  name="EU_863_870"
+  name="EU868"
 
   [[network_server.network_settings.extra_channels]]
   frequency=867100000
