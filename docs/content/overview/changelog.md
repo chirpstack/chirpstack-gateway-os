@@ -4,9 +4,37 @@ menu:
     main:
         parent: overview
         weight: 2
+toc: false
 ---
 
 # Changelog
+
+## v3.3.0-test.5
+
+### Updates
+
+* [ChirpStack Application Server](https://www.chirpstack.io/application-server/) is updated to v3.9.0.
+* [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord) is updated to v3.0.0-test.8.
+* [ChirpStack Network Server](https://www.chirpstack.io/network-server/) is updated to v3.8.1.
+
+### Features
+
+#### Wifi Access Point mode
+
+On initial installation on a Raspberry Pi 3, the Raspberry Pi will start Wifi
+in Access Point mode, so that it is possible to connect directly to the
+Raspberry Pi over WIFI for configuration of the concentrator shield and to
+re-configure the WIFI.
+
+### Improvements
+
+* RAK2245 configuration has been improved (using defined Concentratord model name).
+* RAK832 configuration has been improved.
+* RAK2245 / RAK831 AS923 channel-plan has been added. ([#43](https://github.com/brocaar/chirpstack-gateway-os/pull/43))
+
+### Bugfixes
+
+* Fix passing incorrect model flags in `gateway-config` for some gateways.
 
 ## v3.3.0-test.4
 
