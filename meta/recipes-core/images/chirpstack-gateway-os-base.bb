@@ -26,3 +26,9 @@ IMAGE_INSTALL += " \
 inherit extrausers
 
 EXTRA_USERS_PARAMS = "useradd -P admin admin;"
+
+ROOTFS_POSTPROCESS_COMMAND += "add_releaseinfo; "
+
+add_releaseinfo () {
+    echo "${DISTRO_VERSION}" > ${IMAGE_ROOTFS}${sysconfdir}/version
+}

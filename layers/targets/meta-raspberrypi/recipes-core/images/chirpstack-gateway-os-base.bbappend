@@ -9,6 +9,7 @@ IMAGE_INSTALL += "rpio \
                   chirpstack-concentratord-sx1301 \
                   chirpstack-concentratord-sx1302 \
                   gateway-config \
+                  gateway-id \
 "
 
 DISTRO_FEATURES += "wifi"
