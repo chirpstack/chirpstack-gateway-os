@@ -18,3 +18,10 @@ do_install_append_raspberrypi3() {
     install -m 644 ${WORKDIR}/connman/main.conf ${D}/etc/connman/main.conf
     install -m 644 ${WORKDIR}/connman/settings ${D}/var/lib/connman/settings
 }
+
+do_install_append_raspberrypi4() {
+    install -d ${D}/etc/connman
+    install -d ${D}/var/lib/connman
+    install -m 644 ${WORKDIR}/connman/main.conf ${D}/etc/connman/main.conf
+    install -m 644 ${WORKDIR}/connman/settings ${D}/var/lib/connman/settings
+}

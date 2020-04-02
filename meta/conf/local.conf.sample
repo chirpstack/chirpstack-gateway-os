@@ -8,6 +8,7 @@ DISTRO = "chirpstack-gateway-os"
 # Vendor: raspberrypi
 #         * raspberrypi
 #         * raspberrypi3
+#         * raspberrypi4
 MACHINE = "raspberrypi3"
 
 # Parallel executed tasks
