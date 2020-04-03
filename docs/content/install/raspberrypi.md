@@ -26,6 +26,7 @@ For an initial installation:
 
 * [Raspberry Pi 1](http://artifacts.chirpstack.io/downloads/chirpstack-gateway-os/raspberrypi/raspberrypi/{{< raspberrypi_raspberrypi_version >}}/)
 * [Raspberry Pi 3](http://artifacts.chirpstack.io/downloads/chirpstack-gateway-os/raspberrypi/raspberrypi3/{{< raspberrypi_raspberrypi3_version >}}/)
+* [Raspberry Pi 4](http://artifacts.chirpstack.io/downloads/chirpstack-gateway-os/raspberrypi/raspberrypi4/{{< raspberrypi_raspberrypi4_version >}}/)
 
 ## Supported shields
 

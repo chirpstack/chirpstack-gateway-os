@@ -9,8 +9,7 @@ dsn="postgres://chirpstack_ns:chirpstack_ns@localhost/chirpstack_ns?sslmode=disa
 net_id="000000"
 
   [network_server.band]
-  name="AU_915_928"
+  name="AU915"
 
   [network_server.network_settings]
   enabled_uplink_channels=[24, 25, 26, 27, 28, 29, 30, 31]
-

@@ -35,6 +35,7 @@ by the **chirpstack-gateway-os-base** image.
 
 * Raspberry Pi 1
 * Raspberry Pi 3
+* Raspberry Pi 4
 
 #### Shields / kits
 
