@@ -1,0 +1,26 @@
+diff --git a/arch/arm/dts/bcm2835-rpi-zero-w.dts b/arch/arm/dts/bcm2835-rpi-zero-w.dts
+index ba0167df6c..f5b50e0fca 100644
+--- a/arch/arm/dts/bcm2835-rpi-zero-w.dts
++++ b/arch/arm/dts/bcm2835-rpi-zero-w.dts
+@@ -115,21 +115,3 @@
+ 		compatible = "brcm,bcm4329-fmac";
+ 	};
+ };
+-
+-&uart0 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&uart0_gpio32 &uart0_ctsrts_gpio30>;
+-	status = "okay";
+-
+-	bluetooth {
+-		compatible = "brcm,bcm43438-bt";
+-		max-speed = <2000000>;
+-		shutdown-gpios = <&gpio 45 GPIO_ACTIVE_HIGH>;
+-	};
+-};
+-
+-&uart1 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&uart1_gpio14>;
+-	status = "okay";
+-};

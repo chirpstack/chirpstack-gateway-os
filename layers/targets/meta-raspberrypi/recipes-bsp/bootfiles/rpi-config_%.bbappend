@@ -13,3 +13,7 @@ do_deploy_append_raspberrypi3() {
 do_deploy_append_raspberrypi4() {
     echo "dtoverlay=disable-bt" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
 }
+
+do_deploy_append_raspberrypi0-wifi() {
+    echo "dtoverlay=disable-bt" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
+}
