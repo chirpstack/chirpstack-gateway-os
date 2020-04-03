@@ -50,6 +50,7 @@ Provides the following features:
 * [IMST - Lite Gateway](https://wireless-solutions.de/products/long-range-radio/lora-lite-gateway.html)
 * [Pi Supply - LoRa Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi)
 * [RAK - RAK2245](https://store.rakwireless.com/products/rak2245-pi-hat)
+* [RAK - RAK2246 / RAK2246G](https://store.rakwireless.com/products/rak7246-lpwan-developer-gateway)
 * [RAK - RAK831 Gateway Developer Kit](https://store.rakwireless.com/products/rak831-gateway-module?variant=22375114801252)
 * [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
 * [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)

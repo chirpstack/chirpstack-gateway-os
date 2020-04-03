@@ -34,6 +34,7 @@ theme = "chirpstack-hugo-theme"
     weight = 4
 
 [params]
+    raspberrypi_raspberrypi0_wifi_version = "3.3.0-test.5"
     raspberrypi_raspberrypi_version = "3.3.0-test.5"
     raspberrypi_raspberrypi3_version = "3.3.0-test.5"
     raspberrypi_raspberrypi4_version = "3.3.0-test.5"
