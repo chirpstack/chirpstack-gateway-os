@@ -9,6 +9,26 @@ toc: false
 
 # Changelog
 
+## v3.3.0-test.6
+
+### Features
+
+* Support has been added for the Raspberry Pi 4.
+* Support has been added for the Raspberry Pi Zero W.
+* Support has been added for the RAK2246 and RAK2246G shields.
+* Class-B beacon configuration has been added to the band configuration.
+
+### Updates
+
+* [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord) is updated to v3.0.0-test.9.
+
+### Improvements
+
+* `gateway-config` shows ChirpStack Gateway OS version.
+* `gateway-config` shows Gateway ID.
+* Change ISM band names to their common name. ([#47](https://github.com/brocaar/chirpstack-gateway-os/pull/47))
+* `sx1301-reset` script has been modified to leave the reset pin as output.
+
 ## v3.3.0-test.5
 
 ### Updates
