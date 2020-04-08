@@ -20,7 +20,9 @@ toc: false
 
 ### Updates
 
+* [ChirpStack Application Server](https://www.chirpstack.io/application-server/) is updated to v3.10.0.
 * [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord) is updated to v3.0.0-test.9.
+* [ChirpStack Network Server](https://www.chirpstack.io/network-server/) is updated to v3.9.0.
 
 ### Improvements
 
