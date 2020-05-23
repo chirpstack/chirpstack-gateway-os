@@ -8,7 +8,7 @@ IMAGE_INSTALL += " \
     packagegroup-base \
     ca-certificates \
     rng-tools \
-	bash \
+    bash \
     sudo \
     iptables \
     ntp \
