@@ -15,7 +15,6 @@ IMAGE_INSTALL += " \
     opkg \
     swupdate \
     swupdate-tools \
-    u-boot-fw-utils \
     lua \
     monit \
     tcpdump \

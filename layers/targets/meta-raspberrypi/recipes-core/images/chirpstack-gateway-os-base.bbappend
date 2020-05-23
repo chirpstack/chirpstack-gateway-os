@@ -4,6 +4,7 @@ WKS_FILES = "chirpstack-gateway-os.wks"
 IMAGE_INSTALL += "rpio \
                   rpi-gpio \
                   connman \
+                  u-boot-fw-utils \
                   connman-client \
                   software-update \
                   chirpstack-concentratord-sx1301 \
