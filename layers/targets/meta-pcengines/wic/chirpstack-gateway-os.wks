@@ -1,0 +1,9 @@
+# boot
+part /boot --source bootimg-grub-legacy  --ondisk sda --label msdos    --align 1024 --fixed-size 64 --active
+# rootfs a
+part /     --source rootfs --fstype=ext4 --ondisk sda --label rootfs-a --align 4096 --fixed-size 512
+# rootfs b
+part       --source rootfs --fstype=ext4 --ondisk sda --label rootfs-b --align 4096 --fixed-size 512
+# data
+part /data                 --fstype=ext4 --ondisk sda --label data     --align 4096 --fixed-size 512
+bootloader  --ptable msdos --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 earlyprintk=serial,ttyS0,115200"

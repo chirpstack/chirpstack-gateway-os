@@ -1,0 +1,49 @@
+# Concentratord configuration.
+[concentratord]
+
+# Log level.
+#
+# Valid options are:
+#   * TRACE
+#   * DEBUG
+#   * INFO
+#   * WARN
+#   * ERROR
+#   * OFF
+log_level="INFO"
+
+# Log to syslog.
+#
+# When set to true, log messages are being written to syslog instead of stdout.
+log_to_syslog=true
+
+# Statistics interval.
+stats_interval="30s"
+
+  # Configuration for the (ZeroMQ based) API.
+  [concentratord.api]
+
+  # Event PUB socket bind.
+  event_bind="ipc:///tmp/concentratord_event"
+
+  # Command REP socket bind.
+  command_bind="ipc:///tmp/concentratord_command"
+
+
+# LoRa gateway configuration.
+[gateway]
+
+# Antenna gain (dB).
+antenna_gain=0
+
+# Public LoRaWAN network.
+lorawan_public=true
+
+# Gateway vendor / model.
+#
+# This configures various vendor and model specific settings like the min / max
+# frequency, TX gain table.
+model="generic_sx1250_eu868"
+
+# Gateway vendor / model flags.
+model_flags=[]

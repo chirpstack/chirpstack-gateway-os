@@ -1,0 +1,12 @@
+
+diff --git a/libloragw/src/loragw_spi.native.c b/libloragw/src/loragw_spi.native.c
+index c01ed1c..a4f4b01 100644
+--- a/libloragw/src/loragw_spi.native.c
++++ b/libloragw/src/loragw_spi.native.c
+@@ -53,6 +53,6 @@ Maintainer: Sylvain Miermont
+ 
+ #define READ_ACCESS     0x00
+ #define WRITE_ACCESS    0x80
+-#define SPI_SPEED       8000000
++#define SPI_SPEED       2000000
+ char spi_dev_path[50];

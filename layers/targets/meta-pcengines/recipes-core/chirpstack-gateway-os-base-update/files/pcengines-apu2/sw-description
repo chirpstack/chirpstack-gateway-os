@@ -1,0 +1,59 @@
+software =
+{
+	version = "@@DISTRO_VERSION@@";
+
+	pcengines-apu2 = {
+		hardware-compatibility: [ "1.0"];
+		stable : {
+			copy1 : {
+				images: (
+					{
+						filename = "chirpstack-gateway-os-base-pcengines-apu2.ext4.gz";
+						type = "raw";
+						compressed = true;
+						device = "/dev/sda2";
+					}
+				);
+				uboot: (
+					{
+						name = "part_active";
+						value = "2";
+					},
+					{
+						name = "part_backup";
+						value = "3";
+					},
+					{
+						name = "upgrade_available";
+						value = "1";
+					}
+				);
+
+			};
+			copy2 : {
+				images: (
+					{
+						filename = "chirpstack-gateway-os-base-pcengines-apu2.ext4.gz";
+						type = "raw";
+						compressed = true;
+						device = "/dev/sda3";
+					}
+				);
+				uboot: (
+					{
+						name = "part_active";
+						value = "3";
+					},
+					{
+						name = "part_backup";
+						value = "2";
+					},
+					{
+						name = "upgrade_available";
+						value = "1";
+					}
+				);
+			};
+		};
+	}
+}

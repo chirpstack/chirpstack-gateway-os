@@ -1,0 +1,16 @@
+[global]
+OfflineMode=false
+
+[WiFi]
+Enable=true
+Tethering=true
+Tethering.Identifier=ChirpStackAP
+Tethering.Passphrase=ChirpStackAP
+
+[Wired]
+Enable=true
+Tethering=false
+
+[P2P]
+Enable=false
+Tethering=false
