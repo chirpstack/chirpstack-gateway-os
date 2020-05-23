@@ -27,4 +27,4 @@
 	branch = zeus
 [submodule "layers/meta-rust-bin"]
 	path = layers/meta-rust-bin
-	url = https://github.com/rust-embedded/meta-rust-bin.git
+	url = https://github.com/3mdeb/meta-rust-bin.git
