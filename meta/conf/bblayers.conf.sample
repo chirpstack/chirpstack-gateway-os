@@ -9,6 +9,7 @@ BBFILES ?= ""
 #
 # Options are:
 # * raspberrypi - For Raspberry Pi based gateways
+# * pcengines - For PC Engines based gateways
 VENDOR = "raspberrypi"
 
 BBLAYERS ?= " \

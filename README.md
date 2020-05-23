@@ -43,6 +43,10 @@ Provides the following features:
 * Raspberry Pi 3
 * Raspberry Pi 4
 
+### PC Engines
+
+* [PC Engines APU2](https://www.pcengines.ch/apu2.htm)
+
 #### Shields / kits
 
 * [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
