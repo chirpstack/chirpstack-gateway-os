@@ -4,25 +4,40 @@ PRIORITY = "optional"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5301050fd7cd58850085239d559297be"
 SRC_URI = " \
-    https://artifacts.chirpstack.io/downloads/chirpstack-application-server/chirpstack-application-server_${PV}_linux_armv5.tar.gz \
+    git://git@github.com/brocaar/chirpstack-application-server.git;protocol=https;tag=v${PV}; \
     file://chirpstack-application-server.init \
     file://chirpstack-application-server.monit \
     file://chirpstack-application-server.toml \
 "
-SRC_URI[md5sum] = "0a538fbd6d6f2a78eb25735281879ed7"
-SRC_URI[sha256sum] = "d81b98c0cdcaf9d71b2022c962308be283c91dd3c9fdb43089c83c718b38e68c"
 PR = "r1"
 
-inherit update-rc.d
+inherit update-rc.d goarch
 
 INITSCRIPT_NAME = "chirpstack-application-server"
 INITSCRIPT_PARAMS = "defaults"
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/git"
+
+DEPENDS = "go-native go-bindata-native nodejs-native"
+
+export GOOS = "${TARGET_GOOS}"
+export GOARCH = "${TARGET_GOARCH}"
+export GOARM = "${TARGET_GOARM}"
+export GOCACHE = "${S}/build/.cache"
+export GOPATH = "${S}/build"
+
+export HOME = "${WORKDIR}"
+
+do_configure[noexec] = "1"
+
+do_compile() {
+    oe_runmake ui-requirements
+    oe_runmake
+}
 
 do_install() {
     install -d ${D}${bindir}
-    install -m 0755 chirpstack-application-server ${D}${bindir}
+    install -m 0755 ${S}/build/chirpstack-application-server ${D}${bindir}
 
     install -d ${D}${sysconfdir}/chirpstack-application-server
     install -m 0640 ${WORKDIR}/chirpstack-application-server.toml ${D}${sysconfdir}/chirpstack-application-server/chirpstack-application-server.toml
