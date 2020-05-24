@@ -28,3 +28,6 @@
 [submodule "layers/meta-rust-bin"]
 	path = layers/meta-rust-bin
 	url = https://github.com/3mdeb/meta-rust-bin.git
+[submodule "layers/bsp/meta-pcengines"]
+	path = layers/bsp/meta-pcengines
+	url = https://github.com/pcengines/meta-pcengines.git
