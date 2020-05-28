@@ -141,7 +141,7 @@ do_setup_pislora() {
 do_setup_rak2245() {
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
         1 "AS923" \
-        1 "AU915" \
+        2 "AU915" \
         3 "EU868" \
         4 "US915" \
         3>&1 1>&2 2>&3)
@@ -161,7 +161,7 @@ do_setup_rak2245() {
 do_setup_rak2246() {
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
         1 "AS923" \
-        1 "AU915" \
+        2 "AU915" \
         3 "EU868" \
         4 "US915" \
         3>&1 1>&2 2>&3)
