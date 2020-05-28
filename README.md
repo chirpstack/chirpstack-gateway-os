@@ -115,6 +115,19 @@ source oe-init-build-env /build/ /chirpstack-gateway-os/bitbake/
 bitbake chirpstack-gateway-os-base
 ```
 
+In case of error:
+
+```bash
+docker.credentials.errors.InitializationError: docker-credential-secretservice not installed or not available in PATH
+```
+
+Make sure that the `golang-docker-credential-helpers` is installed. On `Ubuntu`
+you can install it with:
+
+```bash
+sudo apt install golang-docker-credential-helpers
+```
+
 #### Configuration
 
 By default, Raspberry Pi3 is configured as the target platform. You need to
