@@ -4,7 +4,7 @@ PRIORITY = "optional"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e3a340e43ab9867d3e5d0ea79a54b0e1"
 SRC_URI = " \
-    https://artifacts.chirpstack.io/downloads/chirpstack-network-server/chirpstack-network-server_${PV}_linux_armv5.tar.gz \
+    git://git@github.com/brocaar/chirpstack-network-server.git;protocol=https;tag=v${PV}; \
     file://chirpstack-network-server.init \
     file://chirpstack-network-server.monit \
     file://config/au915_0.toml \
@@ -25,20 +25,32 @@ SRC_URI = " \
     file://config/us915_6.toml \
     file://config/us915_7.toml \
 "
-SRC_URI[md5sum] = "6c9058916dd578c1f7b76240f5356631"
-SRC_URI[sha256sum] = "0347c1d69a1afc9c2a13788979120aa5f8711bf7c23020a389e03adb3adb8f4f"
 PR = "r1"
 
-inherit update-rc.d
+inherit update-rc.d goarch
 
 INITSCRIPT_NAME = "chirpstack-network-server"
 INITSCRIPT_PARAMS = "defaults"
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/git"
+
+DEPENDS = "go-native go-bindata-native"
+
+export GOOS = "${TARGET_GOOS}"
+export GOARCH = "${TARGET_GOARCH}"
+export GOARM = "${TARGET_GOARM}"
+export GOCACHE = "${S}/build/.cache"
+export GOPATH = "${S}/build"
+
+do_configure[noexec] = "1"
+
+do_compile() {
+    oe_runmake
+}
 
 do_install() {
     install -d ${D}${bindir}
-    install -m 0755 chirpstack-network-server ${D}${bindir}
+    install -m 0755 ${S}/build/chirpstack-network-server ${D}${bindir}
 
     install -d ${D}${sysconfdir}/chirpstack-network-server/config
     install -m 0640 ${WORKDIR}/config/* ${D}${sysconfdir}/chirpstack-network-server/config
