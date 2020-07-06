@@ -18,39 +18,8 @@ if [ ! -f "${DAEMON_CONF_GLOBAL}" ] || [ ! -f "${DAEMON_CONF_BAND}" ] || [ ! -f 
     exit 1
 fi
 
-do_concentrator_start() {
-    if [ "$CONCENTRATOR_RESET" != "yes" ]; then
-        return;
-	fi	
-
-	case "$CONCENTRATORD_VERSION" in
-		"sx1301")
-			/etc/init.d/sx1301-reset start
-			;;
-		"sx1302")
-			/etc/init.d/sx1302-reset start
-			;;
-	esac
-}
-
-do_concentrator_stop() {
-    if [ "$CONCENTRATOR_RESET" != "yes" ]; then
-        return;
-	fi	
-
-	case "$CONCENTRATORD_VERSION" in
-		"sx1301")
-			/etc/init.d/sx1301-reset stop
-			;;
-		"sx1302")
-			/etc/init.d/sx1302-reset stop
-			;;
-	esac
-}
-
 do_start() {
     echo "Starting ${NAME}"
-	do_concentrator_start
 
 	start-stop-daemon \
         --start \
@@ -62,7 +31,6 @@ do_start() {
 
 do_stop() {
     echo "Stopping ${NAME}"
-	do_concentrator_stop
 
     start-stop-daemon \
         --stop \

@@ -65,17 +65,17 @@ do_setup_concentrator_shield() {
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_set_concentratord "sx1301" && do_prompt_concentrator_reset_pin && do_setup_ic880a;;
-            2) do_set_concentratord "sx1301" && do_prompt_concentrator_reset_pin && do_setup_ic980a;;
-            3) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 5  && do_setup_imst_lite;;
-            4) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 22 && do_setup_pislora;;
-            5) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak2245;;
-            6) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak2246;;
-            7) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak2246g;;
-            8) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 17 && do_setup_rak2245;;
-            9) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 7  && do_setup_rhf0m301;;
-            10) do_set_concentratord "sx1301" && do_set_concentrator_reset_pin 25 && do_setup_lorago_port;;
-            11) do_set_concentratord "sx1302" && do_set_concentrator_reset_pin 23 && do_set_concentratord_power_en_pin 18 && do_setup_semtech_corecell;;
+            1) do_set_concentratord "sx1301" && do_setup_ic880a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord;;
+            2) do_set_concentratord "sx1301" && do_setup_ic980a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord;;
+            3) do_set_concentratord "sx1301" && do_setup_imst_lite && do_restart_chirpstack_concentratord;;
+            4) do_set_concentratord "sx1301" && do_setup_pislora && do_restart_chirpstack_concentratord;;
+            5) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
+            6) do_set_concentratord "sx1301" && do_setup_rak2246 && do_restart_chirpstack_concentratord;;
+            7) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord;;
+            8) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
+            9) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_restart_chirpstack_concentratord;;
+            10) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord;;
+            11) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
         esac
     fi
 }
@@ -309,28 +309,25 @@ do_select_au915_block() {
 }
 
 do_set_concentratord() {
-    monit stop chirpstack-concentratord
     sed -i "s/CONCENTRATORD_VERSION=.*/CONCENTRATORD_VERSION=\"$1\"/" /etc/default/chirpstack-concentratord
 }
 
 do_prompt_concentrator_reset_pin() {
+	# $1 concentratord version
     PIN=$(dialog --inputbox "Please enter the GPIO pin to which the concentrator reset is connected: " 8 60 \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_setup_concentrator_shield
     elif [ $RET -eq 0 ]; then
-        do_set_concentrator_reset_pin $PIN
+        do_set_concentrator_reset_pin "$1" "$PIN"
     fi
 }
 
 do_set_concentrator_reset_pin() {
-    sed -i "s/CONCENTRATOR_RESET=.*/CONCENTRATOR_RESET=\"yes\"/" /etc/default/chirpstack-concentratord
-    sed -i "s/CONCENTRATOR_RESET_PIN=.*/CONCENTRATOR_RESET_PIN=$1/" /etc/default/chirpstack-concentratord
-}
-
-do_set_concentratord_power_en_pin() {
-    sed -i "s/CONCENTRATOR_POWER_EN_PIN=.*/CONCENTRATOR_POWER_EN_PIN=$1/" /etc/default/chirpstack-concentratord
+	# $1 concentratord version
+	# $2 reset pin
+	sed -i "s/reset_pin=.*/reset_pin=$2/" /etc/chirpstack-concentratord/$1/global.toml
 }
 
 do_copy_concentratord_config() {
@@ -376,10 +373,6 @@ do_copy_concentratord_config() {
 
         dialog --title "Channel-plan configuration" --msgbox "Channel-plan configuration has been copied." 5 60
     fi
-
-    # We do need to restart because it was stopped when setting the concentratord
-    # version (sx1301 or sx1302).
-    do_restart_chirpstack_concentratord
 }
 
 do_copy_chirpstack_ns_config() {

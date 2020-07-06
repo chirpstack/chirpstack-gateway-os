@@ -50,3 +50,9 @@ model_flags=[]
 
 # Gateway ID.
 gateway_id="0101010101010101"
+
+# Reset pin.
+#
+# Note: most model configurations come with a pre-defined reset_pin, in which
+# case the setting below will be ignored.
+reset_pin=0
