@@ -9,6 +9,24 @@ toc: false
 
 # Changelog
 
+## v3.3.0-test.7
+
+### Updates
+
+* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/) is updated to v3.9.1.
+* [ChirpStack Network Server](https://www.chirpstack.io/network-server/) is updated to v3.10.0.
+* [ChirpStack Application Server](https://www.chirpstack.io/application-server/) is updated to v3.11.0.
+* [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord/) is updated to v3.0.0-test.10.
+
+### Features
+
+* Add `gateway-config` wizard for MQTT configuration.
+* Update to Yocto Dunfell + build Go apps from source. ([#55](https://github.com/brocaar/chirpstack-gateway-os/pull/55))
+
+### Bugfixes
+
+* Fix AU915 selection bugs for RAK concentrators. ([#56](https://github.com/brocaar/chirpstack-gateway-os/pull/56))
+
 ## v3.3.0-test.6
 
 ### Features
