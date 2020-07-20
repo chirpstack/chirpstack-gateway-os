@@ -313,7 +313,7 @@ do_set_concentratord() {
 }
 
 do_prompt_concentrator_reset_pin() {
-	# $1 concentratord version
+    # $1 concentratord version
     PIN=$(dialog --inputbox "Please enter the GPIO pin to which the concentrator reset is connected: " 8 60 \
         3>&1 1>&2 2>&3)
     RET=$?
@@ -325,9 +325,9 @@ do_prompt_concentrator_reset_pin() {
 }
 
 do_set_concentrator_reset_pin() {
-	# $1 concentratord version
-	# $2 reset pin
-	sed -i "s/reset_pin=.*/reset_pin=$2/" /etc/chirpstack-concentratord/$1/global.toml
+    # $1 concentratord version
+    # $2 reset pin
+    sed -i "s/reset_pin=.*/reset_pin=$2/" /etc/chirpstack-concentratord/$1/global.toml
 }
 
 do_copy_concentratord_config() {
@@ -404,7 +404,7 @@ do_restart_chirpstack_ns() {
 }
 
 do_edit_chirpstack_concentratord_config() {
-    FUN=$(dialog --title "Edit ChirpStack Concentratord config" --menu "Select shield:" 15 60 3 \
+    FUN=$(dialog --title "Edit ChirpStack Concentratord config" --menu "Edit config file:" 15 60 3 \
         1 "General configuration" \
         2 "Beacon configuration" \
         3 "Channel configuration" \
@@ -422,7 +422,60 @@ do_edit_chirpstack_concentratord_config() {
 }
 
 do_edit_chirpstack_gateway_bridge_config() {
-    nano /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    FUN=$(dialog --title "Edit ChirpStack Gateway Bridge config" --menu "Edit config file:" 14 60 2 \
+        1 "Edit configuration file" \
+        2 "MQTT connection wizard" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) nano /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml;;
+            2) do_edit_chirpstack_gateway_bridge_config_mqtt_wizard;;
+        esac
+    fi
+}
+
+do_edit_chirpstack_gateway_bridge_config_mqtt_wizard() {
+    # mqtt broker
+    MQTT_BROKER=$(dialog --inputbox "Please enter the MQTT broker address (e.g. tcp://server:1883, ssl://server:8883): " 8 60 \
+        3>&1 1>&2 2>&3)    
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        return;
+    fi
+    sed -i "s/server=.*/server=\"${MQTT_BROKER//\//\\/}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+
+    # ca cert
+    dialog --yesno "Would you like to configure a CA certificate?" 6 60
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        touch /etc/chirpstack-gateway-bridge/ca.pem
+
+        dialog --title "MQTT connection wizard" --msgbox "Enter the content of the CA certificate in the next screen and close the editor with Ctrl+X." 7 60
+        sed -i "s/ca_cert=.*/ca_cert=\"\/etc\/chirpstack-gateway-bridge\/ca.pem\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        nano /etc/chirpstack-gateway-bridge/ca.pem
+    else
+        sed -i "s/tls_cert=.*/tls_cert=\"\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    fi
+
+    # client cert
+    dialog --yesno "Would you like to configure a client certificate?" 6 60
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        touch /etc/chirpstack-gateway-bridge/cert.pem
+        touch /etc/chirpstack-gateway-bridge/key.pem
+
+        dialog --title "MQTT connection wizard" --msgbox "Enter the content of the client-certificate in the next screen and close the editor with Ctrl+X." 7 60
+        sed -i "s/tls_cert=.*/tls_cert=\"\/etc\/chirpstack-gateway-bridge\/cert.pem\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        nano /etc/chirpstack-gateway-bridge/cert.pem
+
+        dialog --title "MQTT connection wizard" --msgbox "Enter the content of the client-certificate key in the next screen and close the editor with Ctrl+X." 7 60
+        sed -i "s/tls_key=.*/tls_key=\"\/etc\/chirpstack-gateway-bridge\/key.pem\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        nano /etc/chirpstack-gateway-bridge/key.pem
+    else
+        sed -i "s/tls_cert=.*/tls_cert=\"\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        sed -i "s/tls_key=.*/tls_key=\"\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    fi
 }
 
 do_restart_chirpstack_concentratord() {

@@ -21,17 +21,17 @@ log_to_syslog=true
 # Backend type.
 type="concentratord"
 
-  # ChirpStack Concentratord backend.
-  [backend.concentratord]
+# ChirpStack Concentratord backend.
+[backend.concentratord]
 
-  # Check for CRC OK.
-  crc_check=true
+# Check for CRC OK.
+crc_check=true
 
-  # Event API URL.
-  event_url="ipc:///tmp/concentratord_event"
+# Event API URL.
+event_url="ipc:///tmp/concentratord_event"
 
-  # Command API URL.
-  command_url="ipc:///tmp/concentratord_command"
+# Command API URL.
+command_url="ipc:///tmp/concentratord_command"
 
 
 # Integration configuration.
@@ -43,28 +43,35 @@ type="concentratord"
 # * json:      JSON encoding (easier for debugging, but less compact than 'protobuf')
 marshaler="protobuf"
 
-  # MQTT integration configuration.
-  [integration.mqtt]
-  # Event topic template.
-  event_topic_template="gateway/{{ .GatewayID }}/event/{{ .EventType }}"
+# MQTT integration configuration.
+[integration.mqtt]
+# Event topic template.
+event_topic_template="gateway/{{ .GatewayID }}/event/{{ .EventType }}"
 
-  # Command topic template.
-  command_topic_template="gateway/{{ .GatewayID }}/command/#"
+# Command topic template.
+command_topic_template="gateway/{{ .GatewayID }}/command/#"
 
-  # MQTT authentication.
-  [integration.mqtt.auth]
-  # Type defines the MQTT authentication type to use.
-  #
-  # Set this to the name of one of the sections below.
-  type="generic"
+# MQTT authentication.
+[integration.mqtt.auth]
+# Type defines the MQTT authentication type to use.
+type="generic"
 
-    # Generic MQTT authentication.
-    [integration.mqtt.auth.generic]
-    # MQTT server (e.g. scheme://host:port where scheme is tcp, ssl or ws)
-    server="tcp://127.0.0.1:1883"
+# Generic MQTT authentication.
+[integration.mqtt.auth.generic]
+# MQTT server (e.g. scheme://host:port where scheme is tcp, ssl or ws)
+server="tcp://127.0.0.1:1883"
 
-    # Connect with the given username (optional)
-    username=""
+# Connect with the given username (optional)
+username=""
 
-    # Connect with the given password (optional)
-    password=""
+# Connect with the given password (optional)
+password=""
+
+# CA certificate file (optional)
+ca_cert=""
+
+# mqtt TLS certificate file (optional)
+tls_cert=""
+
+# mqtt TLS key file (optional)
+tls_key=""
