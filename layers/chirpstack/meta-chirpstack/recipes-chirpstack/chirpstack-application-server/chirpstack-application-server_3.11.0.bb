@@ -9,7 +9,7 @@ SRC_URI = " \
     file://chirpstack-application-server.monit \
     file://chirpstack-application-server.toml \
 "
-PR = "r1"
+PR = "r2"
 
 inherit update-rc.d goarch
 
@@ -20,19 +20,25 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "go-native go-bindata-native nodejs-native"
 
+# Make sure that make runs one job at a time.
+PARALLEL_MAKE = ""
+
 export GOOS = "${TARGET_GOOS}"
 export GOARCH = "${TARGET_GOARCH}"
 export GOARM = "${TARGET_GOARM}"
-export GOCACHE = "${S}/build/.cache"
-export GOPATH = "${S}/build"
-
+export GOCACHE = "${WORKDIR}/go/cache"
 export HOME = "${WORKDIR}"
 
 do_configure[noexec] = "1"
 
 do_compile() {
     oe_runmake ui-requirements
-    oe_runmake
+    oe_runmake clean
+    oe_runmake build
+
+    # Clear the modcache. go mod sets the permissions such that yocto will
+    # raise permission errors when cleaning up the directory.
+    go clean -modcache
 }
 
 do_install() {

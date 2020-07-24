@@ -25,7 +25,7 @@ SRC_URI = " \
     file://config/us915_6.toml \
     file://config/us915_7.toml \
 "
-PR = "r1"
+PR = "r2"
 
 inherit update-rc.d goarch
 
@@ -36,16 +36,23 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "go-native go-bindata-native"
 
+# Make sure that make runs one job at a time.
+PARALLEL_MAKE = ""
+
 export GOOS = "${TARGET_GOOS}"
 export GOARCH = "${TARGET_GOARCH}"
 export GOARM = "${TARGET_GOARM}"
-export GOCACHE = "${S}/build/.cache"
-export GOPATH = "${S}/build"
+export GOCACHE = "${WORKDIR}/go/cache"
+export HOME = "${WORKDIR}"
 
 do_configure[noexec] = "1"
 
 do_compile() {
     oe_runmake
+
+    # Clear the modcache. go mod sets the permissions such that yocto will
+    # raise permission errors when cleaning up the directory.
+    go clean -modcache
 }
 
 do_install() {
