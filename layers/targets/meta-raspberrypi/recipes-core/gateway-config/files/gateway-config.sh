@@ -10,7 +10,7 @@ do_main_menu() {
             GATEWAY_ID="not configured"
         fi
 
-        FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 17 65 7 \
+        FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 17 65 8 \
             1 "Setup LoRa concentrator shield" \
             2 "Edit ChirpStack Concentratord config" \
             3 "Edit ChirpStack Gateway Bridge config" \
@@ -18,6 +18,7 @@ do_main_menu() {
             5 "Restart ChirpStack Gateway Bridge" \
             6 "Configure WIFI" \
             7 "Set admin password" \
+            8 "Reload Gateway ID" \
             3>&1 1>&2 2>&3)
         RET=$?
         if [ $RET -eq 1 ]; then
@@ -32,6 +33,7 @@ do_main_menu() {
                 5) do_restart_chirpstack_gateway_bridge;;
                 6) do_configure_wifi;;
                 7) do_setup_admin_password;;
+                8) ;;
             esac
         fi
     done
@@ -125,15 +127,15 @@ do_setup_imst_lite() {
 do_setup_pislora() {
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
         1 "EU868" \
-        3 "US915" \
+        2 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_us915_block "sx1301" "generic_us915" "";;
+            1) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            2) do_select_us915_block "sx1301" "pi_supply_lora_gateway_hat_us915" "";;
         esac
     fi
 }
