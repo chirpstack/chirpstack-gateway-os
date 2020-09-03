@@ -74,6 +74,20 @@ sudo gateway-config
 
 A Docker based build environment is provided for compiling the images.
 
+The docker build environment depends on correct versions of some tools and libraries installed on the host itself. See [#23](https://github.com/brocaar/chirpstack-gateway-os/issues/23)
+
+Chirpstack Gateway OS version [3.3.0](https://github.com/brocaar/chirpstack-gateway-os/commit/a0a2e5c47efbd33356f4e10713422eeb7fb6cd4a) builds on Ubuntu DESKTOP version 18.04.05 with 32 Gb of RAM and 200 Gb of disk.
+
+The host also needs: 
+
+* [ssh](https://linuxconfig.org/enable-ssh-on-ubuntu-20-04-focal-fossa-linux)
+* [git](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-20-04)
+* [docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-0) ( Linked tutorial also sets up correct group rights )
+* [docker-compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04)
+* net-tools ```sudo apt install net-tools```
+* make ```sudo apt install make```
+* golang-docker-credential-helpers ```sudo apt install golang-docker-credential-helpers```
+
 ### Initial setup
 
 Run the following command to fetch the git submodules and setup directory
