@@ -72,7 +72,11 @@ sudo gateway-config
 
 ## Building images
 
-A Docker based build environment is provided for compiling the images.
+A [Docker Compose](https://docs.docker.com/compose/) based build environment is provided for compiling the images.
+
+**Note:** Compiling these images require a fair amount of CPU power, RAM and disk space.
+As a reference, the pre-compiled images are built using a 8 x Core i7 machine with 16GB RAM
+running Manjaro Linux with 200GB reserved for the build environment.
 
 ### Initial setup
 
