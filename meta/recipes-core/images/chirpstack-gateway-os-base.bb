@@ -19,8 +19,8 @@ IMAGE_INSTALL += " \
     lua \
     monit \
     tcpdump \
-    wireguard-client-config \
     chirpstack-gateway-bridge \
+    wireguard-client-config \
 "
 
 inherit extrausers

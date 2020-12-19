@@ -5,3 +5,7 @@
 # https://layers.openembedded.org/layerindex/branch/master/recipes/?q=wireguard
 DEPENDS += " bc-native"
 SRCREV = "abdb0c13da006290a07bf409618d12fc5e7a28d1"
+
+# Temp. fix for:
+# https://github.com/openembedded/meta-openembedded/issues/285
+unset PKG_${PN}
