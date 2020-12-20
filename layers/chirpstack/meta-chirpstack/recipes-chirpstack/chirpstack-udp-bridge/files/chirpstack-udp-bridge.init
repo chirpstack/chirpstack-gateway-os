@@ -1,0 +1,51 @@
+#!/bin/sh
+
+NAME="chirpstack-udp-bridge"
+DESC="ChirpStack UDP Bridge"
+
+DAEMON_BIN=/usr/bin/${NAME}
+DAEMON_CONF=/etc/${NAME}/${NAME}.toml
+DAEMON_PID=/var/run/${NAME}.pid
+
+if [ ! -f "${DAEMON_CONF}" ]; then
+	echo "Configuration file ${DAEMON_CONF} does not exist"
+	exit 1
+fi
+
+do_start() {
+    echo "Starting ${NAME}"
+
+	start-stop-daemon \
+        --start \
+        --background \
+        --make-pidfile \
+        --pidfile ${DAEMON_PID} \
+        --exec ${DAEMON_BIN} -- -c ${DAEMON_CONF}
+}
+
+do_stop() {
+    echo "Stopping ${NAME}"
+
+    start-stop-daemon \
+        --stop \
+        --oknodo \
+        --quiet \
+        --pidfile ${DAEMON_PID}
+}
+
+case "$1" in
+    "start")
+        do_start
+        ;;
+    "stop")
+        do_stop
+        ;;
+    "restart")
+        do_stop
+        do_start
+        ;;
+    *)
+        echo "Usage: $1 {start|stop|restart}"
+        exit 1
+        ;;
+esac

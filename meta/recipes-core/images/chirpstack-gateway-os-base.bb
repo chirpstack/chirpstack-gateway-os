@@ -24,6 +24,7 @@ IMAGE_INSTALL += " \
     chirpstack-concentratord-sx1301 \
     chirpstack-concentratord-sx1302 \
     chirpstack-gateway-bridge \
+    chirpstack-udp-bridge \
 "
 
 inherit extrausers
