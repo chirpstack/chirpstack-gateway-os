@@ -6,9 +6,6 @@ IMAGE_INSTALL += "rpio \
                   connman \
                   connman-client \
                   software-update \
-                  chirpstack-concentratord \
-                  chirpstack-concentratord-sx1301 \
-                  chirpstack-concentratord-sx1302 \
                   gateway-config \
 "
 
