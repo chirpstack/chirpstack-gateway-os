@@ -9,6 +9,7 @@ SRC_URI = "\
     file://sw-description \
 "
 
-IMAGE_DEPENDS = "chirpstack-gateway-os-full"
-SWUPDATE_IMAGES = "chirpstack-gateway-os-full"
+IMAGE_DEPENDS = "chirpstack-gateway-os-full u-boot"
+SWUPDATE_IMAGES = "chirpstack-gateway-os-full u-boot"
 SWUPDATE_IMAGES_FSTYPES[chirpstack-gateway-os-full] = ".ext4.gz"
+SWUPDATE_IMAGES_FSTYPES[u-boot] = ".bin"

@@ -14,6 +14,12 @@ software =
 						device = "/dev/mmcblk0p2";
 					}
 				);
+				files: (
+					{
+						filename = "u-boot-raspberrypi.bin";
+						path = "/boot/@@SDIMG_KERNELIMAGE@@";
+					}
+				);
 				uboot: (
 					{
 						name = "part_active";
@@ -37,6 +43,12 @@ software =
 						type = "raw";
 						compressed = true;
 						device = "/dev/mmcblk0p3";
+					}
+				);
+				files: (
+					{
+						filename = "u-boot-raspberrypi.bin";
+						path = "/boot/@@SDIMG_KERNELIMAGE@@";
 					}
 				);
 				uboot: (
