@@ -7,7 +7,7 @@ do_deploy_append() {
 
 do_deploy_append_raspberrypi3() {
     echo "core_freq=250" >>${DEPLOYDIR}/bootfiles/config.txt
-    echo "dtoverlay=pi3-disable-bt" >>${DEPLOYDIR}/bootfiles/config.txt
+    echo "dtoverlay=disable-bt" >>${DEPLOYDIR}/bootfiles/config.txt
 }
 
 do_deploy_append_raspberrypi4() {
