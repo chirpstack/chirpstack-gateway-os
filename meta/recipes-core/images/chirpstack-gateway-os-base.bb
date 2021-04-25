@@ -25,6 +25,7 @@ IMAGE_INSTALL += " \
     chirpstack-concentratord-sx1302 \
     chirpstack-gateway-bridge \
     chirpstack-udp-bridge \
+    libloragw-sx1302-utils \
     libloragw-2g4-utils \
 "
 
