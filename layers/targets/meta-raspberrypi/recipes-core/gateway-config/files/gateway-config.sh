@@ -59,10 +59,11 @@ do_setup_concentrator_shield() {
         5 "RAK        - RAK2245" \
         6 "RAK        - RAK2246" \
         7 "RAK        - RAK2246G (with GNSS)" \
-        8 "RAK        - RAK831" \
-        9 "RisingHF   - RHF0M301" \
-        10 "Sandbox    - LoRaGo PORT" \
-        11 "Semtech    - SX1302 CoreCell" \
+        8 "RAK        - RAK2287 (with GNSS)" \
+        9 "RAK        - RAK831" \
+        10 "RisingHF   - RHF0M301" \
+        11 "Sandbox    - LoRaGo PORT" \
+        12 "Semtech    - SX1302 CoreCell" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
@@ -74,10 +75,11 @@ do_setup_concentrator_shield() {
             5) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
             6) do_set_concentratord "sx1301" && do_setup_rak2246 && do_restart_chirpstack_concentratord;;
             7) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord;;
-            8) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
-            9) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_restart_chirpstack_concentratord;;
-            10) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord;;
-            11) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
+            8) do_set_concentratord "sx1302" && do_setup_rak2287 && do_restart_chirpstack_concentratord;;
+            9) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
+            10) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_restart_chirpstack_concentratord;;
+            11) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord;;
+            12) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
         esac
     fi
 }
@@ -196,6 +198,32 @@ do_setup_rak2246g() {
             2) do_select_au915_block "sx1301" "rak_2246_au915" "GNSS";;
             3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             4) do_select_us915_block "sx1301" "rak_2246_us915" "GNSS";;
+        esac
+    fi
+}
+
+do_setup_rak2287() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
+        1 "AS923" \
+        2 "AU915" \
+        3 "EU868" \
+        4 "IN865" \
+        5 "KR920" \
+        6 "RU864" \
+        7 "US915" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+            2) do_select_au915_block "sx1302" "rak_2287_au915" "GNSS";;
+            3) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            4) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "eu865" "0" && do_copy_chirpstack_ns_config "in865";;
+            5) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "0" && do_copy_chirpstack_ns_config "kr920";;
+            6) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
+            7) do_select_us915_block "sx1302" "rak_2287_us915" "GNSS";;
         esac
     fi
 }
