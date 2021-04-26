@@ -12,4 +12,4 @@ net_id="000000"
   name="US915"
 
   [network_server.network_settings]
-  enabled_uplink_channels=[24, 25, 26, 27, 28, 29, 30, 31]
+  enabled_uplink_channels=[24, 25, 26, 27, 28, 29, 30, 31, 67]

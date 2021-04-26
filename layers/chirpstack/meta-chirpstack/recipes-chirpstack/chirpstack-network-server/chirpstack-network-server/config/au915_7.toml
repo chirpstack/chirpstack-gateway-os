@@ -12,4 +12,4 @@ net_id="000000"
   name="AU915"
 
   [network_server.network_settings]
-  enabled_uplink_channels=[56, 57, 58, 59, 60, 61, 62, 63]
+  enabled_uplink_channels=[56, 57, 58, 59, 60, 61, 62, 63, 71]
