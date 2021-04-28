@@ -63,7 +63,8 @@ do_setup_concentrator_shield() {
         9 "RAK        - RAK831" \
         10 "RisingHF   - RHF0M301" \
         11 "Sandbox    - LoRaGo PORT" \
-        12 "Semtech    - SX1302 CoreCell" \
+        12 "Semtech    - SX1280 (2.4 GHz)" \
+        13 "Semtech    - SX1302 CoreCell" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
@@ -79,7 +80,8 @@ do_setup_concentrator_shield() {
             9) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
             10) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_restart_chirpstack_concentratord;;
             11) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord;;
-            12) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
+            12) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord;;
+            13) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
         esac
     fi
 }
@@ -256,6 +258,20 @@ do_setup_lorago_port() {
         case "$FUN" in
             1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915" "";;
+        esac
+    fi
+}
+
+do_setup_semtech_2g4() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "ISM2400 (2.4GHz)" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "2g4" "semtech_sx1280z3dsfgw1" "" "ism2400" "0" && do_copy_chirpstack_ns_config "ism2400";;
         esac
     fi
 }

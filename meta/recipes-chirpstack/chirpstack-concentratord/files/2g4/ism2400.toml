@@ -1,0 +1,17 @@
+# LoRa concentrator configuration.
+[gateway.concentrator]
+
+  [[gateway.concentrator.channels]]
+    frequency=2403000000
+    bandwidth=812000
+    spreading_factor=12
+
+  [[gateway.concentrator.channels]]
+    frequency=2479000000
+    bandwidth=812000
+    spreading_factor=12
+
+  [[gateway.concentrator.channels]]
+    frequency=2425000000
+    bandwidth=812000
+    spreading_factor=12
