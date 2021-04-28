@@ -5,22 +5,12 @@ POKY_BBLAYERS_CONF_VERSION = "1"
 BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
-# Hardware vendor
-#
-# Options are:
-# * raspberrypi - For Raspberry Pi based gateways
-VENDOR = "raspberrypi"
-
 BBLAYERS ?= " \
   ##OEROOT##/meta \
-  ##OEROOT##/layers/targets/meta-${VENDOR} \
-  ##OEROOT##/layers/chirpstack/meta-tools \
-  ##OEROOT##/layers/chirpstack/meta-semtech \
-  ##OEROOT##/layers/chirpstack/meta-chirpstack \
   ##OEROOT##/layers/meta-swupdate \
   ##OEROOT##/layers/meta-rust-bin \
   ##OEROOT##/layers/meta-clang \
-  ##OEROOT##/layers/bsp/meta-${VENDOR} \
+  ##OEROOT##/layers/bsp/meta-raspberrypi \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-networking \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-filesystems \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-python \

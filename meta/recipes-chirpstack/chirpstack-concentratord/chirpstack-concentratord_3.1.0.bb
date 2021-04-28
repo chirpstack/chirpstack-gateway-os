@@ -9,6 +9,39 @@ SRC_URI = "\
     file://chirpstack-concentratord.default \
     file://chirpstack-concentratord.init \
     file://chirpstack-concentratord.monit \
+    file://sx1301/global.toml \
+    file://sx1301/au915.toml \
+    file://sx1301/au915_0.toml \
+    file://sx1301/au915_1.toml \
+    file://sx1301/au915_2.toml \
+    file://sx1301/au915_3.toml \
+    file://sx1301/au915_4.toml \
+    file://sx1301/au915_5.toml \
+    file://sx1301/au915_6.toml \
+    file://sx1301/au915_7.toml \
+    file://sx1301/eu868.toml \
+    file://sx1301/eu868_0.toml \
+    file://sx1301/us915.toml \
+    file://sx1301/us915_0.toml \
+    file://sx1301/us915_1.toml \
+    file://sx1301/us915_2.toml \
+    file://sx1301/us915_3.toml \
+    file://sx1301/us915_4.toml \
+    file://sx1301/us915_5.toml \
+    file://sx1301/us915_6.toml \
+    file://sx1301/us915_7.toml \
+    file://sx1302/global.toml \
+    file://sx1302/eu868.toml \
+    file://sx1302/eu868_0.toml \
+    file://sx1302/us915.toml \
+    file://sx1302/us915_0.toml \
+    file://sx1302/us915_1.toml \
+    file://sx1302/us915_2.toml \
+    file://sx1302/us915_3.toml \
+    file://sx1302/us915_4.toml \
+    file://sx1302/us915_5.toml \
+    file://sx1302/us915_6.toml \
+    file://sx1302/us915_7.toml \
 "
 DEPENDS = "\
     clang-native \
@@ -29,6 +62,8 @@ do_install() {
     install -d ${D}${sysconfdir}/init.d
     install -d ${D}${sysconfdir}/monit.d
     install -d ${D}${sysconfdir}/default
+    install -d ${D}${sysconfdir}/chirpstack-concentratord/sx1301/examples
+    install -d ${D}${sysconfdir}/chirpstack-concentratord/sx1302/examples
     install -d ${D}${bindir}
 
     if [ "${CARGO_BUILD_TYPE}" = "--release" ]; then
@@ -44,6 +79,9 @@ do_install() {
     install -m 0755 ${cargo_bindir}/chirpstack-concentratord-sx1301 ${D}${bindir}
     install -m 0755 ${cargo_bindir}/chirpstack-concentratord-sx1302 ${D}${bindir}
     install -m 0755 ${cargo_bindir}/gateway-id ${D}${bindir}
+
+    install -m 0644 ${WORKDIR}/sx1301/*.toml ${D}${sysconfdir}/chirpstack-concentratord/sx1301/examples
+    install -m 0644 ${WORKDIR}/sx1302/* ${D}${sysconfdir}/chirpstack-concentratord/sx1302/examples
 }
 
 PACKAGES += "${PN}-sx1301 ${PN}-sx1302"

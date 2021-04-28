@@ -2,6 +2,10 @@ DESCRIPTION = "Image including the LoRa packet-forwarder and ChirpStack Gateway 
 
 require recipes-core/images/core-image-minimal.bb
 
+IMAGE_FSTYPES = "ext4.gz wic.gz"
+WKS_FILES = "chirpstack-gateway-os.wks"
+DISTRO_FEATURES += "wifi"
+
 # rng-tools is used to speed up /dev/random. This is used by Monit to generate a
 # random id. Without it, it can in some cases (Pi 4) take minutes to start up!
 IMAGE_INSTALL += " \
@@ -20,6 +24,12 @@ IMAGE_INSTALL += " \
     monit \
     tcpdump \
     wireguard-client-config \
+    rpio \
+    rpi-gpio \
+    connman \
+    connman-client \
+    software-update \
+    gateway-config \
     chirpstack-concentratord \
     chirpstack-concentratord-sx1301 \
     chirpstack-concentratord-sx1302 \

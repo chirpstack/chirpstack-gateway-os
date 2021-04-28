@@ -1,15 +1,11 @@
 # Leave this to 'chirpstack-gateway-os"
 DISTRO = "chirpstack-gateway-os"
 
-# Select the target machine.
-#
-# Options are (per vendor configured in bblayers.conf):
-#
-# Vendor: raspberrypi
-#         * raspberrypi
-#         * raspberrypi0-wifi
-#         * raspberrypi3
-#         * raspberrypi4
+# Select the target machine:
+#  * raspberrypi
+#  * raspberrypi0-wifi
+#  * raspberrypi3
+#  * raspberrypi4
 MACHINE = "raspberrypi3"
 
 # Parallel executed tasks
@@ -19,6 +15,6 @@ PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()*2}"
 # Deploy dir
 #
 # This is the place where you will find the build artifacts.
-TMPDIR = "${TOPDIR}/tmp/${VENDOR}/${MACHINE}"
+TMPDIR = "${TOPDIR}/tmp/${MACHINE}"
 DEPLOY_DIR = "${TMPDIR}/deploy/${DISTRO_VERSION}"
 DEPLOY_DIR_IMAGE = "${DEPLOY_DIR}/images"

@@ -9,6 +9,7 @@ PRR = "r2"
 SRC_URI = "\
     git://github.com/brocaar/lora_gateway.git;protocol=git;tag=v${PV}${PRR} \
     file://library.cfg \
+    file://loragw_spi.native.c.patch \
 "
 
 S = "${WORKDIR}/git"
