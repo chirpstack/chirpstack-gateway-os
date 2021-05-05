@@ -42,9 +42,13 @@ SRC_URI = "\
     file://sx1302/us915_5.toml \
     file://sx1302/us915_6.toml \
     file://sx1302/us915_7.toml \
+    file://2g4/global.toml \
+    file://2g4/ism2400.toml \
+    file://2g4/ism2400_0.toml \
 "
 DEPENDS = "\
     clang-native \
+    libloragw-2g4 \
     libloragw-sx1301 \
     libloragw-sx1302 \
 "
@@ -64,6 +68,7 @@ do_install() {
     install -d ${D}${sysconfdir}/default
     install -d ${D}${sysconfdir}/chirpstack-concentratord/sx1301/examples
     install -d ${D}${sysconfdir}/chirpstack-concentratord/sx1302/examples
+    install -d ${D}${sysconfdir}/chirpstack-concentratord/2g4/examples
     install -d ${D}${bindir}
 
     if [ "${CARGO_BUILD_TYPE}" = "--release" ]; then
@@ -78,14 +83,17 @@ do_install() {
 
     install -m 0755 ${cargo_bindir}/chirpstack-concentratord-sx1301 ${D}${bindir}
     install -m 0755 ${cargo_bindir}/chirpstack-concentratord-sx1302 ${D}${bindir}
+    install -m 0755 ${cargo_bindir}/chirpstack-concentratord-2g4 ${D}${bindir}
     install -m 0755 ${cargo_bindir}/gateway-id ${D}${bindir}
 
     install -m 0644 ${WORKDIR}/sx1301/*.toml ${D}${sysconfdir}/chirpstack-concentratord/sx1301/examples
     install -m 0644 ${WORKDIR}/sx1302/* ${D}${sysconfdir}/chirpstack-concentratord/sx1302/examples
+    install -m 0644 ${WORKDIR}/2g4/* ${D}${sysconfdir}/chirpstack-concentratord/2g4/examples
 }
 
-PACKAGES += "${PN}-sx1301 ${PN}-sx1302"
+PACKAGES += "${PN}-sx1301 ${PN}-sx1302 ${PN}-2g4"
 
 FILES_${PN} = "${sysconfdir} ${bindir}/gateway-id"
 FILES_${PN}-sx1301 = "${bindir}/chirpstack-concentratord-sx1301"
 FILES_${PN}-sx1302 = "${bindir}/chirpstack-concentratord-sx1302"
+FILES_${PN}-2g4 = "${bindir}/chirpstack-concentratord-2g4"
