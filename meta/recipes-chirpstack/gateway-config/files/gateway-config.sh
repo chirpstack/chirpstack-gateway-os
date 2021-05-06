@@ -10,7 +10,7 @@ do_main_menu() {
             GATEWAY_ID="not configured"
         fi
 
-        FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 17 65 8 \
+        FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 18 65 9 \
             1 "Setup LoRa concentrator shield" \
             2 "Edit ChirpStack Concentratord config" \
             3 "Edit ChirpStack Gateway Bridge config" \
@@ -18,7 +18,8 @@ do_main_menu() {
             5 "Restart ChirpStack Gateway Bridge" \
             6 "Configure WIFI" \
             7 "Set admin password" \
-            8 "Reload Gateway ID" \
+            8 "Flash concentrator MCU" \
+            9 "Reload Gateway ID" \
             3>&1 1>&2 2>&3)
         RET=$?
         if [ $RET -eq 1 ]; then
@@ -33,7 +34,8 @@ do_main_menu() {
                 5) do_restart_chirpstack_gateway_bridge;;
                 6) do_configure_wifi;;
                 7) do_setup_admin_password;;
-                8) ;;
+                8) do_flash_concentrator_mcu;;
+                9) ;;
             esac
         fi
     done
@@ -82,6 +84,18 @@ do_setup_concentrator_shield() {
             11) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord;;
             12) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord;;
             13) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
+        esac
+    fi
+}
+
+do_flash_concentrator_mcu() {
+    FUN=$(dialog --title "Flash concentrator MCU" --menu "Select shield:" 18 60 5 \
+        1  "Semtech    - SX1280 (2.4 GHz)" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_flash_semtech_2g4;;
         esac
     fi
 }
@@ -571,6 +585,21 @@ EOF
 
     sed -i "s/Tethering=true/Tethering=false/" /var/lib/connman/settings
     reboot
+    sleep 1
+}
+
+do_flash_semtech_2g4() {
+    dialog --title "Flash concentrator MCU" --msgbox "This will flash the MCU of the Semtech 2g4 concentrator module, after which the system will reboot." 7 60
+    /opt/libloragw-2g4/gateway-utils/boot -d /dev/ttyACM0
+    sleep 1
+    dfu-util -a 0 -s 0x08000000:leave -t 0 -D /opt/libloragw-2g4/mcu_bin/rlz_fwm_gtw_2g4_01.00.01.bin
+    sleep 3
+
+    # We reboot as the serial interface might be recognized as ttyACM1 after
+    # a reflash of the MCU. After reboot will will revert back to ttyACM0.
+    reboot
+
+    sleep 1
 }
 
 if [ $EUID -ne 0 ]; then

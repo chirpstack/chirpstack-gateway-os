@@ -37,7 +37,9 @@ do_install() {
 	install -d ${D}/opt/libloragw-2g4/gateway-utils
 	install -d ${D}/opt/libloragw-2g4/mcu_bin
 	install -m 0755 util_boot/boot ${D}/opt/libloragw-2g4/gateway-utils/
-	install -m 0644 mcu_bin/* ${D}/opt/libloragw-2g4/mcu_bin/
+
+	# Note: if the .bin version changes, make sure to update gateway-config.sh too!
+	install -m 0644 mcu_bin/rlz_fwm_gtw_2g4_01.00.01.bin ${D}/opt/libloragw-2g4/mcu_bin/
 }
 
 PACKAGES += "${PN}-utils ${PN}-utils-dbg"
