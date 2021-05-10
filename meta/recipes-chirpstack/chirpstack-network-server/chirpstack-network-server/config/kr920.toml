@@ -1,0 +1,12 @@
+[general]
+log_level=4
+log_to_syslog=true
+
+[postgresql]
+dsn="postgres://chirpstack_ns:chirpstack_ns@localhost/chirpstack_ns?sslmode=disable"
+
+[network_server]
+net_id="000000"
+
+  [network_server.band]
+  name="KR920"

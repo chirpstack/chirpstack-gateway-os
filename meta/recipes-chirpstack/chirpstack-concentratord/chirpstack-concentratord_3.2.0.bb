@@ -10,6 +10,8 @@ SRC_URI = "\
     file://chirpstack-concentratord.init \
     file://chirpstack-concentratord.monit \
     file://sx1301/global.toml \
+    file://sx1301/as923.toml \
+    file://sx1301/as923_0.toml \
     file://sx1301/au915.toml \
     file://sx1301/au915_0.toml \
     file://sx1301/au915_1.toml \
@@ -31,8 +33,25 @@ SRC_URI = "\
     file://sx1301/us915_6.toml \
     file://sx1301/us915_7.toml \
     file://sx1302/global.toml \
+    file://sx1302/as923.toml \
+    file://sx1302/as923_0.toml \
+    file://sx1302/au915.toml \
+    file://sx1302/au915_0.toml \
+    file://sx1302/au915_1.toml \
+    file://sx1302/au915_2.toml \
+    file://sx1302/au915_3.toml \
+    file://sx1302/au915_4.toml \
+    file://sx1302/au915_5.toml \
+    file://sx1302/au915_6.toml \
+    file://sx1302/au915_7.toml \
     file://sx1302/eu868.toml \
     file://sx1302/eu868_0.toml \
+    file://sx1302/in865.toml \
+    file://sx1302/in865_0.toml \
+    file://sx1302/kr920.toml \
+    file://sx1302/kr920_0.toml \
+    file://sx1302/ru864.toml \
+    file://sx1302/ru864_0.toml \
     file://sx1302/us915.toml \
     file://sx1302/us915_0.toml \
     file://sx1302/us915_1.toml \

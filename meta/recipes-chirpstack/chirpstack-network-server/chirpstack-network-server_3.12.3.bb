@@ -7,6 +7,7 @@ SRC_URI = " \
     git://git@github.com/brocaar/chirpstack-network-server.git;protocol=https;tag=v${PV}; \
     file://chirpstack-network-server.init \
     file://chirpstack-network-server.monit \
+    file://config/as923.toml \
     file://config/au915_0.toml \
     file://config/au915_1.toml \
     file://config/au915_2.toml \
@@ -16,6 +17,9 @@ SRC_URI = " \
     file://config/au915_6.toml \
     file://config/au915_7.toml \
     file://config/eu868.toml \
+    file://config/in865.toml \
+    file://config/kr920.toml \
+    file://config/ru864.toml \
     file://config/us915_0.toml \
     file://config/us915_1.toml \
     file://config/us915_2.toml \
