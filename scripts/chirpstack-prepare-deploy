@@ -2,7 +2,7 @@
 
 
 do_deploy() {
-	SRC_DIR=/build/tmp/$2/$3-glibc/deploy/$1
+	SRC_DIR=/build/tmp/$3-glibc/deploy/$1
 	DEPLOY_DIR=/chirpstack-gateway-os/deploy/$2/$3/$1
 
 	mkdir -p $DEPLOY_DIR
@@ -13,7 +13,7 @@ do_deploy() {
 }
 
 
-VERSION="3.3.3"
+VERSION="3.4.0"
 
 do_deploy $VERSION "raspberrypi" "raspberrypi4"
 do_deploy $VERSION "raspberrypi" "raspberrypi3"
