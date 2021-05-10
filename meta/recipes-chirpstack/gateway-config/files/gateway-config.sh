@@ -219,7 +219,7 @@ do_setup_rak2246g() {
 }
 
 do_setup_rak2287() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 7 \
         1 "AS923" \
         2 "AU915" \
         3 "EU868" \
@@ -236,7 +236,7 @@ do_setup_rak2287() {
             1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
             2) do_select_au915_block "sx1302" "rak_2287_au915" "GNSS";;
             3) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "eu865" "0" && do_copy_chirpstack_ns_config "in865";;
+            4) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
             5) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "0" && do_copy_chirpstack_ns_config "kr920";;
             6) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
             7) do_select_us915_block "sx1302" "rak_2287_us915" "GNSS";;
