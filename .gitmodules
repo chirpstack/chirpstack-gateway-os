@@ -1,30 +1,27 @@
 [submodule "bitbake"]
 	path = bitbake
 	url = git://git.openembedded.org/bitbake
-	branch = 1.46
+	branch = 1.50
 [submodule "layers/openembedded/meta-openembedded"]
 	path = layers/openembedded/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
-	branch = dunfell
+	branch = hardknott
 [submodule "layers/openembedded/openembedded-core"]
 	path = layers/openembedded/openembedded-core
 	url = git://git.openembedded.org/openembedded-core
-	branch = dunfell
+	branch = hardknott
 [submodule "layers/bsp/meta-raspberrypi"]
 	path = layers/bsp/meta-raspberrypi
 	url = git://git.yoctoproject.org/meta-raspberrypi
-	branch = dunfell
-[submodule "docs/themes/chirpstack-hugo-theme"]
-	path = docs/themes/chirpstack-hugo-theme
-	url = https://github.com/brocaar/chirpstack-hugo-theme.git
+	branch = hardknott
 [submodule "layers/meta-swupdate"]
 	path = layers/meta-swupdate
 	url = https://github.com/sbabic/meta-swupdate
-	branch = dunfell
+	branch = hardknott
 [submodule "layers/meta-clang"]
 	path = layers/meta-clang
 	url = https://github.com/kraj/meta-clang.git
-	branch = dunfell
+	branch = hardknott
 [submodule "layers/meta-rust-bin"]
 	path = layers/meta-rust-bin
 	url = https://github.com/rust-embedded/meta-rust-bin.git
