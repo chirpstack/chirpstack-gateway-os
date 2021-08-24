@@ -38,7 +38,7 @@ INITSCRIPT_PARAMS = "defaults"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "go-native go-bindata-native"
+DEPENDS = "go-native"
 
 # Make sure that make runs one job at a time.
 PARALLEL_MAKE = ""
@@ -72,3 +72,6 @@ do_install() {
     install -d ${D}${sysconfdir}/monit.d
     install -m 0644 ${WORKDIR}/chirpstack-network-server.monit ${D}${sysconfdir}/monit.d/chirpstack-network-server
 }
+
+# fix already stripped error
+INSANE_SKIP_${PN}_append = "already-stripped"

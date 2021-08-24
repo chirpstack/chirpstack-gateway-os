@@ -1,11 +1,11 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 # This will be automatically appended in u-boot based on the active partition.
 CMDLINE_remove = "root=/dev/mmcblk0p2"
 
 # Needed for the SX1302.
 KERNEL_MODULE_AUTOLOAD += "i2c-dev"
 
-do_configure_prepend() {
-    kernel_configure_variable OVERLAY_FS y
-    kernel_configure_variable CONFIG_NET_UDP_TUNNEL y
-    kernel_configure_variable NET_FOU y
-}
+SRC_URI += " \
+	file://modules.cfg \
+"

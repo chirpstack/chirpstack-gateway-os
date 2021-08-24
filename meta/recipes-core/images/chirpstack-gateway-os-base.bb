@@ -4,7 +4,6 @@ require recipes-core/images/core-image-minimal.bb
 
 IMAGE_FSTYPES = "ext4.gz wic.gz"
 WKS_FILES = "chirpstack-gateway-os.wks"
-DISTRO_FEATURES += "wifi"
 
 # rng-tools is used to speed up /dev/random. This is used by Monit to generate a
 # random id. Without it, it can in some cases (Pi 4) take minutes to start up!
@@ -44,8 +43,13 @@ inherit extrausers
 
 EXTRA_USERS_PARAMS = "useradd -P admin admin;"
 
-ROOTFS_POSTPROCESS_COMMAND += "add_releaseinfo; "
+ROOTFS_POSTPROCESS_COMMAND += "add_releaseinfo; initramfs_image; "
 
 add_releaseinfo () {
     echo "${DISTRO_VERSION}" > ${IMAGE_ROOTFS}${sysconfdir}/version
+}
+
+initramfs_image() {
+	rm ${IMAGE_ROOTFS}/boot/uImage*
+	cp ${DEPLOY_DIR_IMAGE}/uImage-initramfs-${MACHINE}.bin ${IMAGE_ROOTFS}/boot/uImage
 }

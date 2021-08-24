@@ -5,11 +5,11 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5301050fd7cd58850085239d559297be"
 SRC_URI = " \
     git://git@github.com/brocaar/chirpstack-application-server.git;protocol=https;tag=v${PV}; \
+    file://chirpstack-application-server.toml \
     file://chirpstack-application-server.init \
     file://chirpstack-application-server.monit \
-    file://chirpstack-application-server.toml \
 "
-PR = "r2"
+PR = "r3"
 
 inherit update-rc.d goarch
 
@@ -18,7 +18,7 @@ INITSCRIPT_PARAMS = "defaults"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "go-native go-bindata-native nodejs-native"
+DEPENDS = "go-native nodejs-native"
 
 # Make sure that make runs one job at a time.
 PARALLEL_MAKE = ""
@@ -56,3 +56,6 @@ do_install() {
 }
 
 CONFFILES_${PN} += "${sysconfdir}/chirpstack-application-server/chirpstack-application-server.toml"
+
+# fix already stripped error
+INSANE_SKIP_${PN}_append = "already-stripped"

@@ -9,7 +9,7 @@ SRC_URI = " \
     file://chirpstack-gateway-bridge.init \
     file://chirpstack-gateway-bridge.monit \
 "
-PR = "r2"
+PR = "r3"
 
 inherit update-rc.d goarch
 
@@ -54,3 +54,6 @@ do_install() {
 }
 
 CONFFILES_${PN} += "${sysconfdir}/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml"
+
+# fix already stripped error
+INSANE_SKIP_${PN}_append = "already-stripped"
