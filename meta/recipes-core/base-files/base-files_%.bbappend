@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI_append = "\
-	file://motd.sh \
 	file://path.sh \
     file://fstab \
     file://connman/main.conf \
@@ -13,7 +12,6 @@ do_install_append() {
     install -d ${D}/etc
     install -d ${D}/data
 
-    install -m 755 ${WORKDIR}/motd.sh ${D}/etc/profile.d/motd.sh
     install -m 755 ${WORKDIR}/path.sh ${D}/etc/profile.d/path.sh
     install -m 644 ${WORKDIR}/fstab ${D}/etc/fstab
 }

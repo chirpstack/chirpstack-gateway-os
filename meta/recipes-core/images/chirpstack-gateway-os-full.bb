@@ -12,4 +12,6 @@ IMAGE_INSTALL += " \
 	firstbootinit \
 	chirpstack-network-server \
 	chirpstack-application-server \
+	node-red \
+	node-red-contrib-chirpstack \
 "

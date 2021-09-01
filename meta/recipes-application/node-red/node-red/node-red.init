@@ -1,0 +1,50 @@
+#!/usr/bin/env sh
+
+NAME="node-red"
+DESC="Node-RED"
+DAEMON_PID=/var/run/$NAME.pid
+
+if [ -f "/etc/default/${NAME}" ]; then
+	source "/etc/default/${NAME}"
+fi
+
+if [ "${ENABLED}" -ne 1 ]; then
+	echo "Node-RED is disabled in /etc/default/${NAME}"
+	exit 0
+fi
+
+function do_start {
+    echo "Starting $NAME"
+	start-stop-daemon \
+        --start \
+        --background \
+        --make-pidfile \
+        --pidfile $DAEMON_PID \
+        --exec node -- /usr/lib/node_modules/node-red/red.js
+}
+
+function do_stop {
+    echo "Stopping $NAME"
+    start-stop-daemon \
+        --stop \
+        --oknodo \
+        --quiet \
+        --pidfile $DAEMON_PID
+}
+
+case "$1" in
+    "start")
+        do_start
+        ;;
+    "stop")
+        do_stop
+        ;;
+    "restart")
+        do_stop
+        do_start
+        ;;
+    *)
+        echo "Usage: $1 {start|stop|restart}"
+        exit 1
+        ;;
+esac

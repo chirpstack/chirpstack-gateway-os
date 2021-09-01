@@ -3,42 +3,121 @@
 do_main_menu() {
     while true
     do
-        VERSION=$(cat /etc/version)
-        GATEWAY_ID=$(/usr/bin/gateway-id)
-        RET=$?
-        if [ ! $RET -eq 0 ]; then
-            GATEWAY_ID="not configured"
-        fi
-
-        FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 18 65 9 \
-            1 "Setup LoRa concentrator shield" \
-            2 "Edit ChirpStack Concentratord config" \
-            3 "Edit ChirpStack Gateway Bridge config" \
-            4 "Restart ChirpStack Concentratord" \
-            5 "Restart ChirpStack Gateway Bridge" \
-            6 "Configure WIFI" \
-            7 "Set admin password" \
-            8 "Flash concentrator MCU" \
-            9 "Reload Gateway ID" \
-            3>&1 1>&2 2>&3)
-        RET=$?
-        if [ $RET -eq 1 ]; then
-            clear
-            exit 0
-        elif [ $RET -eq 0 ]; then
-            case "$FUN" in
-                1) do_setup_concentrator_shield;;
-                2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
-                3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
-                4) do_restart_chirpstack_concentratord;;
-                5) do_restart_chirpstack_gateway_bridge;;
-                6) do_configure_wifi;;
-                7) do_setup_admin_password;;
-                8) do_flash_concentrator_mcu;;
-                9) ;;
-            esac
-        fi
+		if [ ! -d /etc/chirpstack-network-server ]; then
+			do_main_menu_base
+		else
+			do_main_menu_full
+		fi
     done
+}
+
+do_main_menu_base() {
+	VERSION=$(cat /etc/version)
+	GATEWAY_ID=$(/usr/bin/gateway-id)
+	RET=$?
+	if [ ! $RET -eq 0 ]; then
+		GATEWAY_ID="not configured"
+	fi
+
+	FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 18 65 9 \
+		1 "Setup LoRa concentrator shield" \
+		2 "Edit ChirpStack Concentratord config" \
+		3 "Edit ChirpStack Gateway Bridge config" \
+		4 "Restart ChirpStack Concentratord" \
+		5 "Restart ChirpStack Gateway Bridge" \
+		6 "Configure WIFI" \
+		7 "Set admin password" \
+		8 "Flash concentrator MCU" \
+		9 "Reload Gateway ID" \
+		3>&1 1>&2 2>&3)
+	RET=$?
+	if [ $RET -eq 1 ]; then
+		clear
+		exit 0
+	elif [ $RET -eq 0 ]; then
+		case "$FUN" in
+			1) do_setup_concentrator_shield;;
+			2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
+			3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
+			4) do_restart_chirpstack_concentratord;;
+			5) do_restart_chirpstack_gateway_bridge;;
+			6) do_configure_wifi;;
+			7) do_setup_admin_password;;
+			8) do_flash_concentrator_mcu;;
+			9) ;;
+		esac
+	fi
+}
+
+do_main_menu_full() {
+	VERSION=$(cat /etc/version)
+	GATEWAY_ID=$(/usr/bin/gateway-id)
+	RET=$?
+	if [ ! $RET -eq 0 ]; then
+		GATEWAY_ID="not configured"
+	fi
+
+	FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 19 65 10 \
+		1 "Setup LoRa concentrator shield" \
+		2 "Edit ChirpStack Concentratord config" \
+		3 "Edit ChirpStack Gateway Bridge config" \
+		4 "Restart ChirpStack Concentratord" \
+		5 "Restart ChirpStack Gateway Bridge" \
+		6 "Enable / disable applications" \
+		7 "Configure WIFI" \
+		8 "Set admin password" \
+		9 "Flash concentrator MCU" \
+		10 "Reload Gateway ID" \
+		3>&1 1>&2 2>&3)
+	RET=$?
+	if [ $RET -eq 1 ]; then
+		clear
+		exit 0
+	elif [ $RET -eq 0 ]; then
+		case "$FUN" in
+			1) do_setup_concentrator_shield;;
+			2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
+			3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
+			4) do_restart_chirpstack_concentratord;;
+			5) do_restart_chirpstack_gateway_bridge;;
+			6) do_applications_menu;;
+			7) do_configure_wifi;;
+			8) do_setup_admin_password;;
+			9) do_flash_concentrator_mcu;;
+			10) ;;
+		esac
+	fi
+}
+
+do_applications_menu() {
+	NODE_RED="Enable Node-RED"
+	source "/etc/default/node-red"
+	if [ "${ENABLED}" -eq 1 ]; then
+		NODE_RED="Disable Node-RED"
+	fi
+
+	FUN=$(dialog --title "Enable / disable applications" --menu "Applications:" 15 60 3 \
+		1 "${NODE_RED}" \
+	3>&1 1>&2 2>&3)
+	RET=$?
+	if [ $RET -eq 0 ]; then
+		case "$FUN" in
+			1) do_application_toggle_node_red;;
+		esac
+	fi
+}
+
+do_application_toggle_node_red() {
+	source "/etc/default/node-red"
+	if [ "${ENABLED}" -eq 1 ]; then
+		sed -i "s/ENABLED=.*/ENABLED=0/" /etc/default/node-red
+		/etc/init.d/node-red restart
+		dialog --title "Node-RED" --msgbox "Node-RED application has been disabled." 5 60
+	else
+		sed -i "s/ENABLED=.*/ENABLED=1/" /etc/default/node-red
+		/etc/init.d/node-red restart
+		dialog --title "Node-RED" --msgbox "Node-RED application has been enabled and is starting (this might take a minute). Once started, you can access Node-RED at:\n\n  > http://[IP ADDRESS]:1880" 10 60
+	fi
 }
 
 do_setup_admin_password() {

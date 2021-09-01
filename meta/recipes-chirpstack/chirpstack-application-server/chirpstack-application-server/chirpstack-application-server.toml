@@ -6,5 +6,8 @@ log_to_syslog=true
 [postgresql]
 dsn="postgres://chirpstack_as:chirpstack_as@localhost/chirpstack_as?sslmode=disable"
 
+  [application_server.integration]
+  marshaler="json"
+
   [application_server.external_api]
   jwt_secret="verysecret"
