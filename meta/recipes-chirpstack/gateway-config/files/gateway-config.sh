@@ -159,7 +159,7 @@ do_setup_concentrator_shield() {
             7) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord;;
             8) do_set_concentratord "sx1302" && do_setup_rak2287 && do_restart_chirpstack_concentratord;;
             9) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
-            10) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_restart_chirpstack_concentratord;;
+            10) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
             11) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord;;
             12) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord;;
             13) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
@@ -210,29 +210,35 @@ do_setup_ic980a() {
 do_setup_imst_lite() {
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 1 \
         1 "EU868" \
+        2 "RU864" \
+        3 "IN865" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";
+            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            2) do_copy_concentratord_config "sx1301" "imst_ic880a_ru864" "" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
+            3) do_copy_concentratord_config "sx1301" "imst_ic880a_in865" "" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
         esac
     fi
 }
 
 do_setup_pislora() {
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
-        1 "EU868" \
-        2 "US915" \
+        1 "AU915" \
+        2 "EU868" \
+        3 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_us915_block "sx1301" "pi_supply_lora_gateway_hat_us915" "";;
+            1) do_select_au915_block "sx1301" "pi_supply_lora_gateway_hat_au915" "";;
+            2) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            3) do_select_us915_block "sx1301" "pi_supply_lora_gateway_hat_us915" "";;
         esac
     fi
 }
@@ -242,7 +248,9 @@ do_setup_rak2245() {
         1 "AS923" \
         2 "AU915" \
         3 "EU868" \
-        4 "US915" \
+        4 "IN865" \
+        5 "US915" \
+        6 "RU864" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -252,7 +260,9 @@ do_setup_rak2245() {
             1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
             2) do_select_au915_block "sx1301" "rak_2245_au915" "GNSS";;
             3) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
+            4) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
+            5) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
+            6) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
         esac
     fi
 }
@@ -262,7 +272,9 @@ do_setup_rak2246() {
         1 "AS923" \
         2 "AU915" \
         3 "EU868" \
-        4 "US915" \
+        4 "IN865" \
+        5 "US915" \
+        6 "RU864" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -272,7 +284,9 @@ do_setup_rak2246() {
             1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
             2) do_select_au915_block "sx1301" "rak_2246_au915" "";;
             3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_select_us915_block "sx1301" "rak_2246_us915" "";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
+            5) do_select_us915_block "sx1301" "rak_2246_us915" "";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
         esac
     fi
 }
@@ -282,7 +296,9 @@ do_setup_rak2246g() {
         1 "AS923" \
         1 "AU915" \
         3 "EU868" \
-        4 "US915" \
+        4 "IN865" \
+        5 "US915" \
+        6 "RU864" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -292,7 +308,9 @@ do_setup_rak2246g() {
             1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
             2) do_select_au915_block "sx1301" "rak_2246_au915" "GNSS";;
             3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_select_us915_block "sx1301" "rak_2246_us915" "GNSS";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "GNSS" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
+            5) do_select_us915_block "sx1301" "rak_2246_us915" "GNSS";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "GNSS" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
         esac
     fi
 }
@@ -333,8 +351,8 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_select_us915_block "sx1301" "generic_us915" "";;
+            1) do_copy_concentratord_config "sx1301" "risinghf_rhf0m301_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            2) do_select_us915_block "sx1301" "risinghf_rhf0m301_us915" "";;
         esac
     fi
 }
@@ -679,6 +697,14 @@ do_flash_semtech_2g4() {
     reboot
 
     sleep 1
+}
+
+do_enable_spi0_1cs_overlay() {
+	dialog --title "Enabling GPIO7" --msgbox "This will enable the spi0-1cs overlay in /boot/config.txt as the selected shield requires GPIO7, after which the system will reboot.\n\nComment this out in /boot/config.txt if using a different shield." 10 60
+	sed -i "s/#dtoverlay=spi0-1cs/dtoverlay=spi0-1cs/" /boot/config.txt
+	reboot
+
+	sleep 1
 }
 
 if [ $EUID -ne 0 ]; then

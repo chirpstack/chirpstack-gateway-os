@@ -23,6 +23,10 @@ SRC_URI = "\
     file://sx1301/au915_7.toml \
     file://sx1301/eu868.toml \
     file://sx1301/eu868_0.toml \
+    file://sx1301/in865.toml \
+    file://sx1301/in865_0.toml \
+    file://sx1301/ru864.toml \
+    file://sx1301/ru864_0.toml \
     file://sx1301/us915.toml \
     file://sx1301/us915_0.toml \
     file://sx1301/us915_1.toml \

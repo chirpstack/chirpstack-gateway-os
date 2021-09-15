@@ -5,7 +5,8 @@ do_deploy_append() {
     echo "dtparam=i2c_arm=on" >>${DEPLOYDIR}/bootfiles/config.txt
 
     # Needed as some boards (e.g. RisingHF) use GPIO 7 for reset.
-    echo "dtoverlay=spi0-1cs" >>${DEPLOYDIR}/bootfiles/config.txt
+    echo "# Uncomment the line below when shield uses PIN26 as GPIO7" >>${DEPLOYDIR}/bootfiles/config.txt
+    echo "#dtoverlay=spi0-1cs" >>${DEPLOYDIR}/bootfiles/config.txt
 }
 
 do_deploy_append_raspberrypi3() {
