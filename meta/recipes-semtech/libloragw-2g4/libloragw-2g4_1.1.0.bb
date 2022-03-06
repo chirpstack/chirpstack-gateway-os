@@ -19,7 +19,7 @@ TOOLCHAIN = "clang"
 
 CFLAGS += "-I inc -I ../libtools/inc"
 
-do_configure_append() {
+do_configure:append() {
     cp ${WORKDIR}/library.cfg ${S}/libloragw/library.cfg
 }
 
@@ -44,9 +44,9 @@ do_install() {
 
 PACKAGES += "${PN}-utils ${PN}-utils-dbg"
 
-FILES_${PN}-staticdev = "${libdir}"
-FILES_${PN}-utils = "/opt/libloragw-2g4/gateway-utils/* /opt/libloragw-2g4/mcu_bin/*"
-FILES_${PN}-utils-dbg = "/opt/libloragw-2g4/gateway-utils/.debug"
-FILES_${PN}-dev = "${includedir}"
+FILES:${PN}-staticdev = "${libdir}"
+FILES:${PN}-utils = "/opt/libloragw-2g4/gateway-utils/* /opt/libloragw-2g4/mcu_bin/*"
+FILES:${PN}-utils-dbg = "/opt/libloragw-2g4/gateway-utils/.debug"
+FILES:${PN}-dev = "${includedir}"
 
-INSANE_SKIP_${PN}-utils = "ldflags"
+INSANE_SKIP:${PN}-utils = "ldflags"

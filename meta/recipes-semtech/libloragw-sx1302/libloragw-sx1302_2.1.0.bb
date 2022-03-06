@@ -19,7 +19,7 @@ TOOLCHAIN = "clang"
 
 CFLAGS += "-I inc -I ../libtools/inc"
 
-do_configure_append() {
+do_configure:append() {
     cp ${WORKDIR}/library.cfg ${S}/libloragw/library.cfg
 }
 
@@ -45,9 +45,9 @@ do_install() {
 
 PACKAGES += "${PN}-utils"
 
-FILES_${PN} = "${libdir}"
-FILES_${PN}-staticdev = "${libdir}"
-FILES_${PN}-dev = "${includedir}"
-FILES_${PN}-utils = "/opt/libloragw-sx1302/gateway-utils/* /opt/libloragw-sx1302/mcu_bin/*"
+FILES:${PN} = "${libdir}"
+FILES:${PN}-staticdev = "${libdir}"
+FILES:${PN}-dev = "${includedir}"
+FILES:${PN}-utils = "/opt/libloragw-sx1302/gateway-utils/* /opt/libloragw-sx1302/mcu_bin/*"
 
-INSANE_SKIP_${PN}-utils = "ldflags"
+INSANE_SKIP:${PN}-utils = "ldflags"
