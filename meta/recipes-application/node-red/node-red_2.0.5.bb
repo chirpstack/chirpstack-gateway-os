@@ -9,7 +9,7 @@ inherit update-rc.d npm
 INITSCRIPT_NAME = "node-red"
 INITSCRIPT_PARAMS = "defaults"
 
-RDEPENDS_${PN} = "bash nodejs-npm"
+RDEPENDS:${PN} = "bash nodejs-npm"
 
 SRC_URI = " \
 	npm://registry.npmjs.org;package=node-red;version=${PV} \
@@ -29,4 +29,4 @@ do_install:append() {
 }
 
 # fix 'non -staticdev package contains static .a library' error
-INSANE_SKIP_${PN}_append = "staticdev"
+INSANE_SKIP:${PN}:append = "staticdev"

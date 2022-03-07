@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/patches:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://bootcount.patch \
     file://rpi.patch \
     file://pi3-device-tree.patch \

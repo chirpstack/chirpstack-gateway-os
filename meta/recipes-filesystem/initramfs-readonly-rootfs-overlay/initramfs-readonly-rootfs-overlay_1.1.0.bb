@@ -15,5 +15,5 @@ do_install() {
         mknod -m 622 ${D}/dev/console c 5 1
 }
 
-FILES_${PN} += " /init /mnt/root /data /dev"
-FILES_${PN} += "/dev"
+FILES:${PN} += " /init /mnt/root /data /dev"
+FILES:${PN} += "/dev"
