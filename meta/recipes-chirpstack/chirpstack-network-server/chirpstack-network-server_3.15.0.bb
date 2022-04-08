@@ -74,4 +74,4 @@ do_install() {
 }
 
 # fix already stripped error
-INSANE_SKIP_${PN}_append = "already-stripped"
+INSANE_SKIP:${PN}:append = "already-stripped"
