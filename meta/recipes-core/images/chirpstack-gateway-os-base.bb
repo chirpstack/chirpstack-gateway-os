@@ -11,7 +11,7 @@ IMAGE_INSTALL += " \
     packagegroup-base \
     ca-certificates \
     rng-tools \
-	bash \
+    bash \
     sudo \
     iptables \
     ntp \
@@ -29,7 +29,8 @@ IMAGE_INSTALL += " \
     connman-client \
     software-update \
     gateway-config \
-    chirpstack-concentratord \
+    chirpstack-concentratord-base \
+    gateway-id \
     chirpstack-concentratord-sx1301 \
     chirpstack-concentratord-sx1302 \
     chirpstack-concentratord-2g4 \
@@ -50,6 +51,6 @@ add_releaseinfo () {
 }
 
 initramfs_image() {
-	rm ${IMAGE_ROOTFS}/boot/uImage*
-	cp ${DEPLOY_DIR_IMAGE}/uImage-initramfs-${MACHINE}.bin ${IMAGE_ROOTFS}/boot/uImage
+    rm ${IMAGE_ROOTFS}/boot/uImage*
+    cp ${DEPLOY_DIR_IMAGE}/uImage-initramfs-${MACHINE}.bin ${IMAGE_ROOTFS}/boot/uImage
 }

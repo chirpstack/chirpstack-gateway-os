@@ -8,7 +8,6 @@ BBFILES ?= ""
 BBLAYERS ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/layers/meta-swupdate \
-  ##OEROOT##/layers/meta-rust-bin \
   ##OEROOT##/layers/meta-clang \
   ##OEROOT##/layers/bsp/meta-raspberrypi \
   ##OEROOT##/layers/openembedded/meta-openembedded/meta-networking \
