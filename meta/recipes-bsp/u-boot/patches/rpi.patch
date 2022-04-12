@@ -1,3 +1,6 @@
+Upstream-Status: Inappropriate [reason]
+  The patch is not appropriate for upstream.
+
 diff --git a/board/raspberrypi/rpi/rpi.c b/board/raspberrypi/rpi/rpi.c
 index 617c892d..2c24b05c 100644
 --- a/board/raspberrypi/rpi/rpi.c

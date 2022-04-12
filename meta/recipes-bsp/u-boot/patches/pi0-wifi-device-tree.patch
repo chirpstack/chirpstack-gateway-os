@@ -1,3 +1,6 @@
+Upstream-Status: Inappropriate [reason]
+  The patch is not appropriate for upstream.
+
 diff --git a/arch/arm/dts/bcm2835-rpi-zero-w.dts b/arch/arm/dts/bcm2835-rpi-zero-w.dts
 index ba0167df6c..f5b50e0fca 100644
 --- a/arch/arm/dts/bcm2835-rpi-zero-w.dts

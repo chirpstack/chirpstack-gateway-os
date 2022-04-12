@@ -1,3 +1,5 @@
+Upstream-Status: Inappropriate [reason]
+  The patch is not appropriate for upstream.
 
 diff --git a/libloragw/src/loragw_spi.native.c b/libloragw/src/loragw_spi.native.c
 index c01ed1c..a4f4b01 100644

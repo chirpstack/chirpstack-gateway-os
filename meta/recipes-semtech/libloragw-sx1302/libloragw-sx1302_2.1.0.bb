@@ -2,12 +2,13 @@ DESCRIPTION = "Driver/HAL to build a gateway using a concentrator board based on
 HOMEPAGE = "https://github.com/Lora-net/sx1302_hal"
 PRIORITY = "optional"
 LICENSE = "BSD"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD;md5=3775480a712fc46a69647678acb234cb"
+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=d2119120bd616e725f4580070bd9ee19"
 PR = "r1"
 PRR = "r1"
 
+SRCREV = "89fa9a03e7138264f9131e8668a592c31464f08d"
 SRC_URI = "\
-    git://github.com/brocaar/sx1302_hal.git;protocol=git;tag=V${PV}${PRR} \
+    git://github.com/brocaar/sx1302_hal.git;protocol=https;branch=master \
     file://library.cfg \
 "
 

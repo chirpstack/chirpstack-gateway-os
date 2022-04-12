@@ -1,3 +1,6 @@
+Upstream-Status: Inappropriate [reason]
+  The patch is not appropriate for upstream.
+
 diff --git a/arch/arm/dts/bcm2837-rpi-3-b.dts b/arch/arm/dts/bcm2837-rpi-3-b.dts
 index ce71f578..8d88e782 100644
 --- a/arch/arm/dts/bcm2837-rpi-3-b.dts

@@ -6,8 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a2bdef95625509f821ba00460e3ae0eb"
 PR = "r8"
 PRR = "r2"
 
+SRCREV = "59381129a07858a2a91aeffe21cd6a728219cf23"
 SRC_URI = "\
-    git://github.com/brocaar/lora_gateway.git;protocol=git;tag=v${PV}${PRR} \
+    git://github.com/brocaar/lora_gateway.git;protocol=https;branch=master \
     file://library.cfg \
     file://loragw_spi.native.c.patch \
 "
