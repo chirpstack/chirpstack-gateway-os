@@ -1,3 +1,0 @@
-check process chirpstack-application-server with pidfile /var/run/chirpstack-application-server.pid
-    start program = "/etc/init.d/chirpstack-application-server start"
-    stop program = "/etc/init.d/chirpstack-application-server stop"

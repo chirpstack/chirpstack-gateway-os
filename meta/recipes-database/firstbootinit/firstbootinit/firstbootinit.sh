@@ -24,12 +24,10 @@ do_init_postgresql_dbs() {
             sleep 1
         done
 
-        sudo -u postgres /usr/bin/psql -c "create role chirpstack_ns with login password 'chirpstack_ns';"
-        sudo -u postgres /usr/bin/psql -c "create role chirpstack_as with login password 'chirpstack_as';"
-        sudo -u postgres /usr/bin/psql -c "create database chirpstack_ns with owner chirpstack_ns";
-        sudo -u postgres /usr/bin/psql -c "create database chirpstack_as with owner chirpstack_as";
-        sudo -u postgres /usr/bin/psql chirpstack_as -c "create extension pg_trgm;"
-        sudo -u postgres /usr/bin/psql chirpstack_as -c "create extension hstore;"
+        sudo -u postgres /usr/bin/psql -c "create role chirpstack with login password 'chirpstack';"
+        sudo -u postgres /usr/bin/psql -c "create database chirpstack with owner chirpstack";
+        sudo -u postgres /usr/bin/psql chirpstack -c "create extension pg_trgm;"
+        sudo -u postgres /usr/bin/psql chirpstack -c "create extension hstore;"
         touch /var/lib/firstbootinit/postgresql_dbs_created
     fi
 }

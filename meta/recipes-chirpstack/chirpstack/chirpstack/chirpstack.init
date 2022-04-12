@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-NAME="chirpstack-application-server"
-DESC="ChirpStack Application Server"
+NAME="chirpstack"
+DESC="ChirpStack"
 DAEMON_BIN=/usr/bin/$NAME
 DAEMON_CONF=/etc/$NAME
 DAEMON_PID=/var/run/$NAME.pid
