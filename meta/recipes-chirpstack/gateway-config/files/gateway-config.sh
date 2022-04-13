@@ -188,7 +188,7 @@ do_setup_ic880a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";
+            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";
         esac
     fi
 }
@@ -218,9 +218,9 @@ do_setup_imst_lite() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            2) do_copy_concentratord_config "sx1301" "imst_ic880a_ru864" "" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
-            3) do_copy_concentratord_config "sx1301" "imst_ic880a_in865" "" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
+            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            2) do_copy_concentratord_config "sx1301" "imst_ic880a_ru864" "" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            3) do_copy_concentratord_config "sx1301" "imst_ic880a_in865" "" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
         esac
     fi
 }
@@ -237,7 +237,7 @@ do_setup_pislora() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_select_au915_block "sx1301" "pi_supply_lora_gateway_hat_au915" "";;
-            2) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            2) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             3) do_select_us915_block "sx1301" "pi_supply_lora_gateway_hat_us915" "";;
         esac
     fi
@@ -257,12 +257,12 @@ do_setup_rak2245() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+            1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
             2) do_select_au915_block "sx1301" "rak_2245_au915" "GNSS";;
-            3) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
+            3) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            4) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
             5) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
-            6) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
+            6) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
         esac
     fi
 }
@@ -281,12 +281,12 @@ do_setup_rak2246() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
             2) do_select_au915_block "sx1301" "rak_2246_au915" "";;
-            3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
+            3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
             5) do_select_us915_block "sx1301" "rak_2246_us915" "";;
-            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
         esac
     fi
 }
@@ -305,12 +305,12 @@ do_setup_rak2246g() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
             2) do_select_au915_block "sx1301" "rak_2246_au915" "GNSS";;
-            3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "GNSS" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
+            3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "GNSS" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
             5) do_select_us915_block "sx1301" "rak_2246_us915" "GNSS";;
-            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "GNSS" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "GNSS" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
         esac
     fi
 }
@@ -330,12 +330,12 @@ do_setup_rak2287() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "0" && do_copy_chirpstack_ns_config "as923";;
+            1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
             2) do_select_au915_block "sx1302" "rak_2287_au915" "GNSS";;
-            3) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
-            4) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "in865" "0" && do_copy_chirpstack_ns_config "in865";;
-            5) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "0" && do_copy_chirpstack_ns_config "kr920";;
-            6) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "0" && do_copy_chirpstack_ns_config "ru864";;
+            3) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            4) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            5) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "0" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
+            6) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
             7) do_select_us915_block "sx1302" "rak_2287_us915" "GNSS";;
         esac
     fi
@@ -351,7 +351,7 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "risinghf_rhf0m301_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1301" "risinghf_rhf0m301_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1301" "risinghf_rhf0m301_us915" "";;
         esac
     fi
@@ -367,7 +367,7 @@ do_setup_lorago_port() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915" "";;
         esac
     fi
@@ -382,7 +382,7 @@ do_setup_semtech_2g4() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "2g4" "semtech_sx1280z3dsfgw1" "" "ism2400" "0" && do_copy_chirpstack_ns_config "ism2400";;
+            1) do_copy_concentratord_config "2g4" "semtech_sx1280z3dsfgw1" "" "ism2400" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ism2400";;
         esac
     fi
 }
@@ -397,7 +397,7 @@ do_setup_semtech_corecell() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "0" && do_copy_chirpstack_ns_config "eu868";;
+            1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1302" "semtech_sx1302c915gw1_us915" "";;
         esac
     fi
@@ -422,14 +422,14 @@ do_select_us915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "$1" "$2" "$3" "us915" "0" && do_copy_chirpstack_ns_config "us915_0";;
-            2) do_copy_concentratord_config "$1" "$2" "$3" "us915" "1" && do_copy_chirpstack_ns_config "us915_1";;
-            3) do_copy_concentratord_config "$1" "$2" "$3" "us915" "2" && do_copy_chirpstack_ns_config "us915_2";;
-            4) do_copy_concentratord_config "$1" "$2" "$3" "us915" "3" && do_copy_chirpstack_ns_config "us915_3";;
-            5) do_copy_concentratord_config "$1" "$2" "$3" "us915" "4" && do_copy_chirpstack_ns_config "us915_4";;
-            6) do_copy_concentratord_config "$1" "$2" "$3" "us915" "5" && do_copy_chirpstack_ns_config "us915_5";;
-            7) do_copy_concentratord_config "$1" "$2" "$3" "us915" "6" && do_copy_chirpstack_ns_config "us915_6";;
-            8) do_copy_concentratord_config "$1" "$2" "$3" "us915" "7" && do_copy_chirpstack_ns_config "us915_7";;
+            1) do_copy_concentratord_config "$1" "$2" "$3" "us915" "0" && do_update_chirpstack_gw_bridge_topic_prefix "us915_0";;
+            2) do_copy_concentratord_config "$1" "$2" "$3" "us915" "1" && do_update_chirpstack_gw_bridge_topic_prefix "us915_1";;
+            3) do_copy_concentratord_config "$1" "$2" "$3" "us915" "2" && do_update_chirpstack_gw_bridge_topic_prefix "us915_2";;
+            4) do_copy_concentratord_config "$1" "$2" "$3" "us915" "3" && do_update_chirpstack_gw_bridge_topic_prefix "us915_3";;
+            5) do_copy_concentratord_config "$1" "$2" "$3" "us915" "4" && do_update_chirpstack_gw_bridge_topic_prefix "us915_4";;
+            6) do_copy_concentratord_config "$1" "$2" "$3" "us915" "5" && do_update_chirpstack_gw_bridge_topic_prefix "us915_5";;
+            7) do_copy_concentratord_config "$1" "$2" "$3" "us915" "6" && do_update_chirpstack_gw_bridge_topic_prefix "us915_6";;
+            8) do_copy_concentratord_config "$1" "$2" "$3" "us915" "7" && do_update_chirpstack_gw_bridge_topic_prefix "us915_7";;
         esac
     fi
 }
@@ -453,14 +453,14 @@ do_select_au915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "$1" "$2" "$3" "au915" "0" && do_copy_chirpstack_ns_config "au915_0";;
-            2) do_copy_concentratord_config "$1" "$2" "$3" "au915" "1" && do_copy_chirpstack_ns_config "au915_1";;
-            3) do_copy_concentratord_config "$1" "$2" "$3" "au915" "2" && do_copy_chirpstack_ns_config "au915_2";;
-            4) do_copy_concentratord_config "$1" "$2" "$3" "au915" "3" && do_copy_chirpstack_ns_config "au915_3";;
-            5) do_copy_concentratord_config "$1" "$2" "$3" "au915" "4" && do_copy_chirpstack_ns_config "au915_4";;
-            6) do_copy_concentratord_config "$1" "$2" "$3" "au915" "5" && do_copy_chirpstack_ns_config "au915_5";;
-            7) do_copy_concentratord_config "$1" "$2" "$3" "au915" "6" && do_copy_chirpstack_ns_config "au915_6";;
-            8) do_copy_concentratord_config "$1" "$2" "$3" "au915" "7" && do_copy_chirpstack_ns_config "au915_7";;
+            1) do_copy_concentratord_config "$1" "$2" "$3" "au915" "0" && do_update_chirpstack_gw_bridge_topic_prefix "au915_0";;
+            2) do_copy_concentratord_config "$1" "$2" "$3" "au915" "1" && do_update_chirpstack_gw_bridge_topic_prefix "au915_1";;
+            3) do_copy_concentratord_config "$1" "$2" "$3" "au915" "2" && do_update_chirpstack_gw_bridge_topic_prefix "au915_2";;
+            4) do_copy_concentratord_config "$1" "$2" "$3" "au915" "3" && do_update_chirpstack_gw_bridge_topic_prefix "au915_3";;
+            5) do_copy_concentratord_config "$1" "$2" "$3" "au915" "4" && do_update_chirpstack_gw_bridge_topic_prefix "au915_4";;
+            6) do_copy_concentratord_config "$1" "$2" "$3" "au915" "5" && do_update_chirpstack_gw_bridge_topic_prefix "au915_5";;
+            7) do_copy_concentratord_config "$1" "$2" "$3" "au915" "6" && do_update_chirpstack_gw_bridge_topic_prefix "au915_6";;
+            8) do_copy_concentratord_config "$1" "$2" "$3" "au915" "7" && do_update_chirpstack_gw_bridge_topic_prefix "au915_7";;
         esac
     fi
 }
@@ -532,32 +532,11 @@ do_copy_concentratord_config() {
     fi
 }
 
-do_copy_chirpstack_ns_config() {
-    # $1 channel plan
-    if [ ! -d /etc/chirpstack-network-server ]; then
-        return;
-    fi
-
-    RET=0
-    if [ -f /etc/chirpstack-network-server/chirpstack-network-server.toml ]; then
-        dialog --yesno "A ChirpStack Network Server configuration file already exists. Do you want to overwrite it?" 6 60
-        RET=$?
-    fi
-
-    if [ $RET -eq 0 ]; then
-        cp /etc/chirpstack-network-server/config/$1.toml /etc/chirpstack-network-server/chirpstack-network-server.toml
-        do_restart_chirpstack_ns
-    fi
-}
-
-do_restart_chirpstack_ns() {
-    monit restart chirpstack-network-server
-    RET=$?
-    if [ $RET -eq 0 ]; then
-        dialog --title "Restart ChirpStack Network Server" --msgbox "ChirpStack Network Server has been restarted." 5 60
-    else
-        exit $RET
-    fi
+do_update_chirpstack_gw_bridge_topic_prefix() {
+	# $1 topic prefix
+	sed -i "s/event_topic_template=.*/event_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+	sed -i "s/command_topic_template=.*/command_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+	do_restart_chirpstack_gateway_bridge
 }
 
 do_edit_chirpstack_concentratord_config() {
