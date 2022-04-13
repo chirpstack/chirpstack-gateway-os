@@ -1,0 +1,79 @@
+[[regions]]
+  name="au915_7"
+  common_name="AU915"
+
+  [regions.gateway]
+
+    [regions.gateway.backend]
+      enabled="mqtt"
+
+      [regions.gateway.backend.mqtt]
+        event_topic="au915_7/gateway/+/event/+"
+        command_topic="au915_7/gateway/{{ gateway_id }}/command/{{ command }}"
+        server="tcp://localhost:1883"
+        clean_session=true
+
+    [[regions.gateway.channels]]
+      frequency=926400000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=926600000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=926800000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=927000000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=927200000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=927400000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=927600000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=927800000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=927100000
+      bandwidth=500000
+      modulation="LORA"
+      spreading_factors=[8]
+
+  [regions.network]
+    rx1_delay=1
+    rx2_dr=8
+    rx2_frequency=923300000
+    min_dr=0
+    max_dr=5
+    enabled_uplink_channels=[56, 57, 58, 59, 60, 61, 62, 63, 71]
+
+    [regions.network.class_b]
+      ping_slot_dr=8

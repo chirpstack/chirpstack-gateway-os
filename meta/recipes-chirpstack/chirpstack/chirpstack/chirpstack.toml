@@ -1,20 +1,13 @@
-# Logging.
 [logging]
   level="info"
 
-
-# PostgreSQL configuration.
 [postgresql]
   dsn="postgres://chirpstack:chirpstack@localhost/chirpstack?sslmode=disable"
-  max_open_connections=10
-  min_idle_connections=0
-
 
 [redis]
   servers=[
     "redis://localhost/",
   ]
-
 
 [network]
   net_id="000000"
@@ -24,6 +17,13 @@
     "as923_3",
     "as923_4",
     "au915_0",
+    "au915_1",
+    "au915_2",
+    "au915_3",
+    "au915_4",
+    "au915_5",
+    "au915_6",
+    "au915_7",
     "cn779",
     "eu433",
     "eu868",
@@ -33,8 +33,13 @@
     "ru864",
     "us915_0",
     "us915_1",
+    "us915_2",
+    "us915_3",
+    "us915_4",
+    "us915_5",
+    "us915_6",
+    "us915_7",
   ]
-
 
 [api]
   bind="0.0.0.0:8080"

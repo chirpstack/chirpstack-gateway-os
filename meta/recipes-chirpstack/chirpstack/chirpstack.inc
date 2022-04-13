@@ -6,6 +6,33 @@ SRC_URI += "\
     file://chirpstack.init \
     file://chirpstack.monit \
     file://chirpstack.toml \
+    file://region_as923.toml \
+    file://region_as923_2.toml \
+    file://region_as923_3.toml \
+    file://region_as923_4.toml \
+    file://region_au915_0.toml \
+    file://region_au915_1.toml \
+    file://region_au915_2.toml \
+    file://region_au915_3.toml \
+    file://region_au915_4.toml \
+    file://region_au915_5.toml \
+    file://region_au915_6.toml \
+    file://region_au915_7.toml \
+    file://region_cn779.toml \
+    file://region_eu433.toml \
+    file://region_eu868.toml \
+    file://region_in865.toml \
+    file://region_ism2400.toml \
+    file://region_kr920.toml \
+    file://region_ru864.toml \
+    file://region_us915_0.toml \
+    file://region_us915_1.toml \
+    file://region_us915_2.toml \
+    file://region_us915_3.toml \
+    file://region_us915_4.toml \
+    file://region_us915_5.toml \
+    file://region_us915_6.toml \
+    file://region_us915_7.toml \
 "
 
 inherit update-rc.d
@@ -14,7 +41,7 @@ INITSCRIPT_NAME = "chirpstack"
 INITSCRIPT_PARAMS = "defaults"
 
 do_compile:prepend() {
-	cd "${S}/ui"
+    cd "${S}/ui"
     oe_runmake
 }
 
@@ -25,22 +52,8 @@ do_install:append() {
     install -d ${D}${sysconfdir}/monit.d
     install -m 0644 ${WORKDIR}/chirpstack.monit ${D}${sysconfdir}/monit.d/chirpstack
 
-	install -d ${D}${sysconfdir}/chirpstack
-	install -m 0640 ${WORKDIR}/chirpstack.toml ${D}${sysconfdir}/chirpstack/chirpstack.toml
-	install -m 0640 ${S}/chirpstack/configuration/as923.toml ${D}${sysconfdir}/chirpstack/as923.toml
-	install -m 0640 ${S}/chirpstack/configuration/as923_2.toml ${D}${sysconfdir}/chirpstack/as923_2.toml
-	install -m 0640 ${S}/chirpstack/configuration/as923_3.toml ${D}${sysconfdir}/chirpstack/as923_3.toml
-	install -m 0640 ${S}/chirpstack/configuration/as923_4.toml ${D}${sysconfdir}/chirpstack/as923_4.toml
-	install -m 0640 ${S}/chirpstack/configuration/au915_0.toml ${D}${sysconfdir}/chirpstack/au915_0.toml
-	install -m 0640 ${S}/chirpstack/configuration/cn779.toml ${D}${sysconfdir}/chirpstack/cn779.toml
-	install -m 0640 ${S}/chirpstack/configuration/eu433.toml ${D}${sysconfdir}/chirpstack/eu433.toml
-	install -m 0640 ${S}/chirpstack/configuration/eu868.toml ${D}${sysconfdir}/chirpstack/eu868.toml
-	install -m 0640 ${S}/chirpstack/configuration/in865.toml ${D}${sysconfdir}/chirpstack/in865.toml
-	install -m 0640 ${S}/chirpstack/configuration/ism2400.toml ${D}${sysconfdir}/chirpstack/ism2400.toml
-	install -m 0640 ${S}/chirpstack/configuration/kr920.toml ${D}${sysconfdir}/chirpstack/kr920.toml
-	install -m 0640 ${S}/chirpstack/configuration/ru864.toml ${D}${sysconfdir}/chirpstack/ru864.toml
-	install -m 0640 ${S}/chirpstack/configuration/us915_0.toml ${D}${sysconfdir}/chirpstack/us915_0.toml
-	install -m 0640 ${S}/chirpstack/configuration/us915_1.toml ${D}${sysconfdir}/chirpstack/us915_1.toml
+    install -d ${D}${sysconfdir}/chirpstack
+    install -m 0640 ${WORKDIR}/*.toml ${D}${sysconfdir}/chirpstack/
 }
 
 export OPENSSL_NO_VENDOR="1"
@@ -55,7 +68,7 @@ DEPENDS = "\
     postgresql \
     clang-native \
     nodejs-native \
-	yarn-native \
+    yarn-native \
 "
 
-CONFFILES_${PN} += "${sysconfdir}/chirpstack/chirpstack.toml"
+CONFFILES:${PN} += "${sysconfdir}/chirpstack/chirpstack.toml"
