@@ -6,12 +6,11 @@ IMAGE_INSTALL += " \
     postgresql \
     postgresql-client \
     postgresql-contrib \
-	redis \
-	mosquitto \
-	mosquitto-clients \
-	firstbootinit \
-	chirpstack-network-server \
-	chirpstack-application-server \
-	node-red \
-	node-red-contrib-chirpstack \
+    redis \
+    mosquitto \
+    mosquitto-clients \
+    firstbootinit \
+    chirpstack \
+    node-red \
+    node-red-contrib-chirpstack \
 "

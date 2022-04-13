@@ -43,7 +43,7 @@ IMAGE_INSTALL += " \
 inherit extrausers
 
 EXTRA_USERS_PARAMS = "\
-    useradd -U -p 'openssl passwd admin' admin ; \
+    useradd -U -p 'S1Y20dx4ZJwjw' admin ; \
 "
 
 ROOTFS_POSTPROCESS_COMMAND += "add_releaseinfo; initramfs_image; "

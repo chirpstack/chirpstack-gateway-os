@@ -19,7 +19,7 @@ diff --git a/include/configs/rpi.h b/include/configs/rpi.h
 index f76c7d18..7d0d3562 100644
 --- a/include/configs/rpi.h
 +++ b/include/configs/rpi.h
-@@ -187,4 +187,9 @@
+@@ -187,4 +187,10 @@
  	BOOTENV
  
  
@@ -28,4 +28,5 @@ index f76c7d18..7d0d3562 100644
 +#define CONFIG_SYS_DEVICE_NULLDEV
 +#define CONFIG_BOARD_EARLY_INIT_F 1
 +#define CONFIG_SYS_BOOTM_LEN SZ_16M
++#define CONFIG_BOOTDELAY -2
  #endif
