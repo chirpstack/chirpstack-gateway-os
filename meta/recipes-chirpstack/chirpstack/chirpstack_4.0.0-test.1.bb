@@ -8,9 +8,10 @@ inherit cargo
 # how to get chirpstack could be as easy as but default to a git checkout:
 # SRC_URI += "crate://crates.io/chirpstack/4.0.0-test.1"
 SRC_URI += "git://git@github.com/chirpstack/chirpstack.git;protocol=ssh;nobranch=1"
-SRCREV = "3f5c4983e5c18e2b76635d2810df9f1f96d15f94"
+SRCREV = "d55e5afc92c89ab23318958206961a2633a0bbc4"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "chirpstack"
+PV:append = ".AUTOINC+d55e5afc92"
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
@@ -180,6 +181,7 @@ SRC_URI += " \
     crate://crates.io/itoa/0.4.8 \
     crate://crates.io/itoa/1.0.1 \
     crate://crates.io/js-sys/0.3.56 \
+    crate://crates.io/jsonwebtoken/8.1.0 \
     crate://crates.io/kv-log-macro/1.0.7 \
     crate://crates.io/lalrpop-util/0.19.7 \
     crate://crates.io/lalrpop/0.19.7 \
@@ -425,12 +427,9 @@ SRC_URI += " \
     crate://crates.io/winreg/0.7.0 \
     crate://crates.io/xmlparser/0.13.3 \
     crate://crates.io/zeroize/1.5.1 \
-    git://github.com/brocaar/jsonwebtoken.git;protocol=https;nobranch=1;name=jsonwebtoken;destsuffix=jsonwebtoken \
 "
 
-SRCREV_FORMAT .= "_jsonwebtoken"
-SRCREV_jsonwebtoken = "f80313f2496e9069e65242da96dc423f8d8ff1da"
-EXTRA_OECARGO_PATHS += "${WORKDIR}/jsonwebtoken"
+
 
 # FIXME: update generateme with the real MD5 of the license file
 LIC_FILES_CHKSUM = " \
