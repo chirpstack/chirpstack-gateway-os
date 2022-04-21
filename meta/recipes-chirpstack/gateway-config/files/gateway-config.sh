@@ -3,121 +3,121 @@
 do_main_menu() {
     while true
     do
-		if [ ! -d /etc/chirpstack-network-server ]; then
-			do_main_menu_base
-		else
-			do_main_menu_full
-		fi
+        if [ ! -d /etc/chirpstack ]; then
+            do_main_menu_base
+        else
+            do_main_menu_full
+        fi
     done
 }
 
 do_main_menu_base() {
-	VERSION=$(cat /etc/version)
-	GATEWAY_ID=$(/usr/bin/gateway-id)
-	RET=$?
-	if [ ! $RET -eq 0 ]; then
-		GATEWAY_ID="not configured"
-	fi
+    VERSION=$(cat /etc/version)
+    GATEWAY_ID=$(/usr/bin/gateway-id)
+    RET=$?
+    if [ ! $RET -eq 0 ]; then
+        GATEWAY_ID="not configured"
+    fi
 
-	FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 18 65 9 \
-		1 "Setup LoRa concentrator shield" \
-		2 "Edit ChirpStack Concentratord config" \
-		3 "Edit ChirpStack Gateway Bridge config" \
-		4 "Restart ChirpStack Concentratord" \
-		5 "Restart ChirpStack Gateway Bridge" \
-		6 "Configure WIFI" \
-		7 "Set admin password" \
-		8 "Flash concentrator MCU" \
-		9 "Reload Gateway ID" \
-		3>&1 1>&2 2>&3)
-	RET=$?
-	if [ $RET -eq 1 ]; then
-		clear
-		exit 0
-	elif [ $RET -eq 0 ]; then
-		case "$FUN" in
-			1) do_setup_concentrator_shield;;
-			2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
-			3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
-			4) do_restart_chirpstack_concentratord;;
-			5) do_restart_chirpstack_gateway_bridge;;
-			6) do_configure_wifi;;
-			7) do_setup_admin_password;;
-			8) do_flash_concentrator_mcu;;
-			9) ;;
-		esac
-	fi
+    FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 18 65 9 \
+        1 "Setup LoRa concentrator shield" \
+        2 "Edit ChirpStack Concentratord config" \
+        3 "Edit ChirpStack Gateway Bridge config" \
+        4 "Restart ChirpStack Concentratord" \
+        5 "Restart ChirpStack Gateway Bridge" \
+        6 "Configure WIFI" \
+        7 "Set admin password" \
+        8 "Flash concentrator MCU" \
+        9 "Reload Gateway ID" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        clear
+        exit 0
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_setup_concentrator_shield;;
+            2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
+            3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
+            4) do_restart_chirpstack_concentratord;;
+            5) do_restart_chirpstack_gateway_bridge;;
+            6) do_configure_wifi;;
+            7) do_setup_admin_password;;
+            8) do_flash_concentrator_mcu;;
+            9) ;;
+        esac
+    fi
 }
 
 do_main_menu_full() {
-	VERSION=$(cat /etc/version)
-	GATEWAY_ID=$(/usr/bin/gateway-id)
-	RET=$?
-	if [ ! $RET -eq 0 ]; then
-		GATEWAY_ID="not configured"
-	fi
+    VERSION=$(cat /etc/version)
+    GATEWAY_ID=$(/usr/bin/gateway-id)
+    RET=$?
+    if [ ! $RET -eq 0 ]; then
+        GATEWAY_ID="not configured"
+    fi
 
-	FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 19 65 10 \
-		1 "Setup LoRa concentrator shield" \
-		2 "Edit ChirpStack Concentratord config" \
-		3 "Edit ChirpStack Gateway Bridge config" \
-		4 "Restart ChirpStack Concentratord" \
-		5 "Restart ChirpStack Gateway Bridge" \
-		6 "Enable / disable applications" \
-		7 "Configure WIFI" \
-		8 "Set admin password" \
-		9 "Flash concentrator MCU" \
-		10 "Reload Gateway ID" \
-		3>&1 1>&2 2>&3)
-	RET=$?
-	if [ $RET -eq 1 ]; then
-		clear
-		exit 0
-	elif [ $RET -eq 0 ]; then
-		case "$FUN" in
-			1) do_setup_concentrator_shield;;
-			2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
-			3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
-			4) do_restart_chirpstack_concentratord;;
-			5) do_restart_chirpstack_gateway_bridge;;
-			6) do_applications_menu;;
-			7) do_configure_wifi;;
-			8) do_setup_admin_password;;
-			9) do_flash_concentrator_mcu;;
-			10) ;;
-		esac
-	fi
+    FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 19 65 10 \
+        1 "Setup LoRa concentrator shield" \
+        2 "Edit ChirpStack Concentratord config" \
+        3 "Edit ChirpStack Gateway Bridge config" \
+        4 "Restart ChirpStack Concentratord" \
+        5 "Restart ChirpStack Gateway Bridge" \
+        6 "Enable / disable applications" \
+        7 "Configure WIFI" \
+        8 "Set admin password" \
+        9 "Flash concentrator MCU" \
+        10 "Reload Gateway ID" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        clear
+        exit 0
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_setup_concentrator_shield;;
+            2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
+            3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
+            4) do_restart_chirpstack_concentratord;;
+            5) do_restart_chirpstack_gateway_bridge;;
+            6) do_applications_menu;;
+            7) do_configure_wifi;;
+            8) do_setup_admin_password;;
+            9) do_flash_concentrator_mcu;;
+            10) ;;
+        esac
+    fi
 }
 
 do_applications_menu() {
-	NODE_RED="Enable Node-RED"
-	source "/etc/default/node-red"
-	if [ "${ENABLED}" -eq 1 ]; then
-		NODE_RED="Disable Node-RED"
-	fi
+    NODE_RED="Enable Node-RED"
+    source "/etc/default/node-red"
+    if [ "${ENABLED}" -eq 1 ]; then
+        NODE_RED="Disable Node-RED"
+    fi
 
-	FUN=$(dialog --title "Enable / disable applications" --menu "Applications:" 15 60 3 \
-		1 "${NODE_RED}" \
-	3>&1 1>&2 2>&3)
-	RET=$?
-	if [ $RET -eq 0 ]; then
-		case "$FUN" in
-			1) do_application_toggle_node_red;;
-		esac
-	fi
+    FUN=$(dialog --title "Enable / disable applications" --menu "Applications:" 15 60 3 \
+        1 "${NODE_RED}" \
+    3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_application_toggle_node_red;;
+        esac
+    fi
 }
 
 do_application_toggle_node_red() {
-	source "/etc/default/node-red"
-	if [ "${ENABLED}" -eq 1 ]; then
-		sed -i "s/ENABLED=.*/ENABLED=0/" /etc/default/node-red
-		/etc/init.d/node-red restart
-		dialog --title "Node-RED" --msgbox "Node-RED application has been disabled." 5 60
-	else
-		sed -i "s/ENABLED=.*/ENABLED=1/" /etc/default/node-red
-		/etc/init.d/node-red restart
-		dialog --title "Node-RED" --msgbox "Node-RED application has been enabled and is starting (this might take a minute). Once started, you can access Node-RED at:\n\n  > http://[IP ADDRESS]:1880" 10 60
-	fi
+    source "/etc/default/node-red"
+    if [ "${ENABLED}" -eq 1 ]; then
+        sed -i "s/ENABLED=.*/ENABLED=0/" /etc/default/node-red
+        /etc/init.d/node-red restart
+        dialog --title "Node-RED" --msgbox "Node-RED application has been disabled." 5 60
+    else
+        sed -i "s/ENABLED=.*/ENABLED=1/" /etc/default/node-red
+        /etc/init.d/node-red restart
+        dialog --title "Node-RED" --msgbox "Node-RED application has been enabled and is starting (this might take a minute). Once started, you can access Node-RED at:\n\n  > http://[IP ADDRESS]:1880" 10 60
+    fi
 }
 
 do_setup_admin_password() {
@@ -533,10 +533,10 @@ do_copy_concentratord_config() {
 }
 
 do_update_chirpstack_gw_bridge_topic_prefix() {
-	# $1 topic prefix
-	sed -i "s/event_topic_template=.*/event_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-	sed -i "s/command_topic_template=.*/command_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-	do_restart_chirpstack_gateway_bridge
+    # $1 topic prefix
+    sed -i "s/event_topic_template=.*/event_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    sed -i "s/command_topic_template=.*/command_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    do_restart_chirpstack_gateway_bridge
 }
 
 do_edit_chirpstack_concentratord_config() {
@@ -619,6 +619,24 @@ do_restart_chirpstack_concentratord() {
     RET=$?
     if [ $RET -eq 0 ]; then
         dialog --title "Restart ChirpStack Concentratord" --msgbox "The ChirpStack Concentratord has been restarted." 5 60
+
+        while :
+        do
+            GATEWAY_ID=$(/usr/bin/gateway-id)
+            RET=$?
+            if [ ! $RET -eq 0 ]; then
+                dialog --yesno "The Gateway ID is not yet available (this usually takes a couple of seconds). Do you want to retry?" 6 60
+                RET=$?
+                if [ ! $RET -eq 0 ]; then
+                    break
+                fi
+            else
+                if [ -d /etc/chirpstack ]; then
+                    do_create_chirpstack_gateway "$GATEWAY_ID"
+					break
+                fi
+            fi
+        done
     else
         exit $RET
     fi
@@ -679,11 +697,52 @@ do_flash_semtech_2g4() {
 }
 
 do_enable_spi0_1cs_overlay() {
-	dialog --title "Enabling GPIO7" --msgbox "This will enable the spi0-1cs overlay in /boot/config.txt as the selected shield requires GPIO7, after which the system will reboot.\n\nComment this out in /boot/config.txt if using a different shield." 10 60
-	sed -i "s/#dtoverlay=spi0-1cs/dtoverlay=spi0-1cs/" /boot/config.txt
-	reboot
+    dialog --title "Enabling GPIO7" --msgbox "This will enable the spi0-1cs overlay in /boot/config.txt as the selected shield requires GPIO7, after which the system will reboot.\n\nComment this out in /boot/config.txt if using a different shield." 10 60
+    sed -i "s/#dtoverlay=spi0-1cs/dtoverlay=spi0-1cs/" /boot/config.txt
+    reboot
 
-	sleep 1
+    sleep 1
+}
+
+do_create_chirpstack_gateway() {
+	CREATE_SQL="
+        insert into gateway (
+            gateway_id,
+            tenant_id,
+            created_at,
+            updated_at,
+            name,
+            description,
+            latitude,
+            longitude,
+            altitude,
+            stats_interval_secs,
+            tags,
+            properties
+        ) values (
+            decode('$1', 'hex'),
+            '52f14cd4-c6f1-4fbd-8f87-4025e1d49242',
+            now(),
+            now(),
+            'RaspberryPi Gateway',
+            '',
+            0,
+            0,
+            0,
+            30,
+            '{}',
+            '{}'
+        )
+        on conflict do nothing
+	"
+
+    PGPASSWORD=chirpstack psql -h localhost -U chirpstack chirpstack -c "$CREATE_SQL"
+    RET=$?
+    if [ $RET -eq 0 ]; then
+        dialog --title "ChirpStack" --msgbox "The gateway has been created for you in ChirpStack :)" 5 60
+    else
+        dialog --title "ChirpStack" --msgbox "Creating the gateway in ChirpStack failed." 5 60
+    fi
 }
 
 if [ $EUID -ne 0 ]; then
