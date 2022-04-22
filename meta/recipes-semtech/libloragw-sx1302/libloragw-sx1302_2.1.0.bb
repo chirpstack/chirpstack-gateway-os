@@ -3,10 +3,10 @@ HOMEPAGE = "https://github.com/Lora-net/sx1302_hal"
 PRIORITY = "optional"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=d2119120bd616e725f4580070bd9ee19"
-PR = "r1"
-PRR = "r1"
+PR = "r2"
+PRR = "r2"
 
-SRCREV = "89fa9a03e7138264f9131e8668a592c31464f08d"
+SRCREV = "cb2aac3f2d14e55366bb59586c21ab32b0a03a7e"
 SRC_URI = "\
     git://github.com/brocaar/sx1302_hal.git;protocol=https;branch=master \
     file://library.cfg \
