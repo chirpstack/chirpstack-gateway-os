@@ -10,9 +10,11 @@ SRC_URI = "file://gateway-config.sh \
 PR = "r1"
 
 do_install() {
-    install -d ${D}/usr
     install -d ${D}/usr/bin
+    install -d ${D}/etc
+
     install -m 0755 ${WORKDIR}/gateway-config.sh ${D}/usr/bin/gateway-config
+    echo ${DISTRO_VERSION} > ${D}/etc/chirpstack-gateway-os-version
 }
 
-FILES:${PN} = "/usr/bin/gateway-config"
+FILES:${PN} = "/usr/bin/gateway-config /etc/chirpstack-gateway-os-version"

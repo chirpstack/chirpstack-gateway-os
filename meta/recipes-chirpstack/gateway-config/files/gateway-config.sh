@@ -12,7 +12,7 @@ do_main_menu() {
 }
 
 do_main_menu_base() {
-    VERSION=$(cat /etc/version)
+    VERSION=$(cat /etc/chirpstack-gateway-os-version)
     GATEWAY_ID=$(/usr/bin/gateway-id)
     RET=$?
     if [ ! $RET -eq 0 ]; then
@@ -50,7 +50,7 @@ do_main_menu_base() {
 }
 
 do_main_menu_full() {
-    VERSION=$(cat /etc/version)
+    VERSION=$(cat /etc/chirpstack-gateway-os-version)
     GATEWAY_ID=$(/usr/bin/gateway-id)
     RET=$?
     if [ ! $RET -eq 0 ]; then

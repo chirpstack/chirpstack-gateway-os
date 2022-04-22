@@ -1,7 +1,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI:append = "\
-	file://path.sh \
+    file://path.sh \
     file://fstab \
     file://connman/main.conf \
     file://connman/settings \
