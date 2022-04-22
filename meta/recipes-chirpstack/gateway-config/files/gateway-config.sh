@@ -110,8 +110,8 @@ do_applications_menu() {
 do_application_toggle_node_red() {
     source "/etc/default/node-red"
     if [ "${ENABLED}" -eq 1 ]; then
+        /etc/init.d/node-red stop
         sed -i "s/ENABLED=.*/ENABLED=0/" /etc/default/node-red
-        /etc/init.d/node-red restart
         dialog --title "Node-RED" --msgbox "Node-RED application has been disabled." 5 60
     else
         sed -i "s/ENABLED=.*/ENABLED=1/" /etc/default/node-red
@@ -150,19 +150,19 @@ do_setup_concentrator_shield() {
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_set_concentratord "sx1301" && do_setup_ic880a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord;;
-            2) do_set_concentratord "sx1301" && do_setup_ic980a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord;;
-            3) do_set_concentratord "sx1301" && do_setup_imst_lite && do_restart_chirpstack_concentratord;;
-            4) do_set_concentratord "sx1301" && do_setup_pislora && do_restart_chirpstack_concentratord;;
-            5) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
-            6) do_set_concentratord "sx1301" && do_setup_rak2246 && do_restart_chirpstack_concentratord;;
-            7) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord;;
-            8) do_set_concentratord "sx1302" && do_setup_rak2287 && do_restart_chirpstack_concentratord;;
-            9) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord;;
+			1) do_set_concentratord "sx1301" && do_setup_ic880a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            2) do_set_concentratord "sx1301" && do_setup_ic980a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            3) do_set_concentratord "sx1301" && do_setup_imst_lite && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            4) do_set_concentratord "sx1301" && do_setup_pislora && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            5) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            6) do_set_concentratord "sx1301" && do_setup_rak2246 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            7) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            8) do_set_concentratord "sx1302" && do_setup_rak2287 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            9) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             10) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
-            11) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord;;
-            12) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord;;
-            13) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord;;
+            11) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            12) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            13) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
         esac
     fi
 }
@@ -619,24 +619,6 @@ do_restart_chirpstack_concentratord() {
     RET=$?
     if [ $RET -eq 0 ]; then
         dialog --title "Restart ChirpStack Concentratord" --msgbox "The ChirpStack Concentratord has been restarted." 5 60
-
-        while :
-        do
-            GATEWAY_ID=$(/usr/bin/gateway-id)
-            RET=$?
-            if [ ! $RET -eq 0 ]; then
-                dialog --yesno "The Gateway ID is not yet available (this usually takes a couple of seconds). Do you want to retry?" 6 60
-                RET=$?
-                if [ ! $RET -eq 0 ]; then
-                    break
-                fi
-            else
-                if [ -d /etc/chirpstack ]; then
-                    do_create_chirpstack_gateway "$GATEWAY_ID"
-					break
-                fi
-            fi
-        done
     else
         exit $RET
     fi
@@ -705,44 +687,78 @@ do_enable_spi0_1cs_overlay() {
 }
 
 do_create_chirpstack_gateway() {
-	CREATE_SQL="
-        insert into gateway (
-            gateway_id,
-            tenant_id,
-            created_at,
-            updated_at,
-            name,
-            description,
-            latitude,
-            longitude,
-            altitude,
-            stats_interval_secs,
-            tags,
-            properties
-        ) values (
-            decode('$1', 'hex'),
-            '52f14cd4-c6f1-4fbd-8f87-4025e1d49242',
-            now(),
-            now(),
-            'RaspberryPi Gateway',
-            '',
-            0,
-            0,
-            0,
-            30,
-            '{}',
-            '{}'
-        )
-        on conflict do nothing
-	"
+	if [ ! -d /etc/chirpstack ]; then
+		return
+	fi
 
-    PGPASSWORD=chirpstack psql -h localhost -U chirpstack chirpstack -c "$CREATE_SQL"
-    RET=$?
-    if [ $RET -eq 0 ]; then
-        dialog --title "ChirpStack" --msgbox "The gateway has been created for you in ChirpStack :)" 5 60
-    else
-        dialog --title "ChirpStack" --msgbox "Creating the gateway in ChirpStack failed." 5 60
-    fi
+	dialog --yesno "Do you want to create the gateway in ChirpStack?" 5 60
+	RET=$?
+	if [ ! $RET -eq 0 ]; then
+		return
+	fi
+
+	GATEWAY_ID=""
+	while :
+	do
+		GATEWAY_ID=$(/usr/bin/gateway-id)
+		RET=$?
+		if [ ! $RET -eq 0 ]; then
+			dialog --yesno "The Gateway ID is not yet available (this usually takes a couple of seconds). Do you want to retry?" 6 60
+			RET=$?
+			if [ ! $RET -eq 0 ]; then
+				return
+			fi
+		else
+			break
+		fi
+	done
+
+    while :
+    do
+        CREATE_SQL="
+            insert into gateway (
+                gateway_id,
+                tenant_id,
+                created_at,
+                updated_at,
+                name,
+                description,
+                latitude,
+                longitude,
+                altitude,
+                stats_interval_secs,
+                tags,
+                properties
+            ) values (
+                decode('$GATEWAY_ID', 'hex'),
+                '52f14cd4-c6f1-4fbd-8f87-4025e1d49242',
+                now(),
+                now(),
+                'RaspberryPi Gateway',
+                '',
+                0,
+                0,
+                0,
+                30,
+                '{}',
+                '{}'
+            )
+            on conflict do nothing
+        "
+
+        PGPASSWORD=chirpstack psql -h localhost -U chirpstack chirpstack -c "$CREATE_SQL"
+        RET=$?
+        if [ $RET -eq 0 ]; then
+            dialog --title "ChirpStack" --msgbox "The gateway has been created for you in ChirpStack :)" 5 60
+            break
+        else
+            dialog --yesno "Creating the gateway in ChirpStack failed. The first time when you boot the ChirpStack Gateway OS it takes some time to initialize the database. Do you want to try again?" 8 60
+            RET=$?
+            if [ ! $RET -eq 0 ]; then
+                break
+            fi
+        fi
+    done
 }
 
 if [ $EUID -ne 0 ]; then
