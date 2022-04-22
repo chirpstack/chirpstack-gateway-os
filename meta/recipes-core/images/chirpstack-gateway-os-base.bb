@@ -25,6 +25,7 @@ IMAGE_INSTALL += " \
     wireguard-client-config \
     rpio \
     rpi-gpio \
+    i2c-tools \
     connman \
     connman-client \
     software-update \
