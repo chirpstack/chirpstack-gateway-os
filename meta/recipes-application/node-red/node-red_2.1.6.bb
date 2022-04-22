@@ -34,3 +34,6 @@ do_install:append() {
     rm ${D}/${bindir}/${BPN}-pi
     rm -rf ${D}/${libdir}/node_modules/${BPN}/bin
 }
+
+# fix 'non -staticdev package contains static .a library' error
+INSANE_SKIP:${PN}:append = "staticdev"
