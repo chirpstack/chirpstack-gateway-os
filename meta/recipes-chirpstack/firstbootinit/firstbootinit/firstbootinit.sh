@@ -32,8 +32,20 @@ do_init_postgresql_dbs() {
     fi
 }
 
+do_generate_ca_cert() {
+    if [ ! -f /var/lib/firstbootinit/ca_cert_generated ]; then
+        CERTROOT=/etc/chirpstack/certs
+        cfssl gencert -initca $CERTROOT/ca-csr.json | cfssljson -bare $CERTROOT/ca
+        cfssl gencert -ca $CERTROOT/ca.pem -ca-key $CERTROOT/ca-key.pem -config $CERTROOT/ca-config.json -profile server $CERTROOT/mqtt-server.json | cfssljson -bare $CERTROOT/mqtt-server
+        chown mosquitto:mosquitto /$CERTROOT/mqtt*.pem
+
+        touch /var/lib/firstbootinit/ca_cert_generated
+    fi
+}
+
 
 do_init_postgresql
 do_init_postgresql_dbs
+do_generate_ca_cert
 
 update-rc.d -f firstbootinit remove

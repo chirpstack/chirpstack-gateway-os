@@ -59,3 +59,13 @@
   [integration.mqtt]
     server="tcp://localhost:1883/"
     json=true
+
+    [integration.mqtt.client]
+    client_cert_lifetime="365days"
+    ca_cert="/etc/chirpstack/certs/ca.pem"
+    ca_key="/etc/chirpstack/certs/ca-key.pem"
+
+[gateway]
+  client_cert_lifetime="365days"
+  ca_cert="/etc/chirpstack/certs/ca.pem"
+  ca_key="/etc/chirpstack/certs/ca-key.pem"

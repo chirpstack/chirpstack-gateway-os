@@ -1,0 +1,2 @@
+pattern readwrite +/gateway/%u/#
+pattern readwrite application/%u/#
