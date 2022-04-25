@@ -6,6 +6,15 @@ do_main_menu() {
         if [ ! -d /etc/chirpstack ]; then
             do_main_menu_base
         else
+            while :
+            do
+                if [ -f /var/lib/firstbootinit/postgresql_dbs_created ];  then
+                    break
+                else
+                    dialog --infobox "The database is initializing. This might take a minute or two during the first boot. Please wait." 4 60
+                    sleep 1
+                fi
+            done
             do_main_menu_full
         fi
     done
@@ -150,7 +159,7 @@ do_setup_concentrator_shield() {
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
-			1) do_set_concentratord "sx1301" && do_setup_ic880a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            1) do_set_concentratord "sx1301" && do_setup_ic880a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             2) do_set_concentratord "sx1301" && do_setup_ic980a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             3) do_set_concentratord "sx1301" && do_setup_imst_lite && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             4) do_set_concentratord "sx1301" && do_setup_pislora && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
@@ -687,31 +696,34 @@ do_enable_spi0_1cs_overlay() {
 }
 
 do_create_chirpstack_gateway() {
-	if [ ! -d /etc/chirpstack ]; then
-		return
-	fi
+    if [ ! -d /etc/chirpstack ]; then
+        return
+    fi
 
-	dialog --yesno "Do you want to create the gateway in ChirpStack?" 5 60
-	RET=$?
-	if [ ! $RET -eq 0 ]; then
-		return
-	fi
+    dialog --yesno "Do you want to create the gateway in ChirpStack?" 5 60
+    RET=$?
+    if [ ! $RET -eq 0 ]; then
+        return
+    fi
 
-	GATEWAY_ID=""
-	while :
-	do
-		GATEWAY_ID=$(/usr/bin/gateway-id)
-		RET=$?
-		if [ ! $RET -eq 0 ]; then
-			dialog --yesno "The Gateway ID is not yet available (this usually takes a couple of seconds). Do you want to retry?" 6 60
-			RET=$?
-			if [ ! $RET -eq 0 ]; then
-				return
-			fi
-		else
-			break
-		fi
-	done
+    GATEWAY_ID=""
+    RETRY=0
+    while :
+    do
+        RETRY=$((RETRY+1))
+        dialog --infobox "Retrieving the Gateway ID (this can take a couple of seconds after a Concentratord restart)." 4 60
+        sleep 1
+        GATEWAY_ID=$(/usr/bin/gateway-id)
+        RET=$?
+        if [ $RET -eq 0 ]; then
+            break
+        else
+            if [ $RETRY -ge 10 ]; then
+                dialog --msgbox "Retrieving the Gateway ID failed. Please check your concentrator shield configration." 6 60
+                return
+            fi
+        fi
+    done
 
     while :
     do
