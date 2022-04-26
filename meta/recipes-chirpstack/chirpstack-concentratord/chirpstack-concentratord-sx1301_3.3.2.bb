@@ -5,12 +5,12 @@ inherit cargo
 # If this is git based prefer versioned ones if they exist
 # DEFAULT_PREFERENCE = "-1"
 
-# how to get chirpstack-concentratord-2g4 could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/chirpstack-concentratord-2g4/3.3.1"
+# how to get chirpstack-concentratord-sx1301 could be as easy as but default to a git checkout:
+# SRC_URI += "crate://crates.io/chirpstack-concentratord-sx1301/3.3.1"
 SRC_URI += "git://git@github.com/brocaar/chirpstack-concentratord.git;protocol=ssh;nobranch=1"
-SRCREV = "491450db7917c198360b923e93ae899c3445c201"
+SRCREV = "13454f029d1c524d54e36583b1dd42706663297d"
 S = "${WORKDIR}/git"
-CARGO_SRC_DIR = "chirpstack-concentratord-2g4"
+CARGO_SRC_DIR = "chirpstack-concentratord-sx1301"
 
 
 # please note if you have entries that do not begin with crate://
@@ -169,12 +169,12 @@ LIC_FILES_CHKSUM = " \
     file://MIT;md5=generateme \
 "
 
-SUMMARY = "chirpstack-concentratord-2g4"
+SUMMARY = "chirpstack-concentratord-sx1301"
 HOMEPAGE = "https://github.com/brocaar/chirpstack-concentratord/"
 LICENSE = "MIT"
 
 # includes this file if it exists but does not fail
 # this is useful for anything you may want to override from
 # what cargo-bitbake generates.
-include chirpstack-concentratord-2g4-${PV}.inc
-include chirpstack-concentratord-2g4.inc
+include chirpstack-concentratord-sx1301-${PV}.inc
+include chirpstack-concentratord-sx1301.inc

@@ -8,7 +8,7 @@ if [ -f "/etc/default/${NAME}" ]; then
 fi
 
 DAEMON_BIN=/usr/bin/${NAME}-${CONCENTRATORD_VERSION}
-DAEMON_CONF_GLOBAL=/etc/${NAME}/${CONCENTRATORD_VERSION}/global.toml
+DAEMON_CONF_GLOBAL=/etc/${NAME}/${CONCENTRATORD_VERSION}/concentratord.toml
 DAEMON_CONF_BAND=/etc/${NAME}/${CONCENTRATORD_VERSION}/band.toml
 DAEMON_CONF_CHANNELS=/etc/${NAME}/${CONCENTRATORD_VERSION}/channels.toml
 DAEMON_PID=/var/run/${NAME}.pid

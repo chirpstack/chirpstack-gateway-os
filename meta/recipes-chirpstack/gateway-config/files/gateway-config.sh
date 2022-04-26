@@ -141,7 +141,7 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 18 60 11 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 21 60 11 \
         1 "IMST       - iC880A" \
         2 "IMST       - iC980A" \
         3 "IMST       - Lite Gateway" \
@@ -150,11 +150,12 @@ do_setup_concentrator_shield() {
         6 "RAK        - RAK2246" \
         7 "RAK        - RAK2246G (with GNSS)" \
         8 "RAK        - RAK2287 (with GNSS)" \
-        9 "RAK        - RAK831" \
-        10 "RisingHF   - RHF0M301" \
-        11 "Sandbox    - LoRaGo PORT" \
-        12 "Semtech    - SX1280 (2.4 GHz)" \
-        13 "Semtech    - SX1302 CoreCell" \
+        9 "RAK        - RAK5146 (with GNSS)" \
+        10 "RAK        - RAK831" \
+        11 "RisingHF   - RHF0M301" \
+        12 "Sandbox    - LoRaGo PORT" \
+        13 "Semtech    - SX1280 (2.4 GHz)" \
+        14 "Semtech    - SX1302 CoreCell" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
@@ -167,11 +168,12 @@ do_setup_concentrator_shield() {
             6) do_set_concentratord "sx1301" && do_setup_rak2246 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             7) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             8) do_set_concentratord "sx1302" && do_setup_rak2287 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            9) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            10) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
-            11) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            12) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            13) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            9) do_set_concentratord "sx1302" && do_setup_rak5146 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            10) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            11) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
+            12) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            13) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            14) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
         esac
     fi
 }
@@ -197,7 +199,7 @@ do_setup_ic880a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";
+            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";
         esac
     fi
 }
@@ -211,7 +213,7 @@ do_setup_ic980a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_select_us915_block "sx1301" "generic_eu868" "";;
+            1) do_select_us915_block "sx1301" "generic_us915" "";;
         esac
     fi
 }
@@ -227,9 +229,9 @@ do_setup_imst_lite() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            2) do_copy_concentratord_config "sx1301" "imst_ic880a_ru864" "" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
-            3) do_copy_concentratord_config "sx1301" "imst_ic880a_in865" "" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            2) do_copy_concentratord_config "sx1301" "imst_ic880a_ru864" "" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            3) do_copy_concentratord_config "sx1301" "imst_ic880a_in865" "" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
         esac
     fi
 }
@@ -246,106 +248,178 @@ do_setup_pislora() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_select_au915_block "sx1301" "pi_supply_lora_gateway_hat_au915" "";;
-            2) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            2) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             3) do_select_us915_block "sx1301" "pi_supply_lora_gateway_hat_us915" "";;
         esac
     fi
 }
 
 do_setup_rak2245() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 18 60 4 \
         1 "AS923" \
-        2 "AU915" \
-        3 "EU868" \
-        4 "IN865" \
-        5 "US915" \
-        6 "RU864" \
+        2 "AS923-2" \
+        3 "AS923-3" \
+        4 "AS923-4" \
+        5 "AU915" \
+        6 "EU433" \
+        7 "EU868" \
+        8 "IN865" \
+        9 "KR920" \
+        10 "RU864" \
+        11 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_select_au915_block "sx1301" "rak_2245_au915" "GNSS";;
-            3) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            4) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            5) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
-            6) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            5) do_select_au915_block "sx1301" "rak_2245_au915" "GNSS";;
+            6) do_copy_concentratord_config "sx1301" "rak_2245_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1301" "rak_2245_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            11) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
         esac
     fi
 }
 
 do_setup_rak2246() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 18 60 4 \
         1 "AS923" \
-        2 "AU915" \
-        3 "EU868" \
-        4 "IN865" \
-        5 "US915" \
-        6 "RU864" \
+        2 "AS923-2" \
+        3 "AS923-3" \
+        4 "AS923-4" \
+        5 "AU915" \
+        6 "EU433" \
+        7 "EU868" \
+        8 "IN865" \
+        9 "KR920" \
+        10 "RU864" \
+        11 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_select_au915_block "sx1301" "rak_2246_au915" "";;
-            3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            5) do_select_us915_block "sx1301" "rak_2246_us915" "";;
-            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            5) do_select_au915_block "sx1301" "rak_2246_au915" "";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_eu433" "" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1301" "rak_2246_in865" "" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1301" "rak_2246_kr920" "" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            11) do_select_us915_block "sx1301" "rak_2246_us915" "";;
         esac
     fi
 }
 
 do_setup_rak2246g() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 4 \
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 18 60 4 \
         1 "AS923" \
-        1 "AU915" \
-        3 "EU868" \
-        4 "IN865" \
-        5 "US915" \
-        6 "RU864" \
+        2 "AS923-2" \
+        3 "AS923-3" \
+        4 "AS923-4" \
+        5 "AU915" \
+        6 "EU433" \
+        7 "EU868" \
+        8 "IN865" \
+        9 "KR920" \
+        10 "RU864" \
+        11 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_select_au915_block "sx1301" "rak_2246_au915" "GNSS";;
-            3) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            4) do_copy_concentratord_config "sx1301" "rak_2246_in865" "GNSS" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            5) do_select_us915_block "sx1301" "rak_2246_us915" "GNSS";;
-            6) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "GNSS" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            5) do_select_au915_block "sx1301" "rak_2246_au915" "";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1301" "rak_2246_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1301" "rak_2246_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            11) do_select_us915_block "sx1301" "rak_2246_us915" "GNSS";;
         esac
     fi
 }
 
 do_setup_rak2287() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 7 \
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 18 60 7 \
         1 "AS923" \
-        2 "AU915" \
-        3 "EU868" \
-        4 "IN865" \
-        5 "KR920" \
-        6 "RU864" \
-        7 "US915" \
+        2 "AS923-2" \
+        3 "AS923-3" \
+        4 "AS923-4" \
+        5 "AU915" \
+        6 "EU433" \
+        7 "EU868" \
+        8 "IN865" \
+        9 "KR920" \
+        10 "RU864" \
+        11 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "0" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_select_au915_block "sx1302" "rak_2287_au915" "GNSS";;
-            3) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            4) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "in865" "0" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            5) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "0" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
-            6) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
-            7) do_select_us915_block "sx1302" "rak_2287_us915" "GNSS";;
+            1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            5) do_select_au915_block "sx1302" "rak_2287_au915" "GNSS";;
+            6) do_copy_concentratord_config "sx1302" "rak_2287_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            11) do_select_us915_block "sx1302" "rak_2287_us915" "GNSS";;
+        esac
+    fi
+}
+
+do_setup_rak5146() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 18 60 7 \
+        1 "AS923" \
+        2 "AS923-2" \
+        3 "AS923-3" \
+        4 "AS923-4" \
+        5 "AU915" \
+        6 "EU433" \
+        7 "EU868" \
+        8 "IN865" \
+        9 "KR920" \
+        10 "RU864" \
+        11 "US915" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            5) do_select_au915_block "sx1302" "rak_5146_au915" "GNSS";;
+            6) do_copy_concentratord_config "sx1302" "rak_5146_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1302" "rak_5146_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1302" "rak_5146_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1302" "rak_5146_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1302" "rak_5146_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            11) do_select_us915_block "sx1302" "rak_5146_us915" "GNSS";;
         esac
     fi
 }
@@ -360,7 +434,7 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "risinghf_rhf0m301_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1301" "risinghf_rhf0m301_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1301" "risinghf_rhf0m301_us915" "";;
         esac
     fi
@@ -376,7 +450,7 @@ do_setup_lorago_port() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915" "";;
         esac
     fi
@@ -391,7 +465,7 @@ do_setup_semtech_2g4() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "2g4" "semtech_sx1280z3dsfgw1" "" "ism2400" "0" && do_update_chirpstack_gw_bridge_topic_prefix "ism2400";;
+            1) do_copy_concentratord_config "2g4" "semtech_sx1280z3dsfgw1" "" "ism2400" "" && do_update_chirpstack_gw_bridge_topic_prefix "ism2400";;
         esac
     fi
 }
@@ -406,7 +480,7 @@ do_setup_semtech_corecell() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "0" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1302" "semtech_sx1302c915gw1_us915" "";;
         esac
     fi
@@ -508,19 +582,24 @@ do_copy_concentratord_config() {
         RET=$?
     fi
 
+	SUFFIX=""
+	if [ ! $5 -eq "" ]; then
+		SUFFIX="_${5}"
+	fi
+
     if [ $RET -eq 0 ]; then
-        cp /etc/chirpstack-concentratord/$1/examples/global.toml /etc/chirpstack-concentratord/$1/global.toml
-        cp /etc/chirpstack-concentratord/$1/examples/$4.toml /etc/chirpstack-concentratord/$1/band.toml
-        cp /etc/chirpstack-concentratord/$1/examples/$4_$5.toml /etc/chirpstack-concentratord/$1/channels.toml
+        cp /etc/chirpstack-concentratord/$1/examples/concentratord.toml /etc/chirpstack-concentratord/$1/concentratord.toml
+        cp /etc/chirpstack-concentratord/$1/examples/band_$4.toml /etc/chirpstack-concentratord/$1/band.toml
+        cp /etc/chirpstack-concentratord/$1/examples/channels_$4$SUFFIX.toml /etc/chirpstack-concentratord/$1/channels.toml
 
         # set model
-        sed -i "s/model=.*/model=\"${2}\"/" /etc/chirpstack-concentratord/$1/global.toml
+        sed -i "s/model=.*/model=\"${2}\"/" /etc/chirpstack-concentratord/$1/concentratord.toml
 
         # set model flags
         IFS=' '; read -ra model_flags <<< $3
         model_flags_str=""
         for i in "${model_flags[@]}"; do model_flags_str="$model_flags_str\"$i\","; done
-        sed -i "s/model_flags=.*/model_flags=[$model_flags_str]/" /etc/chirpstack-concentratord/$1/global.toml
+        sed -i "s/model_flags=.*/model_flags=[$model_flags_str]/" /etc/chirpstack-concentratord/$1/concentratord.toml
 
         # set gateway id
         GWID_MIDFIX="fffe"
@@ -535,7 +614,7 @@ do_copy_concentratord_config() {
             GWID_BEGIN=$(ip link show wlan0 | awk '/ether/ {print $2}' | awk -F\: '{print $1$2$3}')
             GWID_END=$(ip link show wlan0 | awk '/ether/ {print $2}' | awk -F\: '{print $4$5$6}')
         fi
-        sed -i "s/gateway_id=.*/gateway_id=\"${GWID_BEGIN}${GWID_MIDFIX}${GWID_END}\"/" /etc/chirpstack-concentratord/$1/global.toml
+        sed -i "s/gateway_id=.*/gateway_id=\"${GWID_BEGIN}${GWID_MIDFIX}${GWID_END}\"/" /etc/chirpstack-concentratord/$1/concentratord.toml
 
         dialog --title "Channel-plan configuration" --msgbox "Channel-plan configuration has been copied." 5 60
     fi
