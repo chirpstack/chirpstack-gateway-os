@@ -833,8 +833,8 @@ do_create_chirpstack_gateway() {
         if [ $RET -eq 0 ]; then
             break
         else
-            if [ $RETRY -ge 10 ]; then
-                dialog --msgbox "Retrieving the Gateway ID failed. Please check your concentrator shield configration." 6 60
+            if [ $RETRY -ge 30 ]; then
+                dialog --msgbox "Retrieving the Gateway ID failed. Please check your concentrator shield configuration." 6 60
                 return
             fi
         fi
