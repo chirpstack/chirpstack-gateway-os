@@ -11,6 +11,7 @@ IMAGE_INSTALL += " \
     packagegroup-base \
     ca-certificates \
     rng-tools \
+    openssh-sftp-server \
     bash \
     sudo \
     iptables \

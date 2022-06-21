@@ -5,6 +5,7 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=d2119120bd616e725f4580070bd9ee19"
 PR = "r2"
 PRR = "r2"
+RDEPENDS:${PN}-utils = "dfu-util"
 
 SRCREV = "cb2aac3f2d14e55366bb59586c21ab32b0a03a7e"
 SRC_URI = "\

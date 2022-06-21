@@ -4,7 +4,7 @@ PRIORITY = "optional"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=ca326f6e7b5a58bffccfde6e1c998d69"
 PR = "r1"
-RDEPENDS_${PN}-utils = "dfu-util"
+RDEPENDS:${PN}-utils = "dfu-util"
 
 
 SRCREV = "f14f5cf2e4caf3789bc32159fba5c10363166591"

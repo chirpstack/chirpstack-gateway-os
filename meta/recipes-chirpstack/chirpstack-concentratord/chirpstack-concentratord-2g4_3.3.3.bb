@@ -5,13 +5,13 @@ inherit cargo
 # If this is git based prefer versioned ones if they exist
 # DEFAULT_PREFERENCE = "-1"
 
-# how to get gateway-id could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/gateway-id/3.3.1"
+# how to get chirpstack-concentratord-2g4 could be as easy as but default to a git checkout:
+# SRC_URI += "crate://crates.io/chirpstack-concentratord-2g4/3.3.1"
 SRC_URI += "git://git@github.com/brocaar/chirpstack-concentratord.git;protocol=ssh;nobranch=1"
-SRCREV = "bbc6dc09a462281080a567957e547c8b97e36f53"
+SRCREV = "efa4e597f8f243ac126f1b81c44727a637b4e646"
 S = "${WORKDIR}/git"
-CARGO_SRC_DIR = "gateway-id"
-PV:append = ".AUTOINC+bbc6dc09a4"
+CARGO_SRC_DIR = "chirpstack-concentratord-2g4"
+
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
@@ -169,12 +169,12 @@ LIC_FILES_CHKSUM = " \
     file://MIT;md5=generateme \
 "
 
-SUMMARY = "gateway-id"
+SUMMARY = "chirpstack-concentratord-2g4"
 HOMEPAGE = "https://github.com/brocaar/chirpstack-concentratord/"
 LICENSE = "MIT"
 
 # includes this file if it exists but does not fail
 # this is useful for anything you may want to override from
 # what cargo-bitbake generates.
-include gateway-id-${PV}.inc
-include gateway-id.inc
+include chirpstack-concentratord-2g4-${PV}.inc
+include chirpstack-concentratord-2g4.inc

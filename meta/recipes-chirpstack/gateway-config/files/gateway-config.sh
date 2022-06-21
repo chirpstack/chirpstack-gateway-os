@@ -141,7 +141,7 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 21 60 11 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 22 60 11 \
         1 "IMST       - iC880A" \
         2 "IMST       - iC980A" \
         3 "IMST       - Lite Gateway" \
@@ -155,7 +155,8 @@ do_setup_concentrator_shield() {
         11 "RisingHF   - RHF0M301" \
         12 "Sandbox    - LoRaGo PORT" \
         13 "Semtech    - SX1280 (2.4 GHz)" \
-        14 "Semtech    - SX1302 CoreCell" \
+        14 "Semtech    - SX1302 CoreCell (SX1302CXXXGW1)" \
+        15 "Semtech    - SX1302 CoreCell (USB) (SX1302CSSXXXGW1)" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
@@ -173,7 +174,8 @@ do_setup_concentrator_shield() {
             11) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
             12) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             13) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            14) do_set_concentratord "sx1302" && do_setup_semtech_corecell && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            14) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            15) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cssxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
         esac
     fi
 }
@@ -181,11 +183,13 @@ do_setup_concentrator_shield() {
 do_flash_concentrator_mcu() {
     FUN=$(dialog --title "Flash concentrator MCU" --menu "Select shield:" 18 60 5 \
         1  "Semtech    - SX1280 (2.4 GHz)" \
+        2  "Semtech    - SX1302 CoreCell (SX1302CSSXXXGW1)" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_flash_semtech_2g4;;
+            2) do_flash_semtech_sx1302cssxxxgw1;;
         esac
     fi
 }
@@ -470,7 +474,7 @@ do_setup_semtech_2g4() {
     fi
 }
 
-do_setup_semtech_corecell() {
+do_setup_semtech_sx1302cxxxgw1() {
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
         1 "EU868" \
         2 "US915" \
@@ -482,6 +486,24 @@ do_setup_semtech_corecell() {
         case "$FUN" in
             1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1302" "semtech_sx1302c915gw1_us915" "";;
+        esac
+    fi
+}
+
+do_setup_semtech_sx1302cssxxxgw1() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "AS923" \
+        2 "EU868" \
+        3 "US915" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "sx1302" "semtech_sx1302css923gw1_as923" "" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1302" "semtech_sx1302css868gw1_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            3) do_select_us915_block "sx1302" "semtech_sx1302css915gw1_us915" "";;
         esac
     fi
 }
@@ -582,10 +604,10 @@ do_copy_concentratord_config() {
         RET=$?
     fi
 
-	SUFFIX=""
-	if [ ! $5 -eq "" ]; then
-		SUFFIX="_${5}"
-	fi
+    SUFFIX=""
+    if [ ! $5 -eq "" ]; then
+        SUFFIX="_${5}"
+    fi
 
     if [ $RET -eq 0 ]; then
         cp /etc/chirpstack-concentratord/$1/examples/concentratord.toml /etc/chirpstack-concentratord/$1/concentratord.toml
@@ -757,6 +779,20 @@ do_flash_semtech_2g4() {
     /opt/libloragw-2g4/gateway-utils/boot -d /dev/ttyACM0
     sleep 1
     dfu-util -a 0 -s 0x08000000:leave -t 0 -D /opt/libloragw-2g4/mcu_bin/rlz_fwm_gtw_2g4_01.00.01.bin
+    sleep 3
+
+    # We reboot as the serial interface might be recognized as ttyACM1 after
+    # a reflash of the MCU. After reboot will will revert back to ttyACM0.
+    reboot
+
+    sleep 1
+}
+
+do_flash_semtech_sx1302cssxxxgw1() {
+    dialog --title "Flash concentrator MCU" --msgbox "This will flash the MCU of the Semtech SX1302 CoreCell (SX1302CSSXXXGW1), after which the system will reboot." 7 60
+    /opt/libloragw-sx1302/gateway-utils/boot -d /dev/ttyACM0
+    sleep 1
+    dfu-util -a 0 -s 0x08000000:leave -t 0 -D /opt/libloragw-sx1302/mcu_bin/rlz_010000_CoreCell_USB.bin
     sleep 3
 
     # We reboot as the serial interface might be recognized as ttyACM1 after
