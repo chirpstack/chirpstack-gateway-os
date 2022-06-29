@@ -599,13 +599,13 @@ do_copy_concentratord_config() {
     # $4 region
     # $5 sub-band
     RET=0
-    if [ -f "/etc/chirpstack-concentratord/$1/global.toml" ] || [ -f "/etc/chirpstack-concentratord/$1/band.toml"] || [ -f "/etc/chirpstack-concentratord/$1/channels.toml" ]; then
+    if [ -f "/etc/chirpstack-concentratord/$1/global.toml" ] || [ -f "/etc/chirpstack-concentratord/$1/band.toml" ] || [ -f "/etc/chirpstack-concentratord/$1/channels.toml" ]; then
         dialog --yesno "A ChirpStack Concentratord configuration file already exists. Do you want to overwrite it?" 6 60
         RET=$?
     fi
 
     SUFFIX=""
-    if [ ! $5 -eq "" ]; then
+    if [ "$5" != "" ]; then
         SUFFIX="_${5}"
     fi
 
