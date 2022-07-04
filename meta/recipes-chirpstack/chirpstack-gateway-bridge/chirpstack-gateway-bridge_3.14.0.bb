@@ -3,7 +3,7 @@ HOMEPAGE = "https://www.chirpstack.io/"
 PRIORITY = "optional"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=99e425257f8a67b7efd81dc0009ed8ff"
-SRCREV = "dc2ef20ca5b265c1214c994462b3544a9a4865fe"
+SRCREV = "2eeb1d76883e86172b00a84f9c61a29585b9cb61"
 SRC_URI = " \
     git://git@github.com/brocaar/chirpstack-gateway-bridge.git;protocol=https;branch=master \
     file://chirpstack-gateway-bridge.toml \
