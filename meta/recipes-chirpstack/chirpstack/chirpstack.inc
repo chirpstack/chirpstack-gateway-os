@@ -59,7 +59,7 @@ do_install:append() {
 export OPENSSL_NO_VENDOR="1"
 export OPENSSL_LIB_DIR="${STAGING_LIBDIR}"
 export OPENSSL_INCLUDE_DIR="${STAGING_INCDIR}/openssl"
-export PQ_LIB_DIR="#{STAGING_LIBDIR}"
+export PQ_LIB_DIR="${STAGING_LIBDIR}"
 export NODE_OPTIONS="--openssl-legacy-provider"
 export OPENSSL_MODULES="${WORKDIR}/recipe-sysroot-native/usr/lib/ossl-modules"
 
