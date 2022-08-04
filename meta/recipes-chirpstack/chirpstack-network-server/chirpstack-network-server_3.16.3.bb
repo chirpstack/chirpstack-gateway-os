@@ -2,9 +2,11 @@ DESCRIPTION = "ChirpStack Network Server"
 HOMEPAGE = "https://www.chirpstack.io/"
 PRIORITY = "optional"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=e3a340e43ab9867d3e5d0ea79a54b0e1"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=e52a56a5b272102f5f53d67fdc2dd122"
 SRC_URI = " \
     git://git@github.com/brocaar/chirpstack-network-server.git;protocol=https;tag=v${PV}; \
+	file://go.mod \
+	file://go.sum \
     file://chirpstack-network-server.init \
     file://chirpstack-network-server.monit \
     file://config/as923.toml \
@@ -52,6 +54,9 @@ export HOME = "${WORKDIR}"
 do_configure[noexec] = "1"
 
 do_compile() {
+	cp ../go.mod go.mod
+	cp ../go.sum go.sum
+
     oe_runmake
 
     # Clear the modcache. go mod sets the permissions such that yocto will

@@ -7,7 +7,7 @@ PR = "r1"
 PRR = "r1"
 
 SRC_URI = "\
-    git://github.com/brocaar/sx1302_hal.git;protocol=git;tag=V${PV}${PRR} \
+    git://github.com/brocaar/sx1302_hal.git;protocol=https;tag=V${PV}${PRR} \
     file://library.cfg \
 "
 

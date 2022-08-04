@@ -5,6 +5,8 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5301050fd7cd58850085239d559297be"
 SRC_URI = " \
     git://git@github.com/brocaar/chirpstack-application-server.git;protocol=https;tag=v${PV}; \
+	file://go.mod \
+	file://go.sum \
     file://chirpstack-application-server.toml \
     file://chirpstack-application-server.init \
     file://chirpstack-application-server.monit \
@@ -32,6 +34,9 @@ export HOME = "${WORKDIR}"
 do_configure[noexec] = "1"
 
 do_compile() {
+	cp ../go.mod go.mod
+	cp ../go.sum go.sum
+
     oe_runmake ui-requirements
     oe_runmake clean
     oe_runmake build

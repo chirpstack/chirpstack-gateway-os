@@ -13,7 +13,7 @@ do_deploy() {
 }
 
 
-VERSION="3.5.1"
+VERSION="3.6.0"
 
 do_deploy $VERSION "raspberrypi" "raspberrypi4"
 do_deploy $VERSION "raspberrypi" "raspberrypi3"

@@ -7,7 +7,7 @@ PR = "r1"
 RDEPENDS_${PN}-utils = "dfu-util"
 
 SRC_URI = "\
-	git://github.com/Lora-net/gateway_2g4_hal.git;protocol=git;tag=V${PV} \
+	git://github.com/Lora-net/gateway_2g4_hal.git;protocol=https;tag=V${PV} \
     file://library.cfg \
 "
 

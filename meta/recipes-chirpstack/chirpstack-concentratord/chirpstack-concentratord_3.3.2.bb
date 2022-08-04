@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=99e425257f8a67b7efd81dc0009ed8ff"
 PR = "r1"
 
 SRC_URI = "\
-    git://github.com/brocaar/chirpstack-concentratord.git;protocol=git;tag=v${PV} \
+    git://github.com/brocaar/chirpstack-concentratord.git;protocol=https;tag=v${PV} \
     file://chirpstack-concentratord.default \
     file://chirpstack-concentratord.init \
     file://chirpstack-concentratord.monit \

@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=09fe2246a30dca84af09ac8608093cd7"
 PR = "r1"
 
 SRC_URI = "\
-    git://github.com/brocaar/chirpstack-udp-bridge.git;protocol=git;tag=v${PV} \
+    git://github.com/brocaar/chirpstack-udp-bridge.git;protocol=https;tag=v${PV} \
     file://chirpstack-udp-bridge.toml \
     file://chirpstack-udp-bridge.init \
 "

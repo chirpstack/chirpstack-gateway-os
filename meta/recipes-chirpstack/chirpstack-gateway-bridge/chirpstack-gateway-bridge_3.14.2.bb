@@ -5,6 +5,8 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=99e425257f8a67b7efd81dc0009ed8ff"
 SRC_URI = " \
     git://git@github.com/brocaar/chirpstack-gateway-bridge.git;protocol=https;tag=v${PV}; \
+	file://go.mod \
+	file://go.sum \
     file://chirpstack-gateway-bridge.toml \
     file://chirpstack-gateway-bridge.init \
     file://chirpstack-gateway-bridge.monit \
@@ -32,6 +34,9 @@ export HOME = "${WORKDIR}"
 do_configure[noexec] = "1"
 
 do_compile() {
+	cp ../go.mod go.mod
+	cp ../go.sum go.sum
+
     oe_runmake
 
     # Clear the modcache. go mod sets the permissions such that yocto will
