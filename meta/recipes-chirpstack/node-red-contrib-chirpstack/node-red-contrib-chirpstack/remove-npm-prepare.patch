@@ -1,3 +1,6 @@
+Upstream-Status: Inappropriate [reason]
+  The patch is not appropriate for upstream.
+
 diff --git a/node_modules/@grpc/grpc-js/package.json b/node_modules/@grpc/grpc-js/package.json
 index 723b108..eba1395 100644
 --- a/node_modules/@grpc/grpc-js/package.json

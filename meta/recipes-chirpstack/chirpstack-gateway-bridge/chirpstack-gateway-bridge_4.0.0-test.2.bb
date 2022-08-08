@@ -2,10 +2,10 @@ DESCRIPTION = "ChirpStack Gateway Bridge"
 HOMEPAGE = "https://www.chirpstack.io/"
 PRIORITY = "optional"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=99e425257f8a67b7efd81dc0009ed8ff"
-SRCREV = "2eeb1d76883e86172b00a84f9c61a29585b9cb61"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=bc4546f147d6f9892ca1b7d23bf41196"
+SRCREV = "388b42eed95d2ad6c64ddb1fc2fab8257e8c8ba2"
 SRC_URI = " \
-    git://git@github.com/brocaar/chirpstack-gateway-bridge.git;protocol=https;branch=master \
+    git://git@github.com/chirpstack/chirpstack-gateway-bridge.git;protocol=https;branch=master \
     file://chirpstack-gateway-bridge.toml \
     file://chirpstack-gateway-bridge.init \
     file://chirpstack-gateway-bridge.monit \

@@ -6,9 +6,9 @@ inherit cargo
 # DEFAULT_PREFERENCE = "-1"
 
 # how to get chirpstack could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/chirpstack/4.0.0-test.9"
+# SRC_URI += "crate://crates.io/chirpstack/4.0.0-test.18"
 SRC_URI += "git://git@github.com/chirpstack/chirpstack.git;protocol=ssh;nobranch=1"
-SRCREV = "9db867906d4a0bb092ed9e891fd9e83c6895b010"
+SRCREV = "e680db3be0546f00d79e46d498989f173b071eca"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "chirpstack"
 
@@ -98,7 +98,7 @@ SRC_URI += " \
     crate://crates.io/clap/3.2.12 \
     crate://crates.io/clap_lex/0.2.4 \
     crate://crates.io/cmac/0.6.0 \
-    crate://crates.io/cmake/0.1.48 \
+    crate://crates.io/cmake/0.1.45 \
     crate://crates.io/combine/4.6.4 \
     crate://crates.io/concurrent-queue/1.2.3 \
     crate://crates.io/cookie-factory/0.3.2 \
@@ -106,6 +106,7 @@ SRC_URI += " \
     crate://crates.io/core-foundation/0.9.3 \
     crate://crates.io/cpufeatures/0.2.2 \
     crate://crates.io/crc16/0.4.0 \
+    crate://crates.io/crossbeam-channel/0.5.6 \
     crate://crates.io/crossbeam-utils/0.8.10 \
     crate://crates.io/crunchy/0.2.2 \
     crate://crates.io/crypto-common/0.1.6 \
@@ -116,9 +117,9 @@ SRC_URI += " \
     crate://crates.io/curl/0.4.43 \
     crate://crates.io/dbl/0.3.2 \
     crate://crates.io/des/0.8.1 \
-    crate://crates.io/diesel/2.0.0-rc.0 \
-    crate://crates.io/diesel_derives/2.0.0-rc.0 \
-    crate://crates.io/diesel_migrations/2.0.0-rc.0 \
+    crate://crates.io/diesel/2.0.0-rc.1 \
+    crate://crates.io/diesel_derives/2.0.0-rc.1 \
+    crate://crates.io/diesel_migrations/2.0.0-rc.1 \
     crate://crates.io/diff/0.1.13 \
     crate://crates.io/digest/0.10.3 \
     crate://crates.io/digest/0.8.1 \
@@ -215,8 +216,8 @@ SRC_URI += " \
     crate://crates.io/matches/0.1.9 \
     crate://crates.io/matchit/0.5.0 \
     crate://crates.io/memchr/2.5.0 \
-    crate://crates.io/migrations_internals/2.0.0-rc.0 \
-    crate://crates.io/migrations_macros/2.0.0-rc.0 \
+    crate://crates.io/migrations_internals/2.0.0-rc.1 \
+    crate://crates.io/migrations_macros/2.0.0-rc.1 \
     crate://crates.io/mime/0.3.16 \
     crate://crates.io/mime_guess/2.0.4 \
     crate://crates.io/minimal-lexical/0.2.1 \
@@ -247,8 +248,8 @@ SRC_URI += " \
     crate://crates.io/os_str_bytes/6.2.0 \
     crate://crates.io/owning_ref/0.4.1 \
     crate://crates.io/p12/0.6.3 \
-    crate://crates.io/paho-mqtt-sys/0.5.0 \
-    crate://crates.io/paho-mqtt/0.9.1 \
+    crate://crates.io/paho-mqtt-sys/0.7.0 \
+    crate://crates.io/paho-mqtt/0.11.1 \
     crate://crates.io/parking/2.0.0 \
     crate://crates.io/parking_lot/0.12.1 \
     crate://crates.io/parking_lot_core/0.9.3 \

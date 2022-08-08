@@ -29,6 +29,11 @@ Signed-off-by: Scott Ware <scott.r.ware@intel.com>
  .../node-red/node_modules/uuid/package.json        |   1 -
  22 files changed, 133 insertions(+), 159 deletions(-)
 
+Upstream-Status: Inappropriate [reason]
+  This is a workaround to fix the npm local caching implemented in the
+  npm classes. See:
+  https://github.com/intel-iot-devkit/meta-iot-cloud/commit/08d0c505097b889836315a4fe9b41acbb264be3f
+
 diff --git a/node_modules/@sindresorhus/is/package.json b/node_modules/@sindresorhus/is/package.json
 index 10f437d..764563f 100644
 --- a/node_modules/@sindresorhus/is/package.json

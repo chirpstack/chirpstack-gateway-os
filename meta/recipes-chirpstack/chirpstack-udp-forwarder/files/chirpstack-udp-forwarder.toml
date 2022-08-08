@@ -1,5 +1,5 @@
-# UDP Bridge configuration.
-[udp_bridge]
+# UDP Forwarder configuration.
+[udp_forwarder]
 
   # Log level.
   #
@@ -25,19 +25,19 @@
 
   # Servers to forward the data to using UDP.
   # This section can be repeated.
-  [[udp_bridge.servers]]
+  [[udp_forwarder.servers]]
     # Server (hostname:port).
     server="localhost:1700"
 
     # Keepalive interval (seconds).
     #
-    # In this interval, the ChirpStack UDP Bridge will send keepalive
+    # In this interval, the ChirpStack UDP Forwarder will send keepalive
     # frames to the server, which must be answered by an acknowledgement.
     keepalive_interval_secs=10
 
     # Max. allowed keepalive failures.
     #
-    # After the max. number has been reached, the ChirpStack UDP Bridge will
+    # After the max. number has been reached, the ChirpStack UDP Forwarder will
     # 're-connect' to the server, meaning it will also re-resolve the DNS in case
     # the server address is a hostname.
     keepalive_max_failures=12

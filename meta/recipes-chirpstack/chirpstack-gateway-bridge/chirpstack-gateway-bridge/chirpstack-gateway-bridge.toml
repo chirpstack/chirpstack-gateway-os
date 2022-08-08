@@ -39,17 +39,20 @@ command_url="ipc:///tmp/concentratord_command"
 # Payload marshaler.
 #
 # This defines how the MQTT payloads are encoded. Valid options are:
-# * protobuf:  Protobuf encoding (this will become the LoRa Gateway Bridge v3 default)
-# * json:      JSON encoding (easier for debugging, but less compact than 'protobuf')
+# * protobuf:  Protobuf encoding
+# * json:      JSON encoding (for debugging)
 marshaler="protobuf"
 
 # MQTT integration configuration.
 [integration.mqtt]
 # Event topic template.
-event_topic_template="gateway/{{ .GatewayID }}/event/{{ .EventType }}"
+event_topic_template="eu868/gateway/{{ .GatewayID }}/event/{{ .EventType }}"
+
+# State topic template.
+state_topic_template="eu868/gateway/{{ .GatewayID }}/state/{{ .StateType }}"
 
 # Command topic template.
-command_topic_template="gateway/{{ .GatewayID }}/command/#"
+command_topic_template="eu868/gateway/{{ .GatewayID }}/command/#"
 
 # MQTT authentication.
 [integration.mqtt.auth]

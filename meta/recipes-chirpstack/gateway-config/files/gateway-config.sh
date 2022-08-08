@@ -645,6 +645,7 @@ do_copy_concentratord_config() {
 do_update_chirpstack_gw_bridge_topic_prefix() {
     # $1 topic prefix
     sed -i "s/event_topic_template=.*/event_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    sed -i "s/state_topic_template=.*/state_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/state\/{{ .StateType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
     sed -i "s/command_topic_template=.*/command_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
     do_restart_chirpstack_gateway_bridge
 }
@@ -690,6 +691,17 @@ do_edit_chirpstack_gateway_bridge_config_mqtt_wizard() {
         return;
     fi
     sed -i "s/server=.*/server=\"${MQTT_BROKER//\//\\/}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+
+	# region prefix
+	dialog --title "Use region prefix" \
+		--yesno "ChirpStack v4 added a region prefix to the MQTT topics.\nExample: eu868/gateway/[ID]/...\n\nNot all servers use this prefix. Does the server you are configuring use this prefix? If you answer No, the prefix will be removed from the configuration." 10 60 \
+		3>&1 1>&2 2>&3
+	RET=$?
+	if [ $RET -eq 1 ];then
+		sed -i "s/event_topic_template=.*/event_topic_template=\"gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+		sed -i "s/state_topic_template=.*/state_topic_template=\"gateway\/{{ .GatewayID }}\/state\/{{ .StateType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+		sed -i "s/command_topic_template=.*/command_topic_template=\"gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+	fi
 
     # ca cert
     dialog --yesno "Would you like to configure a CA certificate?" 6 60
