@@ -1,7 +1,7 @@
 DESCRIPTION = "ChirpStack Node-RED nodes"
 HOMEPAGE = "https://www.chirpstack.io/"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=9d38c34220055ca274d97618d5979778"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=bc4546f147d6f9892ca1b7d23bf41196"
 PR = "r2"
 
 inherit npm
@@ -12,7 +12,7 @@ SRC_URI = " \
 	file://remove-npm-prepare.patch \
 "
 
-SRCREV = "10fa4a63c7b677340ee0328c3d4968a614d25a72"
+SRCREV = "d4dc7428e4be2b2e292b5ce5c1284b6b70ecef11"
 
 S = "${WORKDIR}/npm"
 
