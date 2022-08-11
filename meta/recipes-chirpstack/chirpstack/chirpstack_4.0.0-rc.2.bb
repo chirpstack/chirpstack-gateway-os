@@ -6,9 +6,9 @@ inherit cargo
 # DEFAULT_PREFERENCE = "-1"
 
 # how to get chirpstack could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/chirpstack/4.0.0-rc.1"
+# SRC_URI += "crate://crates.io/chirpstack/4.0.0-rc.2"
 SRC_URI += "git://git@github.com/chirpstack/chirpstack.git;protocol=ssh;nobranch=1"
-SRCREV = "ca567ca56289d15b716c527b2d1cd18523e01ab3"
+SRCREV = "d4337b10ab99a9b6f5d0a0e1b958374694b731c0"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "chirpstack"
 
