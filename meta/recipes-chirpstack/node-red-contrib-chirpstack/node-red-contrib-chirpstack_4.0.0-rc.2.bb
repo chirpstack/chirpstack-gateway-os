@@ -12,8 +12,6 @@ SRC_URI = " \
 	file://remove-npm-prepare.patch \
 "
 
-SRCREV = "d4dc7428e4be2b2e292b5ce5c1284b6b70ecef11"
-
 S = "${WORKDIR}/npm"
 
 # Note that this is needed because the latest npm.bbclass seems to be broken.
