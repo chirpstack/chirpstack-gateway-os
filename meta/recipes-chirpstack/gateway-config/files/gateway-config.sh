@@ -259,18 +259,19 @@ do_setup_pislora() {
 }
 
 do_setup_rak2245() {
-    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 18 60 4 \
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 19 60 4 \
         1 "AS923" \
         2 "AS923-2" \
         3 "AS923-3" \
         4 "AS923-4" \
         5 "AU915" \
-        6 "EU433" \
-        7 "EU868" \
-        8 "IN865" \
-        9 "KR920" \
-        10 "RU864" \
-        11 "US915" \
+        6 "CN470" \
+        7 "EU433" \
+        8 "EU868" \
+        9 "IN865" \
+        10 "KR920" \
+        11 "RU864" \
+        12 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -282,12 +283,13 @@ do_setup_rak2245() {
             3) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
             4) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
             5) do_select_au915_block "sx1301" "rak_2245_au915" "GNSS";;
-            6) do_copy_concentratord_config "sx1301" "rak_2245_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
-            7) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            8) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            9) do_copy_concentratord_config "sx1301" "rak_2245_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
-            10) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
-            11) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
+            6) do_select_cn470_block "sx1301" "rak_2245_cn470" "GNSS";;
+            7) do_copy_concentratord_config "sx1301" "rak_2245_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
+            8) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            9) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            10) do_copy_concentratord_config "sx1301" "rak_2245_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
+            11) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            12) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
         esac
     fi
 }
@@ -508,6 +510,45 @@ do_setup_semtech_sx1302cssxxxgw1() {
     fi
 }
 
+do_select_cn470_block() {
+    # $1: concentratord version
+    # $2: model
+    # $3: model flags
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the CN470 channel-block:" 19 60 12 \
+        1 "Channels  0 -  7" \
+        2 "Channels  8 - 15" \
+        3 "Channels 16 - 23" \
+        4 "Channels 24 - 31" \
+        5 "Channels 32 - 39" \
+        6 "Channels 40 - 47" \
+        7 "Channels 48 - 55" \
+        8 "Channels 56 - 63" \
+        9 "Channels 64 - 71" \
+        10 "Channels 72 - 79" \
+        11 "Channels 80 - 87" \
+        12 "Channels 88 - 95" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "0" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_0";;
+            2) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "1" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_1";;
+            3) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "2" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_2";;
+            4) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "3" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_3";;
+            5) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "4" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_4";;
+            6) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "5" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_5";;
+            7) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "6" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_6";;
+            8) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "7" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_7";;
+            9) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "8" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_8";;
+            10) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "9" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_9";;
+            11) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "10" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_10";;
+            12) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "11" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_11";;
+        esac
+    fi
+}
+
 do_select_us915_block() {
     # $1: concentratord version
     # $2: model
@@ -520,7 +561,7 @@ do_select_us915_block() {
         5 "Channels 32 - 39 + 68" \
         6 "Channels 40 - 47 + 69" \
         7 "Channels 48 - 55 + 70" \
-        8 "Channels 56 - 64 + 71" \
+        8 "Channels 56 - 63 + 71" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -551,7 +592,7 @@ do_select_au915_block() {
         5 "Channels 32 - 39 + 68" \
         6 "Channels 40 - 47 + 69" \
         7 "Channels 48 - 55 + 70" \
-        8 "Channels 56 - 64 + 71" \
+        8 "Channels 56 - 63 + 71" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -692,16 +733,16 @@ do_edit_chirpstack_gateway_bridge_config_mqtt_wizard() {
     fi
     sed -i "s/server=.*/server=\"${MQTT_BROKER//\//\\/}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
 
-	# region prefix
-	dialog --title "Use region prefix" \
-		--yesno "ChirpStack v4 added a region prefix to the MQTT topics.\nExample: eu868/gateway/[ID]/...\n\nNot all servers use this prefix. Does the server you are configuring use this prefix? If you answer No, the prefix will be removed from the configuration." 10 60 \
-		3>&1 1>&2 2>&3
-	RET=$?
-	if [ $RET -eq 1 ];then
-		sed -i "s/event_topic_template=.*/event_topic_template=\"gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-		sed -i "s/state_topic_template=.*/state_topic_template=\"gateway\/{{ .GatewayID }}\/state\/{{ .StateType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-		sed -i "s/command_topic_template=.*/command_topic_template=\"gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-	fi
+    # region prefix
+    dialog --title "Use region prefix" \
+        --yesno "ChirpStack v4 added a region prefix to the MQTT topics.\nExample: eu868/gateway/[ID]/...\n\nNot all servers use this prefix. Does the server you are configuring use this prefix? If you answer No, the prefix will be removed from the configuration." 10 60 \
+        3>&1 1>&2 2>&3
+    RET=$?
+    if [ $RET -eq 1 ];then
+        sed -i "s/event_topic_template=.*/event_topic_template=\"gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        sed -i "s/state_topic_template=.*/state_topic_template=\"gateway\/{{ .GatewayID }}\/state\/{{ .StateType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        sed -i "s/command_topic_template=.*/command_topic_template=\"gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    fi
 
     # ca cert
     dialog --yesno "Would you like to configure a CA certificate?" 6 60
