@@ -141,7 +141,7 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 22 60 11 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 23 60 11 \
         1 "IMST       - iC880A" \
         2 "IMST       - iC980A" \
         3 "IMST       - Lite Gateway" \
@@ -154,9 +154,10 @@ do_setup_concentrator_shield() {
         10 "RAK        - RAK831" \
         11 "RisingHF   - RHF0M301" \
         12 "Sandbox    - LoRaGo PORT" \
-        13 "Semtech    - SX1280 (2.4 GHz)" \
-        14 "Semtech    - SX1302 CoreCell (SX1302CXXXGW1)" \
-        15 "Semtech    - SX1302 CoreCell (USB) (SX1302CSSXXXGW1)" \
+        13 "Seeed      - WM1302" \
+        14 "Semtech    - SX1280 (2.4 GHz)" \
+        15 "Semtech    - SX1302 CoreCell (SX1302CXXXGW1)" \
+        16 "Semtech    - SX1302 CoreCell (USB) (SX1302CSSXXXGW1)" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
@@ -173,9 +174,10 @@ do_setup_concentrator_shield() {
             10) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             11) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
             12) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            13) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            14) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            15) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cssxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            13) do_set_concentratord "sx1302" && do_setup_seeed_wm1302 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            14) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            15) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            16) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cssxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
         esac
     fi
 }
@@ -458,6 +460,20 @@ do_setup_lorago_port() {
         case "$FUN" in
             1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915" "";;
+        esac
+    fi
+}
+
+do_setup_seeed_wm1302() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "EU868" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "sx1302" "seeed_wm1302_spi_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
         esac
     fi
 }
