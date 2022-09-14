@@ -18,6 +18,18 @@ SRC_URI += "\
     file://region_au915_5.toml \
     file://region_au915_6.toml \
     file://region_au915_7.toml \
+    file://region_cn470_0.toml \
+    file://region_cn470_1.toml \
+    file://region_cn470_2.toml \
+    file://region_cn470_3.toml \
+    file://region_cn470_4.toml \
+    file://region_cn470_5.toml \
+    file://region_cn470_6.toml \
+    file://region_cn470_7.toml \
+    file://region_cn470_8.toml \
+    file://region_cn470_9.toml \
+    file://region_cn470_10.toml \
+    file://region_cn470_11.toml \
     file://region_cn779.toml \
     file://region_eu433.toml \
     file://region_eu868.toml \
