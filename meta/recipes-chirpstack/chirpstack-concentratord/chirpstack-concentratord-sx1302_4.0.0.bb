@@ -5,12 +5,12 @@ inherit cargo
 # If this is git based prefer versioned ones if they exist
 # DEFAULT_PREFERENCE = "-1"
 
-# how to get gateway-id could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/gateway-id/4.0.0-rc.1"
+# how to get chirpstack-concentratord-sx1302 could be as easy as but default to a git checkout:
+# SRC_URI += "crate://crates.io/chirpstack-concentratord-sx1302/4.0.0"
 SRC_URI += "git://git@github.com/chirpstack/chirpstack-concentratord.git;protocol=ssh;nobranch=1"
-SRCREV = "faf16ee60e4e45d0f351a527f7f445f0aa218482"
+SRCREV = "f23f276aa459e90e9915dd2778715643f780a543"
 S = "${WORKDIR}/git"
-CARGO_SRC_DIR = "gateway-id"
+CARGO_SRC_DIR = "chirpstack-concentratord-sx1302"
 
 
 # please note if you have entries that do not begin with crate://
@@ -34,7 +34,7 @@ SRC_URI += " \
     crate://crates.io/cc/1.0.73 \
     crate://crates.io/cexpr/0.6.0 \
     crate://crates.io/cfg-if/1.0.0 \
-    crate://crates.io/chirpstack_api/4.0.0-test.18 \
+    crate://crates.io/chirpstack_api/4.0.0 \
     crate://crates.io/chrono/0.4.21 \
     crate://crates.io/clang-sys/1.3.3 \
     crate://crates.io/clap/2.34.0 \
@@ -189,12 +189,12 @@ LIC_FILES_CHKSUM = " \
     file://MIT;md5=generateme \
 "
 
-SUMMARY = "gateway-id"
-HOMEPAGE = "https://github.com/brocaar/chirpstack-concentratord/"
+SUMMARY = "chirpstack-concentratord-sx1302"
+HOMEPAGE = "https://github.com/chirpstack/chirpstack-concentratord/"
 LICENSE = "MIT"
 
 # includes this file if it exists but does not fail
 # this is useful for anything you may want to override from
 # what cargo-bitbake generates.
-include gateway-id-${PV}.inc
-include gateway-id.inc
+include chirpstack-concentratord-sx1302-${PV}.inc
+include chirpstack-concentratord-sx1302.inc
