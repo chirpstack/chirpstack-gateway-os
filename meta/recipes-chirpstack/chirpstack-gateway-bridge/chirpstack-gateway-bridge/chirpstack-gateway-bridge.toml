@@ -1,9 +1,9 @@
-# This configuration provides a Semtech UDP packet-forwarder backend and
+# This configuration provides a ChirpStack Concentratord backend and
 # integrates with a MQTT broker. Many options and defaults have been omitted
 # for simplicity.
-#
-# See https://www.chirpstack.io/gateway-bridge/install/config/ for a full
-# configuration example and documentation.
+
+# For a full configuration example and documentation, see:
+# https://www.chirpstack.io/docs/chirpstack-gateway-bridge/configuration.html
 
 
 [general]
