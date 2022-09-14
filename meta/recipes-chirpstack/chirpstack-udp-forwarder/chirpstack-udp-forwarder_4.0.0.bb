@@ -6,9 +6,9 @@ inherit cargo
 # DEFAULT_PREFERENCE = "-1"
 
 # how to get chirpstack-udp-forwarder could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/chirpstack-udp-forwarder/4.0.0-rc.1"
+# SRC_URI += "crate://crates.io/chirpstack-udp-forwarder/4.0.0"
 SRC_URI += "git://git@github.com/chirpstack/chirpstack-udp-forwarder.git;protocol=ssh;nobranch=1"
-SRCREV = "ea54862cfbc8bd670e737561717cd9d864755cb8"
+SRCREV = "4d1fa99a2c0d931be224ddea489f95e91971da10"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = ""
 
@@ -29,7 +29,7 @@ SRC_URI += " \
     crate://crates.io/bytes/1.2.1 \
     crate://crates.io/cc/1.0.73 \
     crate://crates.io/cfg-if/1.0.0 \
-    crate://crates.io/chirpstack_api/4.0.0-test.18 \
+    crate://crates.io/chirpstack_api/4.0.0 \
     crate://crates.io/chrono/0.4.21 \
     crate://crates.io/clap/3.2.16 \
     crate://crates.io/clap_lex/0.2.4 \
