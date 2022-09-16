@@ -8,7 +8,7 @@ SRC_URI = "\
 	file://import-lorawan-devices.init \
 	file://import-lorawan-devices.sh \
 "
-SRCREV = "f81451ae82a9ef3cd47599ab3dd3eaceb06a06ad"
+SRCREV = "285163e828f6c188583bdcee927e63477cd0aca5"
 
 inherit update-rc.d
 

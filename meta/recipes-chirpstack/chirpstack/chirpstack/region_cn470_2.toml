@@ -1,0 +1,72 @@
+[[regions]]
+  name="cn470_2"
+  common_name="CN470"
+
+  [regions.gateway]
+
+    [regions.gateway.backend]
+      enabled="mqtt"
+
+      [regions.gateway.backend.mqtt]
+        event_topic="cn470_2/gateway/+/event/+"
+        command_topic="cn470_2/gateway/{{ gateway_id }}/command/{{ command }}"
+        server="tcp://localhost:1883"
+
+    [[regions.gateway.channels]]
+      frequency=473500000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=473700000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=473900000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=474100000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=474300000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=474500000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=474700000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+    [[regions.gateway.channels]]
+      frequency=474900000
+      bandwidth=125000
+      modulation="LORA"
+      spreading_factors=[7, 8, 9, 10, 11, 12]
+
+  [regions.network]
+    rx1_delay=1
+    rx2_dr=0
+    rx2_frequency=505300000
+    min_dr=0
+    max_dr=5
+    enabled_uplink_channels=[16, 17, 18, 19, 20, 21, 22, 23]
+
+    [regions.network.class_b]
+      ping_slot_dr=0

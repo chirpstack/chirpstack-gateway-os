@@ -1,22 +1,22 @@
 {
  "name": "@chirpstack/node-red-contrib-chirpstack",
- "version": "4.0.0-rc.2",
+ "version": "4.0.0",
  "lockfileVersion": 2,
  "requires": true,
  "packages": {
   "": {
    "name": "@chirpstack/node-red-contrib-chirpstack",
-   "version": "4.0.0-rc.2",
+   "version": "4.0.0",
    "license": "MIT",
    "dependencies": {
-    "@chirpstack/chirpstack-api": "^4.0.0-rc.1",
+    "@chirpstack/chirpstack-api": "^4.0.0",
     "@grpc/grpc-js": "^1.6.7"
    }
   },
   "node_modules/@chirpstack/chirpstack-api": {
-   "version": "4.0.0-rc.1",
-   "resolved": "https://registry.npmjs.org/@chirpstack/chirpstack-api/-/chirpstack-api-4.0.0-rc.1.tgz",
-   "integrity": "sha512-KtSR01HLdDtUwtWenBatxHIwYCOnLn4XTRdK+hhl0LAUo0H0D0eM0fD771bpet3i/x2JznwXa2FO+8DUY9Z1lA==",
+   "version": "4.0.0",
+   "resolved": "https://registry.npmjs.org/@chirpstack/chirpstack-api/-/chirpstack-api-4.0.0.tgz",
+   "integrity": "sha512-NeqE6Z+Cn/QU1nqIe8jtIPbfIXfZX8GEOWYXTDl7YAlNp8I1BIWuZH8CnGOoyDhoH35q3wf8WvWkWOME0ywCEw==",
    "dependencies": {
     "@grpc/grpc-js": "^1.3.7",
     "@mapbox/node-pre-gyp": "^1.0.5",
@@ -817,9 +817,9 @@
  },
  "dependencies": {
   "@chirpstack/chirpstack-api": {
-   "version": "4.0.0-rc.1",
-   "resolved": "https://registry.npmjs.org/@chirpstack/chirpstack-api/-/chirpstack-api-4.0.0-rc.1.tgz",
-   "integrity": "sha512-KtSR01HLdDtUwtWenBatxHIwYCOnLn4XTRdK+hhl0LAUo0H0D0eM0fD771bpet3i/x2JznwXa2FO+8DUY9Z1lA==",
+   "version": "4.0.0",
+   "resolved": "https://registry.npmjs.org/@chirpstack/chirpstack-api/-/chirpstack-api-4.0.0.tgz",
+   "integrity": "sha512-NeqE6Z+Cn/QU1nqIe8jtIPbfIXfZX8GEOWYXTDl7YAlNp8I1BIWuZH8CnGOoyDhoH35q3wf8WvWkWOME0ywCEw==",
    "requires": {
     "@grpc/grpc-js": "^1.3.7",
     "@mapbox/node-pre-gyp": "^1.0.5",

@@ -6,9 +6,9 @@ inherit cargo
 # DEFAULT_PREFERENCE = "-1"
 
 # how to get chirpstack could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/chirpstack/4.0.0-rc.2"
+# SRC_URI += "crate://crates.io/chirpstack/4.0.0"
 SRC_URI += "git://git@github.com/chirpstack/chirpstack.git;protocol=ssh;nobranch=1"
-SRCREV = "d4337b10ab99a9b6f5d0a0e1b958374694b731c0"
+SRCREV = "84a1c6e1beb32cd895741c9992564e098989c7ba"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "chirpstack"
 
@@ -104,7 +104,7 @@ SRC_URI += " \
     crate://crates.io/cookie-factory/0.3.2 \
     crate://crates.io/core-foundation-sys/0.8.3 \
     crate://crates.io/core-foundation/0.9.3 \
-    crate://crates.io/cpufeatures/0.2.2 \
+    crate://crates.io/cpufeatures/0.2.3 \
     crate://crates.io/crc16/0.4.0 \
     crate://crates.io/crossbeam-channel/0.5.6 \
     crate://crates.io/crossbeam-utils/0.8.10 \
@@ -246,7 +246,6 @@ SRC_URI += " \
     crate://crates.io/openssl/0.10.41 \
     crate://crates.io/ordered-float/2.10.0 \
     crate://crates.io/os_str_bytes/6.2.0 \
-    crate://crates.io/owning_ref/0.4.1 \
     crate://crates.io/p12/0.6.3 \
     crate://crates.io/paho-mqtt-sys/0.7.0 \
     crate://crates.io/paho-mqtt/0.11.1 \
@@ -283,8 +282,8 @@ SRC_URI += " \
     crate://crates.io/proc-macro-error-attr/1.0.4 \
     crate://crates.io/proc-macro-error/1.0.4 \
     crate://crates.io/proc-macro2/1.0.40 \
-    crate://crates.io/prometheus-client-derive-text-encode/0.2.0 \
-    crate://crates.io/prometheus-client/0.16.0 \
+    crate://crates.io/prometheus-client-derive-text-encode/0.3.0 \
+    crate://crates.io/prometheus-client/0.18.0 \
     crate://crates.io/prost-build/0.10.4 \
     crate://crates.io/prost-derive/0.10.1 \
     crate://crates.io/prost-types/0.10.1 \
@@ -365,7 +364,6 @@ SRC_URI += " \
     crate://crates.io/socket2/0.4.4 \
     crate://crates.io/spin/0.5.2 \
     crate://crates.io/spin/0.9.4 \
-    crate://crates.io/stable_deref_trait/1.2.0 \
     crate://crates.io/string_cache/0.8.4 \
     crate://crates.io/strsim/0.10.0 \
     crate://crates.io/strsim/0.8.0 \
