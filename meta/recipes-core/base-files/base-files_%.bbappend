@@ -12,6 +12,7 @@ do_install:append() {
     install -d ${D}/etc
     install -d ${D}/data
 
+    echo ">>> ${DISTRO_NAME} - ${DISTRO_CODENAME} - ${DISTRO_VERSION} <<<" >> ${D}${sysconfdir}/motd
     install -m 755 ${WORKDIR}/path.sh ${D}/etc/profile.d/path.sh
     install -m 644 ${WORKDIR}/fstab ${D}/etc/fstab
 }

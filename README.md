@@ -97,7 +97,7 @@ Run the following command to set the `/build` folder permissions:
 
 ```bash
 # on the host
-docker-compose run --rm busybox
+docker compose run --rm busybox
 
 # within the container
 chown 999:999 /build
@@ -109,7 +109,7 @@ Run the following command to setup the build environment:
 
 ```bash
 # on the host
-docker-compose run --rm yocto bash
+docker compose run --rm yocto bash
 
 # within the container
 

@@ -12,7 +12,8 @@ IMAGE_INSTALL += " \
     ca-certificates \
     rng-tools \
     openssh-sftp-server \
-    bash \
+    openvpn \
+    bash vim \
     sudo \
     iptables \
     ntp \
@@ -46,6 +47,7 @@ inherit extrausers
 
 EXTRA_USERS_PARAMS = "\
     useradd -U -p 'S1Y20dx4ZJwjw' admin ; \
+    usermod -a -G systemd-journal admin ; \
 "
 
 ROOTFS_POSTPROCESS_COMMAND += "add_releaseinfo; initramfs_image; "
