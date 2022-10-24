@@ -467,6 +467,7 @@ do_setup_lorago_port() {
 do_setup_seeed_wm1302() {
     FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
         1 "EU868" \
+        2 "US915" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 1 ]; then
@@ -474,6 +475,7 @@ do_setup_seeed_wm1302() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_copy_concentratord_config "sx1302" "seeed_wm1302_spi_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            2) do_copy_concentratord_config "sx1302" "seeed_wm1302_spi_us915" "" "us915" "" && do_update_chirpstack_gw_bridge_topic_prefix "us915";;
         esac
     fi
 }
