@@ -1,4 +1,5 @@
 DEPENDS = "\
+    protobuf-native \
     clang-native \
     libloragw-sx1302 \
 "

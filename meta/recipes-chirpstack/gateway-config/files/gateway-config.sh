@@ -158,6 +158,7 @@ do_setup_concentrator_shield() {
         14 "Semtech    - SX1280 (2.4 GHz)" \
         15 "Semtech    - SX1302 CoreCell (SX1302CXXXGW1)" \
         16 "Semtech    - SX1302 CoreCell (USB) (SX1302CSSXXXGW1)" \
+        17 "Waveshare  - SX1302 LoRaWAN Gateway HAT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
@@ -178,6 +179,7 @@ do_setup_concentrator_shield() {
             14) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             15) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
             16) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cssxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            17) do_set_concentratord "sx1302" && do_setup_waveshare_sx1302_lorawan_gateway_hat && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
         esac
     fi
 }
@@ -522,6 +524,20 @@ do_setup_semtech_sx1302cssxxxgw1() {
             1) do_copy_concentratord_config "sx1302" "semtech_sx1302css923gw1_as923" "" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
             2) do_copy_concentratord_config "sx1302" "semtech_sx1302css868gw1_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
             3) do_select_us915_block "sx1302" "semtech_sx1302css915gw1_us915" "";;
+        esac
+    fi
+}
+
+do_setup_waveshare_sx1302_lorawan_gateway_hat() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "EU868" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "sx1302" "waveshare_sx1302_lorawan_gateway_hat_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
         esac
     fi
 }

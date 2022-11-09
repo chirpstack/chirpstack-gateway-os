@@ -76,6 +76,7 @@ export NODE_OPTIONS="--openssl-legacy-provider"
 export OPENSSL_MODULES="${WORKDIR}/recipe-sysroot-native/usr/lib/ossl-modules"
 
 DEPENDS = "\
+	protobuf-native \
     openssl-native \
     postgresql \
     clang-native \
