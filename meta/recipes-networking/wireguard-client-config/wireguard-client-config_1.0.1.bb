@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 # procps is needed to work around the following wireguard error:
 # sysctl: invalid option -- 'r'
 # iproute2 is needed as busybox ip command does not implement all needed features.
-RDEPENDS_${PN} = "wireguard-tools procps iproute2"
+RDEPENDS:${PN} = "wireguard-tools wireguard-tools-wg-quick procps iproute2"
 
 SRC_URI = " \
     file://wireguard.init \
@@ -31,4 +31,4 @@ do_install() {
     install -m 0640 ${WORKDIR}/wg0.conf ${D}${sysconfdir}/wireguard/wg0.conf
 }
 
-FILES_${PN} = "${sysconfdir}"
+FILES:${PN} = "${sysconfdir}"
