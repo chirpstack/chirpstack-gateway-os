@@ -11,7 +11,7 @@ SRC_URI += "git://git@github.com/chirpstack/chirpstack-concentratord.git;protoco
 SRCREV = "1cf97500aa6b53e8f92bbfbe953df7570838dfe6"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "chirpstack-concentratord-sx1301"
-PV:append = ".AUTOINC+1cf97500aa"
+
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
