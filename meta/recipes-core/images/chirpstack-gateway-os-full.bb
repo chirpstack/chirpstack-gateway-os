@@ -13,5 +13,4 @@ IMAGE_INSTALL += " \
     chirpstack \
     node-red \
     node-red-contrib-chirpstack \
-    lorawan-devices \
 "
