@@ -1,24 +1,24 @@
 [submodule "bitbake"]
 	path = bitbake
 	url = git://git.openembedded.org/bitbake
-	branch = 2.2
+	branch = 2.0
 [submodule "layers/openembedded/meta-openembedded"]
 	path = layers/openembedded/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
-	branch = langdale
+	branch = kirkstone
 [submodule "layers/openembedded/openembedded-core"]
 	path = layers/openembedded/openembedded-core
 	url = git://git.openembedded.org/openembedded-core
-	branch = langdale
+	branch = kirkstone
 [submodule "layers/bsp/meta-raspberrypi"]
 	path = layers/bsp/meta-raspberrypi
 	url = git://git.yoctoproject.org/meta-raspberrypi
-	branch = master
+	branch = kirkstone
 [submodule "layers/meta-swupdate"]
 	path = layers/meta-swupdate
 	url = https://github.com/sbabic/meta-swupdate
-	branch = master
+	branch = kirkstone
 [submodule "layers/meta-clang"]
 	path = layers/meta-clang
 	url = https://github.com/kraj/meta-clang.git
-	branch = master
+	branch = kirkstone
