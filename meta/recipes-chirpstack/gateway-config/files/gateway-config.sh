@@ -155,9 +155,9 @@ do_setup_concentrator_shield() {
         11 "RisingHF   - RHF0M301" \
         12 "Sandbox    - LoRaGo PORT" \
         13 "Seeed      - WM1302" \
-        14 "Semtech    - SX1280 (2.4 GHz)" \
-        15 "Semtech    - SX1302 CoreCell (SX1302CXXXGW1)" \
-        16 "Semtech    - SX1302 CoreCell (USB) (SX1302CSSXXXGW1)" \
+        14 "Semtech    - SX1280 LoRa Connect(TM) (2.4 GHz)" \
+        15 "Semtech    - SX1302 LoRa(R) CoreCell (SX1302CXXXGW1)" \
+        16 "Semtech    - SX1302 LoRa(R) CoreCell (USB) (SX1302CSSXXXGW1)" \
         17 "Waveshare  - SX1302 LoRaWAN Gateway HAT" \
         3>&1 1>&2 2>&3)
     RET=$?
