@@ -4,7 +4,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5335066555b14d832335aa4660d6c376"
 
 SRC_URI = "\
-    git://git@github.com/TheThingsNetwork/lorawan-devices.git;protocol=ssh;branch=master \
+    git://git@github.com/brocaar/lorawan-devices.git;protocol=ssh;branch=master \
     file://import-lorawan-devices.init \
     file://import-lorawan-devices.sh \
 "

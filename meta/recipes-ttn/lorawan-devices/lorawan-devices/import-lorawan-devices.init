@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 NAME="import-lorawan-devices"
-DESC="Import TTN LoRaWAN device repository"
+DESC="Import LoRaWAN devices repository"
 DAEMON_BIN=/opt/lorawan-devices/$NAME
 DAEMON_PID=/var/run/$NAME.pid
 

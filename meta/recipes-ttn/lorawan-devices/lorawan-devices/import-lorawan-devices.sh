@@ -5,7 +5,7 @@ do_import_lorawan_devices() {
 	# We will retry until success.
 	while :
 	do
-		chirpstack -c /etc/chirpstack import-ttn-lorawan-devices -d /opt/lorawan-devices
+		chirpstack -c /etc/chirpstack import-legacy-lorawan-devices-repository -d /opt/lorawan-devices
 		RET=$?
 		if [ $RET -eq 0 ]; then
 			cp /opt/lorawan-devices/SRCREV /opt/lorawan-devices/SRCREV.lastimport
