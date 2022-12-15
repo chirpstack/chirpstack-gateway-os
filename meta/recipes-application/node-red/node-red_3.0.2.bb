@@ -1,7 +1,7 @@
 DESCRIPTION = "Node-RED"
 HOMEPAGE = "http://nodered.org"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=d6f37569f5013072e9490d2194d10ae6"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=014f1a23c3da49aa929b21a96808ab22"
 PR = "r0"
 
 inherit update-rc.d npm
@@ -12,12 +12,11 @@ INITSCRIPT_PARAMS = "defaults"
 SRC_URI = "\
     git://github.com/node-red/node-red.git;protocol=https;branch=master \
     npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json \
-    file://Fixup-dependencies-for-newer-npm-versions.patch \
     file://node-red.init \
     file://node-red.default \
 "
 
-SRCREV = "173e75175eb1c40e7b11c8da4bccba8f2eb22937"
+SRCREV = "5365786386e21df74b339a399e854ed89af6394f"
 
 S = "${WORKDIR}/git/packages/node_modules/${BPN}"
 
