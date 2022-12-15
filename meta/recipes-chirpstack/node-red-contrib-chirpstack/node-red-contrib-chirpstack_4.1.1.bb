@@ -9,7 +9,6 @@ inherit npm
 SRC_URI = " \
 	npm://registry.npmjs.org;package=@chirpstack/node-red-contrib-chirpstack;version=${PV} \
 	npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json \
-	file://remove-npm-prepare.patch \
 "
 
 S = "${WORKDIR}/npm"
