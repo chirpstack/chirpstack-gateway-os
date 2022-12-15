@@ -141,7 +141,7 @@ do_setup_admin_password() {
 }
 
 do_setup_concentrator_shield() {
-    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 23 60 11 \
+    FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 25 70 11 \
         1 "IMST       - iC880A" \
         2 "IMST       - iC980A" \
         3 "IMST       - Lite Gateway" \
