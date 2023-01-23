@@ -1,8 +1,8 @@
 SUMMARY = "Rust compiler and runtime libaries"
 HOMEPAGE = "http://www.rust-lang.org"
 SECTION = "devel"
-LICENSE = "MIT | Apache-2.0"
-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=93a95682d51b4cb0a633a97046940ef0"
+LICENSE = "(MIT | Apache-2.0) & Unicode-TOU"
+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=92289ed52a60b63ab715612ad2915603"
 
 inherit rust
 inherit cargo_common
@@ -11,7 +11,18 @@ DEPENDS += "file-native python3-native"
 DEPENDS:append:class-native = " rust-llvm-native"
 DEPENDS:append:class-nativesdk = " nativesdk-rust-llvm"
 
+DEPENDS += "rust-llvm (=${PV})"
+
+# Otherwise we'll depend on what we provide
+INHIBIT_DEFAULT_RUST_DEPS:class-native = "1"
+# We don't need to depend on gcc-native because yocto assumes it exists
+PROVIDES:class-native = "virtual/${TARGET_PREFIX}rust"
+
 S = "${RUSTSRC}"
+
+# Use at your own risk, accepted values are stable, beta and nightly
+RUST_CHANNEL ?= "stable"
+PV .= "${@bb.utils.contains('RUST_CHANNEL', 'stable', '', '-${RUST_CHANNEL}', d)}"
 
 export FORCE_CRATE_HASH="${BB_TASKHASH}"
 
@@ -116,7 +127,7 @@ python do_configure() {
     # [rust]
     config.add_section("rust")
     config.set("rust", "rpath", e(True))
-    config.set("rust", "channel", e("stable"))
+    config.set("rust", "channel", e(d.expand("${RUST_CHANNEL}")))
 
     # Whether or not to optimize the compiler and standard library
     config.set("rust", "optimize", e(True))
@@ -172,7 +183,6 @@ python do_configure() {
     bb.build.exec_func("setup_cargo_environment", d)
 }
 
-
 rust_runx () {
     echo "COMPILE ${PN}" "$@"
 
@@ -200,20 +210,88 @@ rust_runx () {
 }
 rust_runx[vardepsexclude] += "PARALLEL_MAKE"
 
+require rust-source.inc
+require rust-snapshot.inc
+
+INSANE_SKIP:${PN}:class-native = "already-stripped"
+FILES:${PN} += "${libdir}/rustlib"
+FILES:${PN} += "${libdir}/*.so"
+FILES:${PN}-dev = ""
+
 do_compile () {
-    rust_runx build
+    rust_runx build --stage 2
 }
 
-rust_do_install () {
-    mkdir -p ${D}${bindir}
-    cp build/${RUST_HOST_SYS}/stage2/bin/* ${D}${bindir}
-
-    mkdir -p ${D}${libdir}/rustlib
-    cp -pRd build/${RUST_HOST_SYS}/stage2/lib/* ${D}${libdir}
-    # Remove absolute symlink so bitbake doesn't complain
-    rm -f ${D}${libdir}/rustlib/src/rust
+do_compile:append:class-target () {
+    rust_runx build --stage 2 src/tools/clippy
+    rust_runx build --stage 2 src/tools/rustfmt
 }
+
+do_compile:append:class-nativesdk () {
+    rust_runx build --stage 2 src/tools/clippy
+    rust_runx build --stage 2 src/tools/rustfmt
+}
+
+ALLOW_EMPTY:${PN} = "1"
+
+PACKAGES =+ "${PN}-tools-clippy ${PN}-tools-rustfmt"
+FILES:${PN}-tools-clippy = "${bindir}/cargo-clippy ${bindir}/clippy-driver"
+FILES:${PN}-tools-rustfmt = "${bindir}/rustfmt"
+RDEPENDS:${PN}-tools-clippy = "${PN}"
+RDEPENDS:${PN}-tools-rustfmt = "${PN}"
+
+SUMMARY:${PN}-tools-clippy = "A collection of lints to catch common mistakes and improve your Rust code"
+SUMMARY:${PN}-tools-rustfmt = "A tool for formatting Rust code according to style guidelines"
 
 do_install () {
     rust_do_install
 }
+
+rust_do_install() {
+    rust_runx install
+}
+
+rust_do_install:class-nativesdk() {
+    export PSEUDO_UNLOAD=1
+    rust_runx install
+    unset PSEUDO_UNLOAD
+
+    install -d ${D}${bindir}
+    for i in cargo-clippy clippy-driver rustfmt; do
+        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
+        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+    done
+
+    chown root:root ${D}/ -R
+    rm ${D}${libdir}/rustlib/uninstall.sh
+    rm ${D}${libdir}/rustlib/install.log
+    rm ${D}${libdir}/rustlib/manifest*
+}
+
+EXTRA_TOOLS ?= "cargo-clippy clippy-driver rustfmt"
+rust_do_install:class-target() {
+    export PSEUDO_UNLOAD=1
+    rust_runx install
+    unset PSEUDO_UNLOAD
+
+    install -d ${D}${bindir}
+    for i in ${EXTRA_TOOLS}; do
+        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
+        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+    done
+
+    install -d ${D}${libdir}/rustlib/${RUST_HOST_SYS}
+    install -m 0644 ${WORKDIR}/rust-targets/${RUST_HOST_SYS}.json ${D}${libdir}/rustlib/${RUST_HOST_SYS}/target.json
+
+    chown root:root ${D}/ -R
+    rm ${D}${libdir}/rustlib/uninstall.sh
+    rm ${D}${libdir}/rustlib/install.log
+    rm ${D}${libdir}/rustlib/manifest*
+}
+
+RUSTLIB_DEP:class-nativesdk = ""
+
+# musl builds include libunwind.a
+INSANE_SKIP:${PN} = "staticdev"
+
+BBCLASSEXTEND = "native nativesdk"

@@ -1,8 +1,15 @@
 SUMMARY = "Rust standard libaries"
 HOMEPAGE = "http://www.rust-lang.org"
 SECTION = "devel"
-LICENSE = "MIT | Apache-2.0"
-LIC_FILES_CHKSUM = "file://../../COPYRIGHT;md5=93a95682d51b4cb0a633a97046940ef0"
+LICENSE = "(MIT | Apache-2.0) & Unicode-TOU"
+LIC_FILES_CHKSUM = "file://../../COPYRIGHT;md5=92289ed52a60b63ab715612ad2915603"
+
+require rust-source.inc
+
+# Building with library/std omits proc_macro from the sysroot. Using
+# library/test causes that to be installed which then allows cargo to
+# build (https://github.com/meta-rust/meta-rust/issues/266)
+S = "${RUSTSRC}/library/test"
 
 RUSTLIB_DEP = ""
 inherit cargo
@@ -16,8 +23,6 @@ DEPENDS:remove:riscv64 = "libunwind"
 RUSTFLAGS += "-Cembed-bitcode=yes"
 # Needed so cargo can find libbacktrace
 RUSTFLAGS += "-L ${STAGING_LIBDIR} -C link-arg=-Wl,-soname,libstd.so"
-
-S = "${RUSTSRC}/src/libstd"
 
 CARGO_FEATURES ?= "panic-unwind backtrace"
 CARGO_BUILD_FLAGS += "--features '${CARGO_FEATURES}'"
@@ -38,3 +43,5 @@ do_install () {
     rm -f ${B}/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/*.d
     cp ${B}/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/* ${D}${rustlibdir}
 }
+
+BBCLASSEXTEND = "nativesdk"

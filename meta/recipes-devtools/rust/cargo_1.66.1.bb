@@ -11,12 +11,15 @@ LIC_FILES_CHKSUM = " \
     file://LICENSE-THIRD-PARTY;md5=f257ad009884cb88a3a87d6920e7180a \
 "
 
+require rust-source.inc
+require rust-snapshot.inc
 
 S = "${RUSTSRC}/src/tools/cargo"
 CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
-EXCLUDE_FROM_WORLD = "1"
 
 inherit cargo pkgconfig
+
+DEBUG_PREFIX_MAP += "-fdebug-prefix-map=${RUSTSRC}/vendor=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
 
 do_cargo_setup_snapshot () {
 	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
@@ -65,5 +68,6 @@ CARGO:class-native = "${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo"
 
 DEPENDS:append:class-nativesdk = " nativesdk-rust"
 RUSTLIB:append:class-nativesdk = " -L ${STAGING_DIR_HOST}/${SDKPATHNATIVE}/usr/lib/rustlib/${RUST_HOST_SYS}/lib"
+RUSTLIB_DEP:class-nativesdk = ""
 
-
+BBCLASSEXTEND = "native nativesdk"
