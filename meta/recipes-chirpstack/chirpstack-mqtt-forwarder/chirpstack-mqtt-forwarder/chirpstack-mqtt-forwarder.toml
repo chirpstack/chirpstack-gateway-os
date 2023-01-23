@@ -1,0 +1,23 @@
+# For a complete configuration example and documentation, please refer to:
+# https://www.chirpstack.io/chirpstack-mqtt-forwarder/configuration.html
+
+[logging]
+  level="info"
+  log_to_syslog=true
+
+[mqtt]
+  topic_prefix="eu868"
+  json=false
+  server="tcp://127.0.0.1:1883"
+  username=""
+  password=""
+  ca_cert=""
+  tls_cert=""
+  tls_key=""
+
+[backend]
+  enabled="concentratord"
+
+  [backend.concentratord]
+    event_url="ipc:///tmp/concentratord_event"
+    command_url="ipc:///tmp/concentratord_command"
