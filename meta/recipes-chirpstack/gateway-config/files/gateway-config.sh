@@ -31,9 +31,9 @@ do_main_menu_base() {
     FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 18 65 9 \
         1 "Setup LoRa concentrator shield" \
         2 "Edit ChirpStack Concentratord config" \
-        3 "Edit ChirpStack Gateway Bridge config" \
+        3 "Edit ChirpStack MQTT Forwarder config" \
         4 "Restart ChirpStack Concentratord" \
-        5 "Restart ChirpStack Gateway Bridge" \
+        5 "Restart ChirpStack MQTT Forwarder" \
         6 "Configure WIFI" \
         7 "Set admin password" \
         8 "Flash concentrator MCU" \
@@ -47,9 +47,9 @@ do_main_menu_base() {
         case "$FUN" in
             1) do_setup_concentrator_shield;;
             2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
-            3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
+            3) do_edit_chirpstack_mqtt_forwarder_config && do_restart_chirpstack_mqtt_forwarder;;
             4) do_restart_chirpstack_concentratord;;
-            5) do_restart_chirpstack_gateway_bridge;;
+            5) do_restart_chirpstack_mqtt_forwarder;;
             6) do_configure_wifi;;
             7) do_setup_admin_password;;
             8) do_flash_concentrator_mcu;;
@@ -69,9 +69,9 @@ do_main_menu_full() {
     FUN=$(dialog --cr-wrap --title "ChirpStack Gateway OS" --cancel-label "Quit" --menu "Version:    $VERSION\nGateway ID: $GATEWAY_ID\n " 19 65 10 \
         1 "Setup LoRa concentrator shield" \
         2 "Edit ChirpStack Concentratord config" \
-        3 "Edit ChirpStack Gateway Bridge config" \
+        3 "Edit ChirpStack MQTT Forwarder config" \
         4 "Restart ChirpStack Concentratord" \
-        5 "Restart ChirpStack Gateway Bridge" \
+        5 "Restart ChirpStack MQTT Forwarder" \
         6 "Enable / disable applications" \
         7 "Configure WIFI" \
         8 "Set admin password" \
@@ -86,9 +86,9 @@ do_main_menu_full() {
         case "$FUN" in
             1) do_setup_concentrator_shield;;
             2) do_edit_chirpstack_concentratord_config && do_restart_chirpstack_concentratord;;
-            3) do_edit_chirpstack_gateway_bridge_config && do_restart_chirpstack_gateway_bridge;;
+            3) do_edit_chirpstack_mqtt_forwarder_config && do_restart_chirpstack_mqtt_forwarder;;
             4) do_restart_chirpstack_concentratord;;
-            5) do_restart_chirpstack_gateway_bridge;;
+            5) do_restart_chirpstack_mqtt_forwarder;;
             6) do_applications_menu;;
             7) do_configure_wifi;;
             8) do_setup_admin_password;;
@@ -717,10 +717,8 @@ do_copy_concentratord_config() {
 
 do_update_chirpstack_gw_bridge_topic_prefix() {
     # $1 topic prefix
-    sed -i "s/event_topic_template=.*/event_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-    sed -i "s/state_topic_template=.*/state_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/state\/{{ .StateType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-    sed -i "s/command_topic_template=.*/command_topic_template=\"${1}\/gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-    do_restart_chirpstack_gateway_bridge
+    sed -i "s/topic_prefix=.*/topic_prefix=\"${1}\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
+    do_restart_chirpstack_mqtt_forwarder
 }
 
 do_edit_chirpstack_concentratord_config() {
@@ -741,21 +739,21 @@ do_edit_chirpstack_concentratord_config() {
     fi
 }
 
-do_edit_chirpstack_gateway_bridge_config() {
-    FUN=$(dialog --title "Edit ChirpStack Gateway Bridge config" --menu "Edit config file:" 14 60 2 \
+do_edit_chirpstack_mqtt_forwarder_config() {
+    FUN=$(dialog --title "Edit ChirpStack MQTT Forwarder config" --menu "Edit config file:" 14 60 2 \
         1 "Edit configuration file" \
         2 "MQTT connection wizard" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) nano /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml;;
-            2) do_edit_chirpstack_gateway_bridge_config_mqtt_wizard;;
+            1) nano /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml;;
+            2) do_edit_chirpstack_mqtt_forwarder_config_mqtt_wizzard;;
         esac
     fi
 }
 
-do_edit_chirpstack_gateway_bridge_config_mqtt_wizard() {
+do_edit_chirpstack_mqtt_forwarder_config_mqtt_wizzard() {
     # mqtt broker
     MQTT_BROKER=$(dialog --inputbox "Please enter the MQTT broker address (e.g. tcp://server:1883, ssl://server:8883): " 8 60 \
         3>&1 1>&2 2>&3)    
@@ -763,7 +761,7 @@ do_edit_chirpstack_gateway_bridge_config_mqtt_wizard() {
     if [ $RET -eq 1 ]; then
         return;
     fi
-    sed -i "s/server=.*/server=\"${MQTT_BROKER//\//\\/}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    sed -i "s/server=.*/server=\"${MQTT_BROKER//\//\\/}\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
 
     # region prefix
     dialog --title "Use region prefix" \
@@ -771,41 +769,39 @@ do_edit_chirpstack_gateway_bridge_config_mqtt_wizard() {
         3>&1 1>&2 2>&3
     RET=$?
     if [ $RET -eq 1 ];then
-        sed -i "s/event_topic_template=.*/event_topic_template=\"gateway\/{{ .GatewayID }}\/event\/{{ .EventType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-        sed -i "s/state_topic_template=.*/state_topic_template=\"gateway\/{{ .GatewayID }}\/state\/{{ .StateType }}\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-        sed -i "s/command_topic_template=.*/command_topic_template=\"gateway\/{{ .GatewayID }}\/command\/\#\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        sed -i "s/topic_prefix=.*/topic_prefix=\"\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
     fi
 
     # ca cert
     dialog --yesno "Would you like to configure a CA certificate?" 6 60
     RET=$?
     if [ $RET -eq 0 ]; then
-        touch /etc/chirpstack-gateway-bridge/ca.pem
+        touch /etc/chirpstack-mqtt-forwarder/ca.pem
 
         dialog --title "MQTT connection wizard" --msgbox "Enter the content of the CA certificate in the next screen and close the editor with Ctrl+X." 7 60
-        sed -i "s/ca_cert=.*/ca_cert=\"\/etc\/chirpstack-gateway-bridge\/ca.pem\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-        nano /etc/chirpstack-gateway-bridge/ca.pem
+        sed -i "s/ca_cert=.*/ca_cert=\"\/etc\/chirpstack-mqtt-forwarder\/ca.pem\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
+        nano /etc/chirpstack-mqtt-forwarder/ca.pem
     else
-        sed -i "s/tls_cert=.*/tls_cert=\"\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        sed -i "s/tls_cert=.*/tls_cert=\"\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
     fi
 
     # client cert
     dialog --yesno "Would you like to configure a client certificate?" 6 60
     RET=$?
     if [ $RET -eq 0 ]; then
-        touch /etc/chirpstack-gateway-bridge/cert.pem
-        touch /etc/chirpstack-gateway-bridge/key.pem
+        touch /etc/chirpstack-mqtt-forwarder/cert.pem
+        touch /etc/chirpstack-mqtt-forwarder/key.pem
 
         dialog --title "MQTT connection wizard" --msgbox "Enter the content of the client-certificate in the next screen and close the editor with Ctrl+X." 7 60
-        sed -i "s/tls_cert=.*/tls_cert=\"\/etc\/chirpstack-gateway-bridge\/cert.pem\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-        nano /etc/chirpstack-gateway-bridge/cert.pem
+        sed -i "s/tls_cert=.*/tls_cert=\"\/etc\/chirpstack-mqtt-forwarder\/cert.pem\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
+        nano /etc/chirpstack-mqtt-forwarder/cert.pem
 
         dialog --title "MQTT connection wizard" --msgbox "Enter the content of the client-certificate key in the next screen and close the editor with Ctrl+X." 7 60
-        sed -i "s/tls_key=.*/tls_key=\"\/etc\/chirpstack-gateway-bridge\/key.pem\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-        nano /etc/chirpstack-gateway-bridge/key.pem
+        sed -i "s/tls_key=.*/tls_key=\"\/etc\/chirpstack-mqtt-forwarder\/key.pem\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
+        nano /etc/chirpstack-mqtt-forwarder/key.pem
     else
-        sed -i "s/tls_cert=.*/tls_cert=\"\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-        sed -i "s/tls_key=.*/tls_key=\"\"/" /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+        sed -i "s/tls_cert=.*/tls_cert=\"\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
+        sed -i "s/tls_key=.*/tls_key=\"\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
     fi
 }
 
@@ -819,11 +815,11 @@ do_restart_chirpstack_concentratord() {
     fi
 }
 
-do_restart_chirpstack_gateway_bridge() {
-    monit restart chirpstack-gateway-bridge
+do_restart_chirpstack_mqtt_forwarder() {
+    monit restart chirpstack-mqtt-forwarder
     RET=$?
     if [ $RET -eq 0 ]; then
-        dialog --title "Restart ChirpStack Gateway Bridge" --msgbox "The ChirpStack Gateway Bridge has been restarted." 5 60
+        dialog --title "Restart ChirpStack MQTT Forwarder" --msgbox "The ChirpStack MQTT Forwarder has been restarted." 5 60
     else
         exit $RET
     fi
