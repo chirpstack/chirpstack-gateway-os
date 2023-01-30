@@ -15,4 +15,8 @@ do_install:append() {
     install -m 0640 ${WORKDIR}/chirpstack-udp-forwarder.toml ${D}${sysconfdir}/chirpstack-udp-forwarder/chirpstack-udp-forwarder.toml
 }
 
+DEPENDS = "\
+    protobuf-native \
+"
+
 CONFFILES_${PN} += "${sysconfdir}/chirpstack-udp-forwarder/chirpstack-udp-forwarder.toml"

@@ -207,7 +207,7 @@ do_setup_ic880a() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";
+            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";
         esac
     fi
 }
@@ -237,9 +237,9 @@ do_setup_imst_lite() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            2) do_copy_concentratord_config "sx1301" "imst_ic880a_ru864" "" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
-            3) do_copy_concentratord_config "sx1301" "imst_ic880a_in865" "" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
+            1) do_copy_concentratord_config "sx1301" "imst_ic880a_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
+            2) do_copy_concentratord_config "sx1301" "imst_ic880a_ru864" "" "ru864" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "ru864";;
+            3) do_copy_concentratord_config "sx1301" "imst_ic880a_in865" "" "in865" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "in865";;
         esac
     fi
 }
@@ -256,7 +256,7 @@ do_setup_pislora() {
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
             1) do_select_au915_block "sx1301" "pi_supply_lora_gateway_hat_au915" "";;
-            2) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            2) do_copy_concentratord_config "sx1301" "pi_supply_lora_gateway_hat_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
             3) do_select_us915_block "sx1301" "pi_supply_lora_gateway_hat_us915" "";;
         esac
     fi
@@ -282,17 +282,17 @@ do_setup_rak2245() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
-            3) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
-            4) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            1) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1301" "rak_2245_as923" "GNSS" "as923" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_4";;
             5) do_select_au915_block "sx1301" "rak_2245_au915" "GNSS";;
             6) do_select_cn470_block "sx1301" "rak_2245_cn470" "GNSS";;
-            7) do_copy_concentratord_config "sx1301" "rak_2245_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
-            8) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            9) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            10) do_copy_concentratord_config "sx1301" "rak_2245_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
-            11) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            7) do_copy_concentratord_config "sx1301" "rak_2245_eu433" "GNSS" "eu433" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu433";;
+            8) do_copy_concentratord_config "sx1301" "rak_2245_eu868" "GNSS" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
+            9) do_copy_concentratord_config "sx1301" "rak_2245_in865" "GNSS" "in865" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "in865";;
+            10) do_copy_concentratord_config "sx1301" "rak_2245_kr920" "GNSS" "kr920" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "kr920";;
+            11) do_copy_concentratord_config "sx1301" "rak_2245_ru864" "GNSS" "ru864" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "ru864";;
             12) do_select_us915_block "sx1301" "rak_2245_us915" "GNSS";;
         esac
     fi
@@ -317,16 +317,16 @@ do_setup_rak2246() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
-            3) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
-            4) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_as923" "" "as923" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_4";;
             5) do_select_au915_block "sx1301" "rak_2246_au915" "";;
-            6) do_copy_concentratord_config "sx1301" "rak_2246_eu433" "" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
-            7) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            8) do_copy_concentratord_config "sx1301" "rak_2246_in865" "" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            9) do_copy_concentratord_config "sx1301" "rak_2246_kr920" "" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
-            10) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_eu433" "" "eu433" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1301" "rak_2246_in865" "" "in865" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1301" "rak_2246_kr920" "" "kr920" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "" "ru864" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "ru864";;
             11) do_select_us915_block "sx1301" "rak_2246_us915" "";;
         esac
     fi
@@ -351,16 +351,16 @@ do_setup_rak2246g() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
-            3) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
-            4) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            1) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1301" "rak_2246_as923" "GNSS" "as923" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_4";;
             5) do_select_au915_block "sx1301" "rak_2246_au915" "";;
-            6) do_copy_concentratord_config "sx1301" "rak_2246_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
-            7) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            8) do_copy_concentratord_config "sx1301" "rak_2246_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            9) do_copy_concentratord_config "sx1301" "rak_2246_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
-            10) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            6) do_copy_concentratord_config "sx1301" "rak_2246_eu433" "GNSS" "eu433" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1301" "rak_2246_eu868" "GNSS" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1301" "rak_2246_in865" "GNSS" "in865" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1301" "rak_2246_kr920" "GNSS" "kr920" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1301" "rak_2246_ru864" "GNSS" "ru864" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "ru864";;
             11) do_select_us915_block "sx1301" "rak_2246_us915" "GNSS";;
         esac
     fi
@@ -385,16 +385,16 @@ do_setup_rak2287() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
-            3) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
-            4) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            1) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1302" "rak_2287_as923" "GNSS" "as923" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_4";;
             5) do_select_au915_block "sx1302" "rak_2287_au915" "GNSS";;
-            6) do_copy_concentratord_config "sx1302" "rak_2287_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
-            7) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            8) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            9) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
-            10) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            6) do_copy_concentratord_config "sx1302" "rak_2287_eu433" "GNSS" "eu433" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1302" "rak_2287_eu868" "GNSS" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1302" "rak_2287_in865" "GNSS" "in865" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1302" "rak_2287_kr920" "GNSS" "kr920" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1302" "rak_2287_ru864" "GNSS" "ru864" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "ru864";;
             11) do_select_us915_block "sx1302" "rak_2287_us915" "GNSS";;
         esac
     fi
@@ -419,16 +419,16 @@ do_setup_rak5146() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "2" && do_update_chirpstack_gw_bridge_topic_prefix "as923_2";;
-            3) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "3" && do_update_chirpstack_gw_bridge_topic_prefix "as923_3";;
-            4) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "4" && do_update_chirpstack_gw_bridge_topic_prefix "as923_4";;
+            1) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_2";;
+            3) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_3";;
+            4) do_copy_concentratord_config "sx1302" "rak_5146_as923" "GNSS" "as923" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923_4";;
             5) do_select_au915_block "sx1302" "rak_5146_au915" "GNSS";;
-            6) do_copy_concentratord_config "sx1302" "rak_5146_eu433" "GNSS" "eu433" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu433";;
-            7) do_copy_concentratord_config "sx1302" "rak_5146_eu868" "GNSS" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
-            8) do_copy_concentratord_config "sx1302" "rak_5146_in865" "GNSS" "in865" "" && do_update_chirpstack_gw_bridge_topic_prefix "in865";;
-            9) do_copy_concentratord_config "sx1302" "rak_5146_kr920" "GNSS" "kr920" "" && do_update_chirpstack_gw_bridge_topic_prefix "kr920";;
-            10) do_copy_concentratord_config "sx1302" "rak_5146_ru864" "GNSS" "ru864" "" && do_update_chirpstack_gw_bridge_topic_prefix "ru864";;
+            6) do_copy_concentratord_config "sx1302" "rak_5146_eu433" "GNSS" "eu433" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu433";;
+            7) do_copy_concentratord_config "sx1302" "rak_5146_eu868" "GNSS" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
+            8) do_copy_concentratord_config "sx1302" "rak_5146_in865" "GNSS" "in865" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "in865";;
+            9) do_copy_concentratord_config "sx1302" "rak_5146_kr920" "GNSS" "kr920" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "kr920";;
+            10) do_copy_concentratord_config "sx1302" "rak_5146_ru864" "GNSS" "ru864" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "ru864";;
             11) do_select_us915_block "sx1302" "rak_5146_us915" "GNSS";;
         esac
     fi
@@ -444,7 +444,7 @@ do_setup_rhf0m301() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "risinghf_rhf0m301_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1301" "risinghf_rhf0m301_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
             2) do_select_us915_block "sx1301" "risinghf_rhf0m301_us915" "";;
         esac
     fi
@@ -460,7 +460,7 @@ do_setup_lorago_port() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1301" "generic_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
             2) do_select_us915_block "sx1301" "generic_us915" "";;
         esac
     fi
@@ -475,7 +475,7 @@ do_setup_seeed_wm1302() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "seeed_wm1302_spi_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1302" "seeed_wm1302_spi_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
         esac
     fi
 }
@@ -489,7 +489,7 @@ do_setup_semtech_2g4() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "2g4" "semtech_sx1280z3dsfgw1" "" "ism2400" "" && do_update_chirpstack_gw_bridge_topic_prefix "ism2400";;
+            1) do_copy_concentratord_config "2g4" "semtech_sx1280z3dsfgw1" "" "ism2400" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "ism2400";;
         esac
     fi
 }
@@ -504,7 +504,7 @@ do_setup_semtech_sx1302cxxxgw1() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1302" "semtech_sx1302c868gw1_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
             2) do_select_us915_block "sx1302" "semtech_sx1302c915gw1_us915" "";;
         esac
     fi
@@ -521,8 +521,8 @@ do_setup_semtech_sx1302cssxxxgw1() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "semtech_sx1302css923gw1_as923" "" "as923" "" && do_update_chirpstack_gw_bridge_topic_prefix "as923";;
-            2) do_copy_concentratord_config "sx1302" "semtech_sx1302css868gw1_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1302" "semtech_sx1302css923gw1_as923" "" "as923" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "as923";;
+            2) do_copy_concentratord_config "sx1302" "semtech_sx1302css868gw1_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
             3) do_select_us915_block "sx1302" "semtech_sx1302css915gw1_us915" "";;
         esac
     fi
@@ -537,7 +537,7 @@ do_setup_waveshare_sx1302_lorawan_gateway_hat() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "sx1302" "waveshare_sx1302_lorawan_gateway_hat_eu868" "" "eu868" "" && do_update_chirpstack_gw_bridge_topic_prefix "eu868";;
+            1) do_copy_concentratord_config "sx1302" "waveshare_sx1302_lorawan_gateway_hat_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
         esac
     fi
 }
@@ -565,18 +565,18 @@ do_select_cn470_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "0" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_0";;
-            2) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "1" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_1";;
-            3) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "2" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_2";;
-            4) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "3" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_3";;
-            5) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "4" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_4";;
-            6) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "5" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_5";;
-            7) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "6" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_6";;
-            8) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "7" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_7";;
-            9) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "8" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_8";;
-            10) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "9" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_9";;
-            11) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "10" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_10";;
-            12) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "11" && do_update_chirpstack_gw_bridge_topic_prefix "cn470_11";;
+            1) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "0" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_0";;
+            2) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "1" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_1";;
+            3) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_2";;
+            4) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_3";;
+            5) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_4";;
+            6) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "5" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_5";;
+            7) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "6" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_6";;
+            8) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "7" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_7";;
+            9) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "8" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_8";;
+            10) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "9" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_9";;
+            11) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "10" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_10";;
+            12) do_copy_concentratord_config "$1" "$2" "$3" "cn470" "11" && do_update_chirpstack_mqtt_forwarder_topic_prefix "cn470_11";;
         esac
     fi
 }
@@ -600,14 +600,14 @@ do_select_us915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "$1" "$2" "$3" "us915" "0" && do_update_chirpstack_gw_bridge_topic_prefix "us915_0";;
-            2) do_copy_concentratord_config "$1" "$2" "$3" "us915" "1" && do_update_chirpstack_gw_bridge_topic_prefix "us915_1";;
-            3) do_copy_concentratord_config "$1" "$2" "$3" "us915" "2" && do_update_chirpstack_gw_bridge_topic_prefix "us915_2";;
-            4) do_copy_concentratord_config "$1" "$2" "$3" "us915" "3" && do_update_chirpstack_gw_bridge_topic_prefix "us915_3";;
-            5) do_copy_concentratord_config "$1" "$2" "$3" "us915" "4" && do_update_chirpstack_gw_bridge_topic_prefix "us915_4";;
-            6) do_copy_concentratord_config "$1" "$2" "$3" "us915" "5" && do_update_chirpstack_gw_bridge_topic_prefix "us915_5";;
-            7) do_copy_concentratord_config "$1" "$2" "$3" "us915" "6" && do_update_chirpstack_gw_bridge_topic_prefix "us915_6";;
-            8) do_copy_concentratord_config "$1" "$2" "$3" "us915" "7" && do_update_chirpstack_gw_bridge_topic_prefix "us915_7";;
+            1) do_copy_concentratord_config "$1" "$2" "$3" "us915" "0" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_0";;
+            2) do_copy_concentratord_config "$1" "$2" "$3" "us915" "1" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_1";;
+            3) do_copy_concentratord_config "$1" "$2" "$3" "us915" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_2";;
+            4) do_copy_concentratord_config "$1" "$2" "$3" "us915" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_3";;
+            5) do_copy_concentratord_config "$1" "$2" "$3" "us915" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_4";;
+            6) do_copy_concentratord_config "$1" "$2" "$3" "us915" "5" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_5";;
+            7) do_copy_concentratord_config "$1" "$2" "$3" "us915" "6" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_6";;
+            8) do_copy_concentratord_config "$1" "$2" "$3" "us915" "7" && do_update_chirpstack_mqtt_forwarder_topic_prefix "us915_7";;
         esac
     fi
 }
@@ -631,14 +631,14 @@ do_select_au915_block() {
         do_main_menu
     elif [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_copy_concentratord_config "$1" "$2" "$3" "au915" "0" && do_update_chirpstack_gw_bridge_topic_prefix "au915_0";;
-            2) do_copy_concentratord_config "$1" "$2" "$3" "au915" "1" && do_update_chirpstack_gw_bridge_topic_prefix "au915_1";;
-            3) do_copy_concentratord_config "$1" "$2" "$3" "au915" "2" && do_update_chirpstack_gw_bridge_topic_prefix "au915_2";;
-            4) do_copy_concentratord_config "$1" "$2" "$3" "au915" "3" && do_update_chirpstack_gw_bridge_topic_prefix "au915_3";;
-            5) do_copy_concentratord_config "$1" "$2" "$3" "au915" "4" && do_update_chirpstack_gw_bridge_topic_prefix "au915_4";;
-            6) do_copy_concentratord_config "$1" "$2" "$3" "au915" "5" && do_update_chirpstack_gw_bridge_topic_prefix "au915_5";;
-            7) do_copy_concentratord_config "$1" "$2" "$3" "au915" "6" && do_update_chirpstack_gw_bridge_topic_prefix "au915_6";;
-            8) do_copy_concentratord_config "$1" "$2" "$3" "au915" "7" && do_update_chirpstack_gw_bridge_topic_prefix "au915_7";;
+            1) do_copy_concentratord_config "$1" "$2" "$3" "au915" "0" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_0";;
+            2) do_copy_concentratord_config "$1" "$2" "$3" "au915" "1" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_1";;
+            3) do_copy_concentratord_config "$1" "$2" "$3" "au915" "2" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_2";;
+            4) do_copy_concentratord_config "$1" "$2" "$3" "au915" "3" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_3";;
+            5) do_copy_concentratord_config "$1" "$2" "$3" "au915" "4" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_4";;
+            6) do_copy_concentratord_config "$1" "$2" "$3" "au915" "5" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_5";;
+            7) do_copy_concentratord_config "$1" "$2" "$3" "au915" "6" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_6";;
+            8) do_copy_concentratord_config "$1" "$2" "$3" "au915" "7" && do_update_chirpstack_mqtt_forwarder_topic_prefix "au915_7";;
         esac
     fi
 }
@@ -715,7 +715,7 @@ do_copy_concentratord_config() {
     fi
 }
 
-do_update_chirpstack_gw_bridge_topic_prefix() {
+do_update_chirpstack_mqtt_forwarder_topic_prefix() {
     # $1 topic prefix
     sed -i "s/topic_prefix=.*/topic_prefix=\"${1}\"/" /etc/chirpstack-mqtt-forwarder/chirpstack-mqtt-forwarder.toml
     do_restart_chirpstack_mqtt_forwarder

@@ -12,5 +12,5 @@ export BINDGEN_EXTRA_CLANG_ARGS="-I${STAGING_INCDIR} -mfloat-abi=${TARGET_FPU}"
 
 do_install:append() {
     install -d ${D}${sysconfdir}/chirpstack-concentratord/2g4/examples
-	install -m 0644 ${S}/chirpstack-concentratord-2g4/config/*.toml ${D}${sysconfdir}/chirpstack-concentratord/2g4/examples
+    install -m 0644 ${S}/chirpstack-concentratord-2g4/config/*.toml ${D}${sysconfdir}/chirpstack-concentratord/2g4/examples
 }

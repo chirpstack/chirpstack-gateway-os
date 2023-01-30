@@ -6,9 +6,9 @@ inherit cargo
 # DEFAULT_PREFERENCE = "-1"
 
 # how to get chirpstack could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/chirpstack/4.1.1"
+# SRC_URI += "crate://crates.io/chirpstack/4.2.0"
 SRC_URI += "git://git@github.com/chirpstack/chirpstack.git;protocol=ssh;nobranch=1"
-SRCREV = "fd061d4657277c4badadb467761b56c25edd59d3"
+SRCREV = "1d2f627bbbb6d1cba0df640f6a3e292282e924b5"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "chirpstack"
 
@@ -24,8 +24,7 @@ SRC_URI += " \
     crate://crates.io/amq-protocol-uri/7.0.1 \
     crate://crates.io/amq-protocol/7.0.1 \
     crate://crates.io/android_system_properties/0.1.5 \
-    crate://crates.io/ansi_term/0.12.1 \
-    crate://crates.io/anyhow/1.0.65 \
+    crate://crates.io/anyhow/1.0.68 \
     crate://crates.io/ascii-canvas/3.0.0 \
     crate://crates.io/assert-json-diff/2.0.2 \
     crate://crates.io/async-channel/1.7.1 \
@@ -42,7 +41,7 @@ SRC_URI += " \
     crate://crates.io/async-stream-impl/0.3.3 \
     crate://crates.io/async-stream/0.3.3 \
     crate://crates.io/async-task/4.3.0 \
-    crate://crates.io/async-trait/0.1.57 \
+    crate://crates.io/async-trait/0.1.63 \
     crate://crates.io/atomic-waker/1.0.0 \
     crate://crates.io/atty/0.2.14 \
     crate://crates.io/autocfg/1.1.0 \
@@ -78,7 +77,7 @@ SRC_URI += " \
     crate://crates.io/block-padding/0.3.2 \
     crate://crates.io/blocking/1.2.0 \
     crate://crates.io/buf_redux/0.8.4 \
-    crate://crates.io/bumpalo/3.11.0 \
+    crate://crates.io/bumpalo/3.12.0 \
     crate://crates.io/byteorder/1.4.3 \
     crate://crates.io/bytes-utils/0.1.3 \
     crate://crates.io/bytes/1.2.1 \
@@ -97,7 +96,7 @@ SRC_URI += " \
     crate://crates.io/clap_lex/0.2.4 \
     crate://crates.io/clap_lex/0.3.0 \
     crate://crates.io/cmac/0.7.1 \
-    crate://crates.io/cmake/0.1.45 \
+    crate://crates.io/cmake/0.1.49 \
     crate://crates.io/combine/4.6.6 \
     crate://crates.io/concurrent-queue/1.2.4 \
     crate://crates.io/cookie-factory/0.3.2 \
@@ -113,9 +112,12 @@ SRC_URI += " \
     crate://crates.io/ctor/0.1.23 \
     crate://crates.io/curl-sys/0.4.56+curl-7.83.1 \
     crate://crates.io/curl/0.4.44 \
+    crate://crates.io/darling/0.13.4 \
+    crate://crates.io/darling_core/0.13.4 \
+    crate://crates.io/darling_macro/0.13.4 \
     crate://crates.io/dbl/0.3.2 \
     crate://crates.io/des/0.8.1 \
-    crate://crates.io/diesel/2.0.0 \
+    crate://crates.io/diesel/2.0.2 \
     crate://crates.io/diesel_derives/2.0.0 \
     crate://crates.io/diesel_migrations/2.0.0 \
     crate://crates.io/diff/0.1.13 \
@@ -177,8 +179,9 @@ SRC_URI += " \
     crate://crates.io/hyper-rustls/0.23.0 \
     crate://crates.io/hyper-timeout/0.4.1 \
     crate://crates.io/hyper-tls/0.5.0 \
-    crate://crates.io/hyper/0.14.20 \
+    crate://crates.io/hyper/0.14.23 \
     crate://crates.io/iana-time-zone/0.1.50 \
+    crate://crates.io/ident_case/1.0.1 \
     crate://crates.io/idna/0.2.3 \
     crate://crates.io/idna/0.3.0 \
     crate://crates.io/indexmap/1.9.1 \
@@ -218,6 +221,7 @@ SRC_URI += " \
     crate://crates.io/native-tls/0.2.10 \
     crate://crates.io/new_debug_unreachable/1.0.4 \
     crate://crates.io/nom/7.1.1 \
+    crate://crates.io/nu-ansi-term/0.46.0 \
     crate://crates.io/num-bigint/0.4.3 \
     crate://crates.io/num-integer/0.1.45 \
     crate://crates.io/num-traits/0.2.15 \
@@ -228,7 +232,7 @@ SRC_URI += " \
     crate://crates.io/oauth2/4.2.3 \
     crate://crates.io/once_cell/1.15.0 \
     crate://crates.io/opaque-debug/0.3.0 \
-    crate://crates.io/openidconnect/2.3.2 \
+    crate://crates.io/openidconnect/2.5.0 \
     crate://crates.io/openssl-macros/0.1.0 \
     crate://crates.io/openssl-probe/0.1.5 \
     crate://crates.io/openssl-src/111.22.0+1.1.1q \
@@ -236,9 +240,10 @@ SRC_URI += " \
     crate://crates.io/openssl/0.10.41 \
     crate://crates.io/ordered-float/2.10.0 \
     crate://crates.io/os_str_bytes/6.3.0 \
+    crate://crates.io/overload/0.1.1 \
     crate://crates.io/p12/0.6.3 \
-    crate://crates.io/paho-mqtt-sys/0.7.0 \
-    crate://crates.io/paho-mqtt/0.11.1 \
+    crate://crates.io/paho-mqtt-sys/0.8.0 \
+    crate://crates.io/paho-mqtt/0.12.0 \
     crate://crates.io/parking/2.0.0 \
     crate://crates.io/parking_lot/0.12.1 \
     crate://crates.io/parking_lot_core/0.9.3 \
@@ -271,13 +276,13 @@ SRC_URI += " \
     crate://crates.io/proc-macro-crate/1.2.1 \
     crate://crates.io/proc-macro-error-attr/1.0.4 \
     crate://crates.io/proc-macro-error/1.0.4 \
-    crate://crates.io/proc-macro2/1.0.44 \
+    crate://crates.io/proc-macro2/1.0.49 \
     crate://crates.io/prometheus-client-derive-text-encode/0.3.0 \
     crate://crates.io/prometheus-client/0.18.0 \
     crate://crates.io/prost-build/0.11.1 \
-    crate://crates.io/prost-derive/0.11.0 \
-    crate://crates.io/prost-types/0.11.1 \
-    crate://crates.io/prost/0.11.0 \
+    crate://crates.io/prost-derive/0.11.6 \
+    crate://crates.io/prost-types/0.11.6 \
+    crate://crates.io/prost/0.11.6 \
     crate://crates.io/quick-error/1.2.3 \
     crate://crates.io/quote/1.0.21 \
     crate://crates.io/r2d2/0.8.10 \
@@ -325,12 +330,15 @@ SRC_URI += " \
     crate://crates.io/security-framework/2.7.0 \
     crate://crates.io/semver/1.0.14 \
     crate://crates.io/serde-value/0.7.0 \
-    crate://crates.io/serde/1.0.145 \
-    crate://crates.io/serde_derive/1.0.145 \
-    crate://crates.io/serde_json/1.0.85 \
+    crate://crates.io/serde/1.0.152 \
+    crate://crates.io/serde_derive/1.0.152 \
+    crate://crates.io/serde_json/1.0.91 \
     crate://crates.io/serde_path_to_error/0.1.8 \
+    crate://crates.io/serde_plain/1.0.1 \
     crate://crates.io/serde_regex/1.1.0 \
     crate://crates.io/serde_urlencoded/0.7.1 \
+    crate://crates.io/serde_with/1.14.0 \
+    crate://crates.io/serde_with_macros/1.5.2 \
     crate://crates.io/serde_yaml/0.9.13 \
     crate://crates.io/sha-1/0.9.8 \
     crate://crates.io/sha1/0.10.5 \
@@ -353,7 +361,7 @@ SRC_URI += " \
     crate://crates.io/string_cache/0.8.4 \
     crate://crates.io/strsim/0.10.0 \
     crate://crates.io/subtle/2.4.1 \
-    crate://crates.io/syn/1.0.100 \
+    crate://crates.io/syn/1.0.107 \
     crate://crates.io/sync_wrapper/0.1.1 \
     crate://crates.io/tcp-stream/0.24.4 \
     crate://crates.io/tempfile/3.3.0 \
@@ -380,21 +388,21 @@ SRC_URI += " \
     crate://crates.io/tokio-tungstenite/0.15.0 \
     crate://crates.io/tokio-util/0.6.10 \
     crate://crates.io/tokio-util/0.7.4 \
-    crate://crates.io/tokio/1.21.1 \
+    crate://crates.io/tokio/1.24.2 \
     crate://crates.io/toml/0.5.9 \
     crate://crates.io/tonic-build/0.8.0 \
     crate://crates.io/tonic-reflection/0.5.0 \
-    crate://crates.io/tonic-web/0.4.0 \
+    crate://crates.io/tonic-web/0.5.0 \
     crate://crates.io/tonic/0.8.1 \
     crate://crates.io/tower-http/0.3.4 \
     crate://crates.io/tower-layer/0.3.1 \
     crate://crates.io/tower-service/0.3.2 \
     crate://crates.io/tower/0.4.13 \
     crate://crates.io/tracing-attributes/0.1.22 \
-    crate://crates.io/tracing-core/0.1.29 \
+    crate://crates.io/tracing-core/0.1.30 \
     crate://crates.io/tracing-futures/0.2.5 \
     crate://crates.io/tracing-log/0.1.3 \
-    crate://crates.io/tracing-subscriber/0.3.15 \
+    crate://crates.io/tracing-subscriber/0.3.16 \
     crate://crates.io/tracing/0.1.36 \
     crate://crates.io/try-lock/0.2.3 \
     crate://crates.io/tungstenite/0.14.0 \
@@ -440,11 +448,19 @@ SRC_URI += " \
     crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
     crate://crates.io/winapi/0.3.9 \
     crate://crates.io/windows-sys/0.36.1 \
+    crate://crates.io/windows-sys/0.42.0 \
+    crate://crates.io/windows_aarch64_gnullvm/0.42.0 \
     crate://crates.io/windows_aarch64_msvc/0.36.1 \
+    crate://crates.io/windows_aarch64_msvc/0.42.0 \
     crate://crates.io/windows_i686_gnu/0.36.1 \
+    crate://crates.io/windows_i686_gnu/0.42.0 \
     crate://crates.io/windows_i686_msvc/0.36.1 \
+    crate://crates.io/windows_i686_msvc/0.42.0 \
     crate://crates.io/windows_x86_64_gnu/0.36.1 \
+    crate://crates.io/windows_x86_64_gnu/0.42.0 \
+    crate://crates.io/windows_x86_64_gnullvm/0.42.0 \
     crate://crates.io/windows_x86_64_msvc/0.36.1 \
+    crate://crates.io/windows_x86_64_msvc/0.42.0 \
     crate://crates.io/winreg/0.10.1 \
     crate://crates.io/xmlparser/0.13.3 \
     crate://crates.io/yasna/0.5.0 \

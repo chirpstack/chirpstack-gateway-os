@@ -9,7 +9,7 @@ RDEPENDS:${PN}-utils = "dfu-util"
 
 SRCREV = "f14f5cf2e4caf3789bc32159fba5c10363166591"
 SRC_URI = "\
-	git://github.com/Lora-net/gateway_2g4_hal.git;protocol=https;branch=master \
+    git://github.com/Lora-net/gateway_2g4_hal.git;protocol=https;branch=master \
     file://library.cfg \
 "
 
@@ -36,12 +36,12 @@ do_install() {
     install -m 0644 libloragw/libloragw.a ${D}${libdir}/libloragw-2g4.a
     install -m 0644 libloragw/inc/* ${D}${includedir}/libloragw-2g4
 
-	install -d ${D}/opt/libloragw-2g4/gateway-utils
-	install -d ${D}/opt/libloragw-2g4/mcu_bin
-	install -m 0755 util_boot/boot ${D}/opt/libloragw-2g4/gateway-utils/
+    install -d ${D}/opt/libloragw-2g4/gateway-utils
+    install -d ${D}/opt/libloragw-2g4/mcu_bin
+    install -m 0755 util_boot/boot ${D}/opt/libloragw-2g4/gateway-utils/
 
-	# Note: if the .bin version changes, make sure to update gateway-config.sh too!
-	install -m 0644 mcu_bin/rlz_fwm_gtw_2g4_01.00.01.bin ${D}/opt/libloragw-2g4/mcu_bin/
+    # Note: if the .bin version changes, make sure to update gateway-config.sh too!
+    install -m 0644 mcu_bin/rlz_fwm_gtw_2g4_01.00.01.bin ${D}/opt/libloragw-2g4/mcu_bin/
 }
 
 PACKAGES += "${PN}-utils ${PN}-utils-dbg"

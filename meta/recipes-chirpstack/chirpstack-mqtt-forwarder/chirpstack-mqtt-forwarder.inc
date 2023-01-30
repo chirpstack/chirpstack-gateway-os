@@ -31,7 +31,7 @@ export OPENSSL_LIB_DIR="${STAGING_LIBDIR}"
 export OPENSSL_INCLUDE_DIR="${STAGING_INCDIR}/openssl"
 
 DEPENDS = "\
-	protobuf-native \
+    protobuf-native \
     openssl \
     clang-native \
 "

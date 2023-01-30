@@ -1,11 +1,11 @@
 diff --git a/Cargo.toml b/Cargo.toml
-index 4740905..f80a731 100644
+index 299071c..f881761 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -39,10 +39,3 @@ zmq = { version = "0.9", optional = true }
+@@ -39,10 +39,3 @@ zmq = { version = "0.10", optional = true }
  default = ["semtech_udp", "concentratord"]
  semtech_udp = []
- concentratord = ["zmq/vendored"]
+ concentratord = ["zmq"]
 -
 -[profile.release]
 -strip = true
