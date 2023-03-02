@@ -684,7 +684,7 @@ do_copy_concentratord_config() {
 
     if [ $RET -eq 0 ]; then
         cp /etc/chirpstack-concentratord/$1/examples/concentratord.toml /etc/chirpstack-concentratord/$1/concentratord.toml
-        cp /etc/chirpstack-concentratord/$1/examples/band_$4.toml /etc/chirpstack-concentratord/$1/band.toml
+        cp /etc/chirpstack-concentratord/$1/examples/region_$4.toml /etc/chirpstack-concentratord/$1/band.toml
         cp /etc/chirpstack-concentratord/$1/examples/channels_$4$SUFFIX.toml /etc/chirpstack-concentratord/$1/channels.toml
 
         # set model
