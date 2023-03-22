@@ -1,5 +1,6 @@
 [[regions]]
-  name="in865"
+  id="in865"
+  description="IN865"
   common_name="IN865"
 
   [regions.gateway]
@@ -9,8 +10,7 @@
       enabled="mqtt"
 
       [regions.gateway.backend.mqtt]
-        event_topic="in865/gateway/+/event/+"
-        command_topic="in865/gateway/{{ gateway_id }}/command/{{ command }}"
+        topic_prefix="in865"
         server="tcp://localhost:1883"
         clean_session=true
 

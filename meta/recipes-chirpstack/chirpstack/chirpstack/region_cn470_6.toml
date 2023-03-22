@@ -1,5 +1,6 @@
 [[regions]]
-  name="cn470_6"
+  id="cn470_6"
+  description="CN470 (channels 48-55)"
   common_name="CN470"
 
   [regions.gateway]
@@ -8,8 +9,7 @@
       enabled="mqtt"
 
       [regions.gateway.backend.mqtt]
-        event_topic="cn470_6/gateway/+/event/+"
-        command_topic="cn470_6/gateway/{{ gateway_id }}/command/{{ command }}"
+        topic_prefix="cn470_6"
         server="tcp://localhost:1883"
 
     [[regions.gateway.channels]]

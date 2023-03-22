@@ -1,5 +1,6 @@
 [[regions]]
-  name="as923_2"
+  id="as923_2"
+  description="AS923-2"
   common_name="AS923_2"
 
   [regions.gateway]
@@ -8,8 +9,7 @@
       enabled="mqtt"
 
       [regions.gateway.backend.mqtt]
-        event_topic="as923_2/gateway/+/event/+"
-        command_topic="as923_2/gateway/{{ gateway_id }}/command/{{ command }}"
+        topic_prefix="as923_2"
         server="tcp://localhost:1883"
         clean_session=true
 

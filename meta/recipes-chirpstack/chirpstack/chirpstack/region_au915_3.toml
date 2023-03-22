@@ -1,5 +1,6 @@
 [[regions]]
-  name="au915_3"
+  id="au915_3"
+  description="AU915 (channels 24-31 + 67)"
   common_name="AU915"
 
   [regions.gateway]
@@ -8,8 +9,7 @@
       enabled="mqtt"
 
       [regions.gateway.backend.mqtt]
-        event_topic="au915_3/gateway/+/event/+"
-        command_topic="au915_3/gateway/{{ gateway_id }}/command/{{ command }}"
+        topic_prefix="au915_3"
         server="tcp://localhost:1883"
         clean_session=true
 

@@ -1,5 +1,6 @@
 [[regions]]
-  name="ru864"
+  id="ru864"
+  description="RU864"
   common_name="RU864"
 
   [regions.gateway]
@@ -8,8 +9,7 @@
       enabled="mqtt"
 
       [regions.gateway.backend.mqtt]
-        event_topic="ru864/gateway/+/event/+"
-        command_topic="ru864/gateway/{{ gateway_id }}/command/{{ command }}"
+        topic_prefix="ru864"
         server="tcp://localhost:1883"
         clean_session=true
 

@@ -1,5 +1,6 @@
 [[regions]]
-  name="kr920"
+  id="kr920"
+  description="KR920"
   common_name="KR920"
 
   [regions.gateway]
@@ -8,8 +9,7 @@
       enabled="mqtt"
 
       [regions.gateway.backend.mqtt]
-        event_topic="kr920/gateway/+/event/+"
-        command_topic="kr920/gateway/{{ gateway_id }}/command/{{ command }}"
+        topic_prefix="kr920"
         server="tcp://localhost:1883"
         clean_session=true
 

@@ -1,5 +1,6 @@
 [[regions]]
-  name="us915_6"
+  id="us915_6"
+  description="US915 (channels 48-55 + 70)"
   common_name="US915"
 
   [regions.gateway]
@@ -8,8 +9,7 @@
       enabled="mqtt"
 
       [regions.gateway.backend.mqtt]
-        event_topic="us915_6/gateway/+/event/+"
-        command_topic="us915_6/gateway/{{ gateway_id }}/command/{{ command }}"
+        topic_prefix="us915_6"
         server="tcp://localhost:1883"
         clean_session=true
 
