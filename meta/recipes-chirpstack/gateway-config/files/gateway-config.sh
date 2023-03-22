@@ -142,44 +142,46 @@ do_setup_admin_password() {
 
 do_setup_concentrator_shield() {
     FUN=$(dialog --title "Setup LoRa concentrator shield" --menu "Select shield:" 25 70 11 \
-        1 "IMST       - iC880A" \
-        2 "IMST       - iC980A" \
-        3 "IMST       - Lite Gateway" \
-        4 "Pi Supply  - LoRa Gateway HAT" \
-        5 "RAK        - RAK2245" \
-        6 "RAK        - RAK2246" \
-        7 "RAK        - RAK2246G (with GNSS)" \
-        8 "RAK        - RAK2287 (with GNSS)" \
-        9 "RAK        - RAK5146 (with GNSS)" \
-        10 "RAK        - RAK831" \
-        11 "RisingHF   - RHF0M301" \
-        12 "Sandbox    - LoRaGo PORT" \
-        13 "Seeed      - WM1302" \
-        14 "Semtech    - SX1280 LoRa Connect(TM) (2.4 GHz)" \
-        15 "Semtech    - SX1302 LoRa(R) CoreCell (SX1302CXXXGW1)" \
-        16 "Semtech    - SX1302 LoRa(R) CoreCell (USB) (SX1302CSSXXXGW1)" \
-        17 "Waveshare  - SX1302 LoRaWAN Gateway HAT" \
+        1 "Dragino    - PG1302" \
+        2 "IMST       - iC880A" \
+        3 "IMST       - iC980A" \
+        4 "IMST       - Lite Gateway" \
+        5 "Pi Supply  - LoRa Gateway HAT" \
+        6 "RAK        - RAK2245" \
+        7 "RAK        - RAK2246" \
+        8 "RAK        - RAK2246G (with GNSS)" \
+        9 "RAK        - RAK2287 (with GNSS)" \
+        10 "RAK        - RAK5146 (with GNSS)" \
+        11 "RAK        - RAK831" \
+        12 "RisingHF   - RHF0M301" \
+        13 "Sandbox    - LoRaGo PORT" \
+        14 "Seeed      - WM1302" \
+        15 "Semtech    - SX1280 LoRa Connect(TM) (2.4 GHz)" \
+        16 "Semtech    - SX1302 LoRa(R) CoreCell (SX1302CXXXGW1)" \
+        17 "Semtech    - SX1302 LoRa(R) CoreCell (USB) (SX1302CSSXXXGW1)" \
+        18 "Waveshare  - SX1302 LoRaWAN Gateway HAT" \
         3>&1 1>&2 2>&3)
     RET=$?
     if [ $RET -eq 0 ]; then
         case "$FUN" in
-            1) do_set_concentratord "sx1301" && do_setup_ic880a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            2) do_set_concentratord "sx1301" && do_setup_ic980a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            3) do_set_concentratord "sx1301" && do_setup_imst_lite && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            4) do_set_concentratord "sx1301" && do_setup_pislora && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            5) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            6) do_set_concentratord "sx1301" && do_setup_rak2246 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            7) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            8) do_set_concentratord "sx1302" && do_setup_rak2287 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            9) do_set_concentratord "sx1302" && do_setup_rak5146 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            10) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            11) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
-            12) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            13) do_set_concentratord "sx1302" && do_setup_seeed_wm1302 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            14) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            15) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            16) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cssxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
-            17) do_set_concentratord "sx1302" && do_setup_waveshare_sx1302_lorawan_gateway_hat && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            1) do_set_concentratord "sx1302" && do_setup_dragino_pg1302 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            2) do_set_concentratord "sx1301" && do_setup_ic880a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            3) do_set_concentratord "sx1301" && do_setup_ic980a && do_prompt_concentrator_reset_pin "sx1301" && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            4) do_set_concentratord "sx1301" && do_setup_imst_lite && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            5) do_set_concentratord "sx1301" && do_setup_pislora && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            6) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            7) do_set_concentratord "sx1301" && do_setup_rak2246 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            8) do_set_concentratord "sx1301" && do_setup_rak2246g && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            9) do_set_concentratord "sx1302" && do_setup_rak2287 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            10) do_set_concentratord "sx1302" && do_setup_rak5146 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            11) do_set_concentratord "sx1301" && do_setup_rak2245 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            12) do_set_concentratord "sx1301" && do_setup_rhf0m301 && do_enable_spi0_1cs_overlay;;
+            13) do_set_concentratord "sx1301" && do_setup_lorago_port && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            14) do_set_concentratord "sx1302" && do_setup_seeed_wm1302 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            15) do_set_concentratord "2g4" && do_setup_semtech_2g4 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            16) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            17) do_set_concentratord "sx1302" && do_setup_semtech_sx1302cssxxxgw1 && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
+            18) do_set_concentratord "sx1302" && do_setup_waveshare_sx1302_lorawan_gateway_hat && do_restart_chirpstack_concentratord && do_create_chirpstack_gateway;;
         esac
     fi
 }
@@ -194,6 +196,22 @@ do_flash_concentrator_mcu() {
         case "$FUN" in
             1) do_flash_semtech_2g4;;
             2) do_flash_semtech_sx1302cssxxxgw1;;
+        esac
+    fi
+}
+
+do_setup_dragino_pg1302() {
+    FUN=$(dialog --title "Channel-plan configuration" --menu "Select the channel-plan:" 15 60 2 \
+        1 "EU868" \
+        2 "US915" \
+        3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+        do_main_menu
+    elif [ $RET -eq 0 ]; then
+        case "$FUN" in
+            1) do_copy_concentratord_config "sx1302" "dragino_pg1302_eu868" "" "eu868" "" && do_update_chirpstack_mqtt_forwarder_topic_prefix "eu868";;
+            2) do_select_us915_block "sx1302" "dragino_pg1302_us915" "";;
         esac
     fi
 }
