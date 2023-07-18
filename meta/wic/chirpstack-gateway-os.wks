@@ -1,8 +1,0 @@
-# boot
-part --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --fixed-size 40
-# rootfs a
-part --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs-a --align 4096 --fixed-size 1024
-# rootfs b
-part --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs-b --align 4096 --fixed-size 1024
-# data
-part --ondisk mmcblk0 --fstype=ext4 --label data --align 4096 --fixed-size 1024

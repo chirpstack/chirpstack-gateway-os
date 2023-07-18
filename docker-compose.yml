@@ -1,28 +1,11 @@
-version: "3.2"
-
 services:
-  yocto:
+  chirpstack-gateway-os:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-devel
     volumes:
-      - type: volume
-        source: build
-        target: /build
-        volume:
-          nocopy: true
-      - type: bind
-        source: .
-        target: /chirpstack-gateway-os
-
-  busybox:
-    image: busybox
-    volumes:
-      - type: volume
-        source: build
-        target: /build
-        volume:
-          nocopy: true
-
-volumes:
-  build:
+      - ./openwrt:/workdir
+    ulimits:
+      nofile:
+        soft: 1024
+        hard: 262144

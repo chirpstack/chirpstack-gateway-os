@@ -1,158 +1,116 @@
 # ChirpStack Gateway OS
 
-The ChirpStack Gateway OS is an embedded OS for LoRa gateways. It is part of the
-[ChirpStack](https://www.chirpstack.io/) open-source LoRaWAN Network Server stack.
+ChirpStack Gateway OS is an open-source [OpenWrt](https://openwrt.org/) based
+embedded OS for LoRa<sup>&reg;</sup> gateways. It provides a web-interface for
+configuration and contains pre-defined configuration options for common
+LoRa hardware to make it easy to setup a LoRa gateway and optionally a
+ChirpStack-based LoRaWAN<sup>&reg;</sup> Network Server.
 
-The goal of the ChirpStack Gateway OS is to provide firmware images that are easy
-to setup, maintain and customize.
+**Note:** If you are looking for the [Yocto](https://www.yoctoproject.org/)
+recipes of the previously Yocto based ChirpStack Gateway OS, please switch to
+the [v4_yocto](https://github.com/chirpstack/chirpstack-gateway-os/tree/v4_yocto)
+branch.
 
-## Images
+## Documentation and binaries
 
-### chirpstack-gateway-os-base
+Please refer to the [ChirpStack Gateway OS documentation](https://www.chirpstack.io/docs/chirpstack-gateway-os/)
+for documentation and pre-compiled images.
 
-An image providing the Semtech Packet Forwarder and ChirpStack Gateway Bridge.
+## Building from source
 
-Provides the following features:
+### Requirements
 
-* [Monit](https://mmonit.com/monit/) based service monitoring
-* [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord/)
-* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/)
+Building ChirpStack Gateway OS requires:
 
-### chirpstack-gateway-os-full
+* [Docker](https://www.docker.com/)
 
-An image providing a complete LoRaWAN network-server running on the
-gateway.
+### Initialize
 
-Provides the following features:
-
-* [Monit](https://mmonit.com/monit/) based service monitoring
-* [ChirpStack Concentratord](https://github.com/brocaar/chirpstack-concentratord/)
-* [ChirpStack Gateway Bridge](https://www.chirpstack.io/gateway-bridge/)
-* [ChirpStack Network Server](https://www.chirpstack.io/network-server/)
-* [ChirpStack Application Server](https://www.chirpstack.io/application-server/)
-* [Mosquitto MQTT broker](http://mosquitto.org/)
-* [Redis](https://redis.io/)
-* [PostgreSQL](https://www.postgresql.org/)
-
-## Targets
-
-### Raspberry Pi
-
-* Raspberry Pi Zero W
-* Raspberry Pi 1
-* Raspberry Pi 3
-* Raspberry Pi 4
-
-#### Shields / kits
-
-* [IMST - iC880A](https://wireless-solutions.de/products/long-range-radio/ic880a.html)
-* [IMST - iC980A](http://www.imst.com/)
-* [IMST - Lite Gateway](https://wireless-solutions.de/products/long-range-radio/lora-lite-gateway.html)
-* [Pi Supply - LoRa Gateway Hat](https://uk.pi-supply.com/products/iot-lora-gateway-hat-for-raspberry-pi)
-* [RAK - RAK2245](https://store.rakwireless.com/products/rak2245-pi-hat)
-* [RAK - RAK2246 / RAK2246G](https://store.rakwireless.com/products/rak7246-lpwan-developer-gateway)
-* [RAK - RAK2287](https://store.rakwireless.com/products/rak2287-lpwan-gateway-concentrator-module)
-* [RAK - RAK831 Gateway Developer Kit](https://store.rakwireless.com/products/rak831-gateway-module?variant=22375114801252)
-* [RisingHF - RHF0M301 LoRaWAN IoT Discovery Kit](http://risinghf.com/#/product-details?product_id=9&lang=en)
-* [Sandbox Electronics - LoRaGo PORT](https://sandboxelectronics.com/?product=lorago-port-multi-channel-lorawan-gateway)
-* [Semtech - SX1302 CoreCell](https://www.semtech.com/products/wireless-rf/lora-gateways/sx1302cxxxgw1)
-* [Semtech - SX1280 2.4GHz gateway](https://www.semtech.com/products/wireless-rf/lora-gateways/sx1280zxxxxgw1)
-
-## Using
-
-### Login
-
-The default username is `admin` with password `admin`.
-
-### Gateway configuration
-
-Execute the following command as `admin` user:
+To initialize the [OpenWrt](https://openwrt.org/) build environment, run the
+following command:
 
 ```bash
-sudo gateway-config
+make init
 ```
 
-## Building images
+This will:
 
-A [Docker Compose](https://docs.docker.com/compose/) based build environment is provided for compiling the images.
+* Clone the OpenWrt code
+* Clone the [ChirpStack OpenWrt configuration](https://github.com/chirpstack/chirpstack-openwrt-config/)
+* Fetch all the OpenWrt feeds, including the [ChirpStack OpenWrt Feed](https://github.com/chirpstack/chirpstack-openwrt-feed)
 
-**Note:** Compiling these images require a fair amount of CPU power, RAM and disk space.
-As a reference, the pre-compiled images are built using a 8 x Core i7 machine with 16GB RAM
-running Manjaro Linux with 200GB reserved for the build environment.
+### Update
 
-### Initial setup
-
-Run the following command to fetch the git submodules and setup directory
-permissions (to write back from the Docker container):
+This step is not required after running `make init`, but allows you to update
+the OpenWrt source and feeds at a later point:
 
 ```bash
-# update the submodules
-make submodules
-
-# setup permissions
-make permissions
+make update
 ```
 
-Run the following command to set the `/build` folder permissions:
+### Build
+
+For building the ChirpStack Gateway OS, you must enter the Docker-based
+development environment first:
+
+```
+make devshell
+```
+
+#### Switch configuration
+
+Each target and image has its own configuration. To switch between
+configurations, you can use the `./scripts/env switch` command.
+
+Example to switch to the `base_raspberrypi_bcm27xx_bcm2709` configuration,
+you must run the following command:
 
 ```bash
-# on the host
-docker-compose run --rm busybox
-
-# within the container
-chown 999:999 /build
+./scripts/env switch base_raspberrypi_bcm27xx_bcm2709
 ```
 
-### Building
+Under the hood, this will switch the [chirpstack-openwrt-config](https://github.com/chirpstack/chirpstack-openwrt-config/branches)
+repository which has been cloned in the `env` directory branch and will setup
+all the symlinks.
 
-Run the following command to setup the build environment:
+To make sure there are no uncommitted changes, you can execute:
 
 ```bash
-# on the host
-docker-compose run --rm yocto bash
-
-# within the container
-
-# initialize the yocto / openembedded build environment
-source oe-init-build-env /build/ /chirpstack-gateway-os/bitbake/
-
-
-# build the chirpstack-gateway-os-base image
-bitbake chirpstack-gateway-os-base
+./scripts/env revert
 ```
 
-In case of error:
-
-```bash
-docker.credentials.errors.InitializationError: docker-credential-secretservice not installed or not available in PATH
-```
-
-Make sure that the `golang-docker-credential-helpers` is installed. On `Ubuntu`
-you can install it with:
-
-```bash
-sudo apt install golang-docker-credential-helpers
-```
 
 #### Configuration
 
-By default, Raspberry Pi3 is configured as the target platform. You need to
-update the following configuration files to configure a different target:
+To make configuration changes (e.g. add additional packages), you can execute:
 
-* `/build/config/local.conf`
-* `/build/config/bblayers.conf`
+```bash
+make menuconfig
+```
 
-## Good to know
+As updates to OpenWrt packages can introduce new configuration options over
+time, you can run the following command to update the configuration:
 
-### SD Card wearout
+```bash
+make defconfig
+```
 
-Although ChirpStack Network Server and ChirpStack Application Server try to minimize
-the number of database writes, there will be regular writes to the SD Card
-(PostgreSQL and Redis snapshots).
-According to [Is it true that a SD/MMC Card does wear levelling with its own controller?](https://electronics.stackexchange.com/questions/27619/is-it-true-that-a-sd-mmc-card-does-wear-levelling-with-its-own-controller)
-it might make a difference which SD Card brand you use.
+Please refer also to the [OpenWrt build system usage documentation](https://openwrt.org/docs/guide-developer/toolchain/use-buildsystem).
 
-### Versioning
+#### Building image
 
-The major version (major.minor.patch) of this project represents the major
-version of the provided ChirpStack Network Server stack.
+Once the configuration has been set, run the following command to build the
+ChirpStack Gateway OS image:
+
+```bash
+make
+```
+
+Note that this can take a couple of hours depending on the selected
+configuration and will require a significant amount of disk-space.
+
+## Links
+
+* [ChirpStack documentation](https://www.chirpstack.io/)
+* [chirpstack-openwrt-config](https://github.com/chirpstack/chirpstack-openwrt-config/) repository
+* [chirpstack-openwrt-feed](https://github.com/chirpstack/chirpstack-openwrt-feed) repository

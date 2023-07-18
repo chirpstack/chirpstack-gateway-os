@@ -1,7 +1,0 @@
-{
-  "CN": "ChirpStack Gateway OS CA",
-  "key": {
-    "algo": "rsa",
-    "size": 2048
-  }
-}
