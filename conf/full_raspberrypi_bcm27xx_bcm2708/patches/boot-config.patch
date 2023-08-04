@@ -1,0 +1,17 @@
+Index: openwrt/target/linux/bcm27xx/image/config.txt
+===================================================================
+--- openwrt.orig/target/linux/bcm27xx/image/config.txt
++++ openwrt/target/linux/bcm27xx/image/config.txt
+@@ -11,4 +11,11 @@
+ include distroconfig.txt
+ 
+ [all]
+-# Place your custom settings here.
++dtparam=spi=on
++enable_uart=1
++dtparam=i2c1=on
++dtparam=i2c_arm=on
++
++# Uncomment the line below when shield uses PIN26 as GPIO7"
++#dtoverlay=spi0-1cs
++

@@ -1,0 +1,14 @@
+# ChirpStack database
+while ! sudo -u postgres /usr/bin/pg_isready -h localhost; do
+    echo "Waiting for PostgreSQL"
+    sleep 1
+done
+
+while ! sudo -u postgres /usr/bin/psql -h localhost -c '' chirpstack; do
+    echo "Init database"
+    sudo -u postgres /usr/bin/psql -h localhost -c "create role chirpstack with login password 'chirpstack';"
+    sudo -u postgres /usr/bin/psql -h localhost -c "create database chirpstack with owner chirpstack";
+    sudo -u postgres /usr/bin/psql -h localhost -c "create extension pg_trgm;" chirpstack
+    sudo -u postgres /usr/bin/psql -h localhost -c "create extension hstore;" chirpstack
+    sleep 1
+done

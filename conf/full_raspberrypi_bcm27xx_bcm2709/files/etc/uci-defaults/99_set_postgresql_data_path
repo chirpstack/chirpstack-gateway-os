@@ -1,0 +1,5 @@
+mkdir -p /srv/postgresql
+chown postgres:postgres /srv/postgresql
+
+uci set postgresql.config.PGDATA=/srv/postgresql/data
+uci commit

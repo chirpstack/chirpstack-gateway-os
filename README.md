@@ -36,8 +36,8 @@ make init
 This will:
 
 * Clone the OpenWrt code
-* Clone the [ChirpStack OpenWrt configuration](https://github.com/chirpstack/chirpstack-openwrt-config/)
 * Fetch all the OpenWrt feeds, including the [ChirpStack OpenWrt Feed](https://github.com/chirpstack/chirpstack-openwrt-feed)
+* Symlink configuration and files
 
 ### Update
 
@@ -59,28 +59,44 @@ make devshell
 
 #### Switch configuration
 
-Each target and image has its own configuration. To switch between
-configurations, you can use the `./scripts/env switch` command.
+Each target and image has its own OpenWrt configuration file, files and
+patches. These can be found under the `conf` directory of this repository.
 
-Example to switch to the `base_raspberrypi_bcm27xx_bcm2709` configuration,
-you must run the following command:
+To switch to one of these configuration environments, you must execute:
 
-```bash
-./scripts/env switch base_raspberrypi_bcm27xx_bcm2709
+```
+make switch-env ENV=name-of-env
 ```
 
-Under the hood, this will switch the [chirpstack-openwrt-config](https://github.com/chirpstack/chirpstack-openwrt-config/branches)
-repository which has been cloned in the `env` directory branch and will setup
-all the symlinks.
+Fo example if you would like to switch to `base_raspberrypi_bcm27xx_bcm2709`,
+you execute:
 
-To make sure there are no uncommitted changes, you can execute:
-
-```bash
-./scripts/env revert
+```
+make switch-env ENV=base_raspberrypi_bcm27xx_bcm2709
 ```
 
+This will:
 
-#### Configuration
+* Undo all previously applied patches.
+* Update the symlinks for OpenWrt configuration and files.
+* Apply all patches. 
+
+#### Building image
+
+Once the configuration has been set, run the following command to build the
+ChirpStack Gateway OS image:
+
+```bash
+make
+```
+
+Note that this can take a couple of hours depending on the selected
+configuration and will require a significant amount of disk-space.
+
+#### Making configuration changes
+
+**Note:** The commands listed below must be executed within the `openwrt`
+directory.
 
 To make configuration changes (e.g. add additional packages), you can execute:
 
@@ -97,20 +113,7 @@ make defconfig
 
 Please refer also to the [OpenWrt build system usage documentation](https://openwrt.org/docs/guide-developer/toolchain/use-buildsystem).
 
-#### Building image
-
-Once the configuration has been set, run the following command to build the
-ChirpStack Gateway OS image:
-
-```bash
-make
-```
-
-Note that this can take a couple of hours depending on the selected
-configuration and will require a significant amount of disk-space.
-
 ## Links
 
 * [ChirpStack documentation](https://www.chirpstack.io/)
-* [chirpstack-openwrt-config](https://github.com/chirpstack/chirpstack-openwrt-config/) repository
 * [chirpstack-openwrt-feed](https://github.com/chirpstack/chirpstack-openwrt-feed) repository

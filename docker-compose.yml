@@ -4,8 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile-devel
     volumes:
-      - ./openwrt:/workdir
+      - .:/workdir
     ulimits:
       nofile:
         soft: 1024
         hard: 262144
+    environment:
+      - QUILT_PATCHES=/workdir/conf/patches

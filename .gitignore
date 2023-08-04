@@ -1,3 +1,11 @@
 # OpenWrt
 /openwrt
 /dist
+
+# Hidden files
+/.*
+
+# Symlinks
+/conf/.config
+/conf/files
+/conf/patches
