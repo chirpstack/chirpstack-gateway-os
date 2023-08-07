@@ -9,8 +9,8 @@ build:
 init:
 	git clone --branch openwrt-23.05 https://github.com/openwrt/openwrt.git
 	cp feeds.conf.default openwrt/feeds.conf.default
-	ln -s env/.config openwrt/.config
-	ln -s env/files openwrt/files
+	ln -s ../conf/.config openwrt/.config
+	ln -s ../conf/files openwrt/files
 	docker-compose run --rm chirpstack-gateway-os openwrt/scripts/feeds update -a
 	docker-compose run --rm chirpstack-gateway-os openwrt/scripts/feeds install -a
 	docker-compose run --rm chirpstack-gateway-os quilt init
