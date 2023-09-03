@@ -7,7 +7,8 @@ build:
 
 # Initialize the OpenWrt environment.
 init:
-	git clone --branch openwrt-23.05 https://github.com/openwrt/openwrt.git
+	git submodule init
+	git submodule update
 	cp feeds.conf.default openwrt/feeds.conf.default
 	ln -s ../conf/.config openwrt/.config
 	ln -s ../conf/files openwrt/files
@@ -17,8 +18,9 @@ init:
 
 # Update OpenWrt + package feeds.
 update:
+	git submodule update
+	cp feeds.conf.default openwrt/feeds.conf.default
 	cd openwrt && \
-		git pull && \
 		./scripts/feeds update -a && \
 		./scripts/feeds install -a
 
