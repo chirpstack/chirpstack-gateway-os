@@ -140,7 +140,7 @@ Index: openwrt/target/linux/ramips/dts/mt7628an_rakwireless_rak636.dts
 +	spidev@1 {
 +		#address-cells = <1>;
 +		#size-cells = <1>;
-+		compatible = "rohm,dh2228fv";
++		compatible = "spidev";
 +		reg = <1>;
 +		spi-max-frequency = <40000000>;
 +	};
