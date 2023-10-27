@@ -1,3 +1,2 @@
 rak636_device.patch
 kernel_spidev.patch
-sx1302-hal-spi-half-duplex.patch
