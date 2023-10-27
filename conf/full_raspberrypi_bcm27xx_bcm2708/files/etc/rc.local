@@ -1,9 +1,16 @@
-# ChirpStack database
+# Fixup after upgrade
+chown -R postgres:postgres /srv/postgresql
+if [ -d "/srv/postgresql/data" ]; then
+    chmod 750 /srv/postgresql/data
+fi
+
+# Wait for PostgreSQL to be available
 while ! sudo -u postgres /usr/bin/pg_isready -h localhost; do
     echo "Waiting for PostgreSQL"
     sleep 1
 done
 
+# Setup ChirpStack database
 while ! sudo -u postgres /usr/bin/psql -h localhost -c '' chirpstack; do
     echo "Init database"
     sudo -u postgres /usr/bin/psql -h localhost -c "create role chirpstack with login password 'chirpstack';"
