@@ -1,7 +1,9 @@
+PG_VERSION=$(postgres -V | awk '{print $NF}')
+
 # Fixup after upgrade
-chown -R postgres:postgres /srv/postgresql
-if [ -d "/srv/postgresql/data" ]; then
-    chmod 750 /srv/postgresql/data
+chown -R postgres:postgres /srv/postgresql/${PG_VERSION}
+if [ -d "/srv/postgresql/${PG_VERSION}/data" ]; then
+    chmod 750 /srv/postgresql/${PG_VERSION}/data
 fi
 
 # Wait for PostgreSQL to be available
