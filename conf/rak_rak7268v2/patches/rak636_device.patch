@@ -2,7 +2,7 @@ Index: openwrt/target/linux/ramips/dts/mt7628an_rakwireless_rak636.dts
 ===================================================================
 --- /dev/null
 +++ openwrt/target/linux/ramips/dts/mt7628an_rakwireless_rak636.dts
-@@ -0,0 +1,178 @@
+@@ -0,0 +1,175 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +
 +#include "mt7628an.dtsi"
@@ -48,14 +48,11 @@ Index: openwrt/target/linux/ramips/dts/mt7628an_rakwireless_rak636.dts
 +			linux,code = <0x198>;
 +		};
 +
-+		// Disabled, as this might trigger the gateway to boot into failsafe
-+		// mode in some cases, in which case it will no longer be remotely
-+		// accessible.
-+		// dying-gasp {
-+		//	label = "dying-gasp";
-+		//	gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
-+		//	linux,code = <BTN_7>;
-+		// };
++		dying-gasp {
++			label = "dying-gasp";
++			gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
++			linux,code = <BTN_7>;
++		};
 +	};
 +};
 +
