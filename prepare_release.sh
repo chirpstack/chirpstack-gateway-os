@@ -16,3 +16,4 @@ do_prepare $1 raspberrypi bcm27xx bcm2708 rpi base
 do_prepare $1 raspberrypi bcm27xx bcm2708 rpi full
 do_prepare $1 raspberrypi bcm27xx bcm2709 rpi-2 base
 do_prepare $1 raspberrypi bcm27xx bcm2709 rpi-2 full
+do_prepare $1 rak ramips mt76x8 rakwireless_rak636 rak7268v2
