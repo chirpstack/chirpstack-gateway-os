@@ -11,6 +11,7 @@ Index: openwrt/target/linux/bcm27xx/image/config.txt
 +enable_uart=1
 +dtparam=i2c1=on
 +dtparam=i2c_arm=on
++dtoverlay=dwc2
 +
 +# Uncomment the line below when shield uses PIN26 as GPIO7"
 +#dtoverlay=spi0-1cs
