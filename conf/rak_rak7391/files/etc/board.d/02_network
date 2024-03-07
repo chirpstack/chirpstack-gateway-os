@@ -1,0 +1,12 @@
+# Copyright (C) 2014-2016 OpenWrt.org
+# Copyright (C) 2017 LEDE project
+
+. /lib/functions/uci-defaults.sh
+. /lib/functions.sh
+. /lib/functions/system.sh
+
+board_config_update
+ucidef_set_interface_lan "eth0" "dhcp"
+board_config_flush
+
+exit 0

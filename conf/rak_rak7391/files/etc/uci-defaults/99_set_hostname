@@ -1,0 +1,12 @@
+GWID_END=""
+
+ip link show eth0
+if [ $? -eq 0 ]; then
+    GWID_END=$(ip link show eth0 | awk '/ether/ {print $2}' | awk -F\: '{print $4$5$6}')
+else
+    GWID_END=$(ip link show wlan0 | awk '/ether/ {print $2}' | awk -F\: '{print $4$5$6}')
+fi
+
+uci set system.@system[0].hostname="chirpstack-${GWID_END}"
+uci commit system
+echo $(uci get system.@system[0].hostname) > /proc/sys/kernel/hostname
