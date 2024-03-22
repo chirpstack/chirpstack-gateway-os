@@ -4,6 +4,16 @@ PG_VERSION=$(postgres -V | awk '{print $NF}')
 chown -R postgres:postgres /srv/postgresql/${PG_VERSION}
 if [ -d "/srv/postgresql/${PG_VERSION}/data" ]; then
     chmod 750 /srv/postgresql/${PG_VERSION}/data
+
+    # Create missing dirs
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_notify
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_tblspc
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_replslot
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_twophase
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_snapshots
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_logical/snapshots
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_logical/mappings
+    sudo -u postgres mkdir -p /srv/postgresql/${PG_VERSION}/data/pg_commit_ts
 fi
 
 # Wait for PostgreSQL to be available
