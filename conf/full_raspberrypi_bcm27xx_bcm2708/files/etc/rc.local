@@ -31,3 +31,22 @@ while ! sudo -u postgres /usr/bin/psql -h localhost -c '' chirpstack; do
     sudo -u postgres /usr/bin/psql -h localhost -c "create extension hstore;" chirpstack
     sleep 1
 done
+
+# Import device repository
+while :
+do
+	OUT=$(cmp /opt/lorawan-devices/SRCREV /opt/lorawan-devices/SRCREV.lastimport)
+	RET=$?
+	if [ $RET -eq 0 ]; then
+		break
+	fi
+
+	chirpstack -c /etc/chirpstack import-legacy-lorawan-devices-repository -d /opt/lorawan-devices
+	RET=$?
+	if [ $RET -eq 0 ]; then
+		cp /opt/lorawan-devices/SRCREV /opt/lorawan-devices/SRCREV.lastimport
+		break
+	fi
+
+	sleep 1
+done
