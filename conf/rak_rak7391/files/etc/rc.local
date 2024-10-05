@@ -1,9 +1,5 @@
 PG_VERSION=$(postgres -V | awk '{print $NF}')
 
-# Make gateway-id show first slot Gateway ID
-ln -s /tmp/concentratord_slot1_command /tmp/concentratord_command
-ln -s /tmp/concentratord_slot1_event /tmp/concentratord_event
-
 # Fixup after upgrade
 chown -R postgres:postgres /srv/postgresql/${PG_VERSION}
 if [ -d "/srv/postgresql/${PG_VERSION}/data" ]; then

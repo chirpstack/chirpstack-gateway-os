@@ -1,3 +1,0 @@
-# Make gateway-id show first slot Gateway ID
-ln -s /tmp/concentratord_slot1_command /tmp/concentratord_command
-ln -s /tmp/concentratord_slot1_event /tmp/concentratord_event
