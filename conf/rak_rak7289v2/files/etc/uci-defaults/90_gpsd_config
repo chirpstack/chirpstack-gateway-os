@@ -1,0 +1,5 @@
+uci -q batch << EOI
+set gpsd.core.enabled='1'
+set gpsd.core.device='/dev/ttyS1'
+commit gpsd
+EOI

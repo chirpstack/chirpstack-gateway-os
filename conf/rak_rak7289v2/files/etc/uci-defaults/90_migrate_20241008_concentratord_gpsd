@@ -1,0 +1,4 @@
+uci -q batch << EOI
+set chirpstack-concentratord-slot1.@sx1302[0].gnss_dev_path='gpsd://localhost:2947'
+commit concentratord-slot1
+EOI
