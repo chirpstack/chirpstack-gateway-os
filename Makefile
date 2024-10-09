@@ -12,9 +12,9 @@ init:
 	cp feeds.conf.default openwrt/feeds.conf.default
 	ln -s ../conf/.config openwrt/.config
 	ln -s ../conf/files openwrt/files
-	docker-compose run --rm chirpstack-gateway-os openwrt/scripts/feeds update -a
-	docker-compose run --rm chirpstack-gateway-os openwrt/scripts/feeds install -a
-	docker-compose run --rm chirpstack-gateway-os quilt init
+	docker compose run --rm chirpstack-gateway-os openwrt/scripts/feeds update -a
+	docker compose run --rm chirpstack-gateway-os openwrt/scripts/feeds install -a
+	docker compose run --rm chirpstack-gateway-os quilt init
 
 # Update OpenWrt + package feeds.
 update:
@@ -26,7 +26,7 @@ update:
 
 # Activate the devshell.
 devshell:
-	docker-compose run --rm chirpstack-gateway-os bash
+	docker compose run --rm chirpstack-gateway-os bash
 
 # Switch configuration environment.,
 # Note: execute this within the devshell.
