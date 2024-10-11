@@ -1,3 +1,4 @@
 rak636_device.patch
 kernel_spidev.patch
 console-login.diff
+fix-ntpd-build.patch

@@ -1,0 +1,12 @@
+Index: openwrt/feeds/packages/net/ntpd/Makefile
+===================================================================
+--- openwrt.orig/feeds/packages/net/ntpd/Makefile
++++ openwrt/feeds/packages/net/ntpd/Makefile
+@@ -19,7 +19,6 @@ PKG_LICENSE:=NTP
+ PKG_LICENSE_FILES:=COPYRIGHT html/copyright.html
+ PKG_CPE_ID:=cpe:/a:ntp:ntp
+ 
+-PKG_FIXUP:=autoreconf
+ PKG_LIBTOOL_PATHS:=. sntp
+ PKG_CHECK_FORMAT_SECURITY:=0
+ PKG_BUILD_PARALLEL:=1
