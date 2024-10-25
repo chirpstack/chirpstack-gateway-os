@@ -1,11 +1,7 @@
-GWID_END=""
+. /lib/functions.sh
+. /lib/functions/system.sh
 
-ip link show eth0
-if [ $? -eq 0 ]; then
-    GWID_END=$(ip link show eth0 | awk '/ether/ {print $2}' | awk -F\: '{print $4$5$6}')
-else
-    GWID_END=$(ip link show wlan0 | awk '/ether/ {print $2}' | awk -F\: '{print $4$5$6}')
-fi
+GWID_END=$(mtd_get_mac_binary factory 0x4 | awk -F\: '{print $4$5$6}')
 
 uci set system.@system[0].hostname="chirpstack-${GWID_END}"
 uci commit system

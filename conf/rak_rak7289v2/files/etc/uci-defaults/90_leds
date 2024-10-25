@@ -13,4 +13,3 @@ add_list system.led_eth_led.mode='tx'
 add_list system.led_eth_led.mode='rx' 
 EOI
 uci commit system
-service led restart

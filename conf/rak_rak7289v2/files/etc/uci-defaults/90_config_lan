@@ -4,5 +4,3 @@ delete network.lan.ipaddr
 delete network.lan.netmask
 delete network.lan.ip6assign
 EOI
-
-service network restart
