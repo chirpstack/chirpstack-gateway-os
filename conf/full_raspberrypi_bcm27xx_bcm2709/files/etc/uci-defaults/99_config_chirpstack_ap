@@ -44,5 +44,3 @@ set firewall.@zone[0].masq='1'
 commit firewall
 
 EOI
-
-service network restart

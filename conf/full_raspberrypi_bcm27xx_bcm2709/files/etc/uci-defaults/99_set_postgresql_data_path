@@ -1,7 +1,0 @@
-PG_VERSION=$(postgres -V | awk '{print $NF}')
-
-mkdir -p /srv/postgresql/${PG_VERSION}
-chown postgres:postgres /srv/postgresql/${PG_VERSION}
-
-uci set postgresql.config.PGDATA=/srv/postgresql/${PG_VERSION}/data
-uci commit
