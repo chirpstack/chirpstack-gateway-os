@@ -7,7 +7,7 @@ do
 		break
 	fi
 
-	chirpstack -c /etc/chirpstack import-legacy-lorawan-devices-repository -d /opt/lorawan-devices
+	chirpstack -c /var/etc/chirpstack import-legacy-lorawan-devices-repository -d /opt/lorawan-devices
 	RET=$?
 	if [ $RET -eq 0 ]; then
 		cp /opt/lorawan-devices/SRCREV /opt/lorawan-devices/SRCREV.lastimport
