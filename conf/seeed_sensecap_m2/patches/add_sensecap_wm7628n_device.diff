@@ -1,0 +1,182 @@
+Index: openwrt/target/linux/ramips/dts/mt7628an_sensecap_wm7628n.dts
+===================================================================
+--- /dev/null
++++ openwrt/target/linux/ramips/dts/mt7628an_sensecap_wm7628n.dts
+@@ -0,0 +1,122 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
++
++#include "mt7628an.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++
++/ {
++	compatible = "sensecap,wm7628n", "mediatek,mt7628an-soc";
++	model = "SenseCAP WM7628N";
++
++	keys {
++		compatible = "gpio-keys";
++
++		reset {
++			label = "reset";
++			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_RESTART>;
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		wlan {
++			label = "green:wlan";
++			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
++		};
++
++		wan {
++			label = "green:wan";
++			gpios = <&gpio 42 GPIO_ACTIVE_LOW>;
++		};
++
++		lora {
++			label = "green:lora";
++			gpios = <&gpio 36 GPIO_ACTIVE_LOW>;
++		};
++	};
++};
++
++&state_default {
++	gpio {
++		groups = "i2s","p1led_an","p2led_an","spis","wdt","pwm0","pwm1","perst","wled_an","p4led_an","refclk";
++		function = "gpio";
++	};
++};
++
++&uart1 {
++	status = "okay";
++};
++
++&uart2 {
++	status = "okay";
++};
++
++&i2c {
++	status = "okay";
++};
++
++&sdhci {
++	status = "okay";
++};
++
++&spi0 {
++	status = "okay";
++	pinctrl-0 = <&spi_pins>, <&spi_cs1_pins>;
++	cs-gpios = <0>, <0>, <&gpio 18 0>;
++	flash@0 {
++		compatible = "jedec,spi-nor";
++		reg = <0>;
++		spi-max-frequency = <10000000>;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			partition@0 {
++				label = "u-boot";
++				reg = <0x0 0x30000>;
++				read-only;
++			};
++
++			partition@30000 {
++				label = "u-boot-env";
++				reg = <0x30000 0x10000>;
++			};
++
++			factory: partition@40000 {
++				label = "factory";
++				reg = <0x40000 0x10000>;
++			};
++
++			partition@50000 {
++				compatible = "denx,uimage";
++				label = "firmware";
++				reg = <0x50000 0x1FB0000>;
++			};
++		};
++		
++	};
++	spidev@1 {
++		compatible = "rohm,dh2228fv";
++		reg = <1>;
++		spi-max-frequency = <10000000>;
++	};
++	spidev@2 {
++		compatible = "rohm,dh2228fv";
++		reg = <2>;
++		spi-max-frequency = <10000000>;
++	};
++};
++
++// 0x28 地址的mac 地址 wmac 保持一致
++&ethernet {
++	mtd-mac-address = <&factory 0x2e>;
++};
++
++&wmac {
++	status = "okay";
++};
+Index: openwrt/target/linux/ramips/image/mt76x8.mk
+===================================================================
+--- openwrt.orig/target/linux/ramips/image/mt76x8.mk
++++ openwrt/target/linux/ramips/image/mt76x8.mk
+@@ -1059,3 +1059,10 @@ define Device/zyxel_keenetic-extra-ii
+ 	check-size | zyimage -d 6162 -v "ZyXEL Keenetic Extra II"
+ endef
+ TARGET_DEVICES += zyxel_keenetic-extra-ii
++
++define Device/sensecap_wm7628n
++  IMAGE_SIZE := 32448k
++  DEVICE_VENDOR := SenseCAP
++  DEVICE_MODEL := WM7628N
++endef
++TARGET_DEVICES += sensecap_wm7628n
+Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
+===================================================================
+--- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
++++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
+@@ -170,6 +170,10 @@ zyxel,keenetic-extra-ii)
+ 	ucidef_set_led_netdev "wifi_led" "wifi" "green:wifi" "wlan0"
+ 	ucidef_set_led_switch "internet" "internet" "green:internet" "switch0" "0x01"
+ 	;;
++sensecap,wm7628n)
++	ucidef_set_led_netdev "wifi_led" "wifi" "green:wlan" "wlan0"
++	ucidef_set_led_switch "wan" "wan" "green:wan" "switch0" "0x01"
++	;;
+ esac
+ 
+ board_config_flush
+Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
+===================================================================
+--- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
++++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
+@@ -195,6 +195,10 @@ ramips_setup_interfaces()
+ 		ucidef_add_switch "switch0" \
+ 			"0:lan:2" "1:lan:1" "4:wan" "6@eth0"
+ 		;;
++	sensecap,wm7628n)
++		ucidef_add_switch "switch0" \
++			"1:lan" "0:wan" "6@eth0"
++		;;
+ 	esac
+ }
+ 
+@@ -314,6 +317,9 @@ ramips_setup_macs()
+ 	xiaomi,mi-router-4c)
+ 		wan_mac=$(mtd_get_mac_binary factory 0x4)
+ 		;;
++	sensecap,wm7628n)
++		wan_mac=$(mtd_get_mac_binary factory 0x2e)
++		;;
+ 	esac
+ 
+ 	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac

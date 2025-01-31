@@ -1,0 +1,8 @@
+. /lib/functions.sh
+. /lib/functions/system.sh
+
+GWID_END=$(mtd_get_mac_binary factory 0x2e | awk -F\: '{print $4$5$6}')
+
+uci set system.@system[0].hostname="chirpstack-${GWID_END}"
+uci commit system
+echo $(uci get system.@system[0].hostname) > /proc/sys/kernel/hostname
