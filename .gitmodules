@@ -1,7 +1,7 @@
 [submodule "openwrt"]
 	path = openwrt
 	url = https://github.com/openwrt/openwrt.git
-	branch = openwrt-23.05
+	branch = openwrt-24.10
 [submodule "feeds/chirpstack-openwrt-feed"]
 	path = feeds/chirpstack-openwrt-feed
 	url = https://github.com/chirpstack/chirpstack-openwrt-feed.git

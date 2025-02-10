@@ -2,7 +2,7 @@ Index: openwrt/target/linux/ramips/dts/mt7628an_sensecap_wm7628n.dts
 ===================================================================
 --- /dev/null
 +++ openwrt/target/linux/ramips/dts/mt7628an_sensecap_wm7628n.dts
-@@ -0,0 +1,122 @@
+@@ -0,0 +1,140 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +
 +#include "mt7628an.dtsi"
@@ -63,8 +63,27 @@ Index: openwrt/target/linux/ramips/dts/mt7628an_sensecap_wm7628n.dts
 +	status = "okay";
 +};
 +
++&pinctrl {
++	ephy-digital;
++
++	sdxc_iot_mode: sdxc_iot_mode {
++		esd {
++			groups = "esd";
++			function = "iot";
++		};
++
++		sdxc {
++			groups = "sdmode";
++			function = "sdxc";
++		};
++	};
++};
++
 +&sdhci {
 +	status = "okay";
++
++	pinctrl-0 = <&sdxc_iot_mode>;
++	pinctrl-1 = <&sdxc_iot_mode>;
 +};
 +
 +&spi0 {
@@ -103,7 +122,6 @@ Index: openwrt/target/linux/ramips/dts/mt7628an_sensecap_wm7628n.dts
 +				reg = <0x50000 0x1FB0000>;
 +			};
 +		};
-+		
 +	};
 +	spidev@1 {
 +		compatible = "rohm,dh2228fv";
@@ -129,7 +147,7 @@ Index: openwrt/target/linux/ramips/image/mt76x8.mk
 ===================================================================
 --- openwrt.orig/target/linux/ramips/image/mt76x8.mk
 +++ openwrt/target/linux/ramips/image/mt76x8.mk
-@@ -1059,3 +1059,10 @@ define Device/zyxel_keenetic-extra-ii
+@@ -1178,3 +1178,10 @@ define Device/zyxel_keenetic-extra-ii
  	check-size | zyimage -d 6162 -v "ZyXEL Keenetic Extra II"
  endef
  TARGET_DEVICES += zyxel_keenetic-extra-ii
@@ -144,7 +162,7 @@ Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
 ===================================================================
 --- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
 +++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
-@@ -170,6 +170,10 @@ zyxel,keenetic-extra-ii)
+@@ -197,6 +197,10 @@ zyxel,keenetic-extra-ii)
  	ucidef_set_led_netdev "wifi_led" "wifi" "green:wifi" "wlan0"
  	ucidef_set_led_switch "internet" "internet" "green:internet" "switch0" "0x01"
  	;;
@@ -159,7 +177,7 @@ Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
 ===================================================================
 --- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
 +++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
-@@ -195,6 +195,10 @@ ramips_setup_interfaces()
+@@ -213,6 +213,10 @@ ramips_setup_interfaces()
  		ucidef_add_switch "switch0" \
  			"0:lan:2" "1:lan:1" "4:wan" "6@eth0"
  		;;
@@ -170,7 +188,7 @@ Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
  	esac
  }
  
-@@ -314,6 +317,9 @@ ramips_setup_macs()
+@@ -335,6 +339,9 @@ ramips_setup_macs()
  	xiaomi,mi-router-4c)
  		wan_mac=$(mtd_get_mac_binary factory 0x4)
  		;;
