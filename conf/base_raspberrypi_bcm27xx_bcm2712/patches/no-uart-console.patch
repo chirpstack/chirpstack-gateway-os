@@ -1,0 +1,7 @@
+Index: openwrt/target/linux/bcm27xx/image/cmdline.txt
+===================================================================
+--- openwrt.orig/target/linux/bcm27xx/image/cmdline.txt
++++ openwrt/target/linux/bcm27xx/image/cmdline.txt
+@@ -1 +1 @@
+-console=tty1 console=serial0,115200 root=@ROOT@ rootfstype=squashfs,ext4 rootwait
++console=tty1 root=@ROOT@ rootfstype=squashfs,ext4 rootwait
