@@ -1,3 +1,7 @@
+if [ "$(uci -q get system.@system[0].hostname)" != "OpenWrt" ]; then
+    exit 0
+fi
+
 . /lib/functions.sh
 . /lib/functions/system.sh
 
