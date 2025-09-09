@@ -1,0 +1,13 @@
+Index: openwrt/target/linux/bcm27xx/image/gen_rpi_sdcard_img.sh
+===================================================================
+--- openwrt.orig/target/linux/bcm27xx/image/gen_rpi_sdcard_img.sh
++++ openwrt/target/linux/bcm27xx/image/gen_rpi_sdcard_img.sh
+@@ -23,6 +23,8 @@ set $(ptgen -o $OUTPUT -h $head -s $sect
+ 
+ BOOTOFFSET="$(($1 / 512))"
+ ROOTFSOFFSET="$(($3 / 512))"
++ROOTFSSIZE="$(($4 / 512))"
+ 
+ dd bs=512 if="$BOOTFS" of="$OUTPUT" seek="$BOOTOFFSET" conv=notrunc
++dd bs=512 if=/dev/zero of="$OUTPUT" seek="$((ROOTFSOFFSET+ROOTFSSIZE-1))" count=1 conv=notrunc
+ dd bs=512 if="$ROOTFS" of="$OUTPUT" seek="$ROOTFSOFFSET" conv=notrunc
