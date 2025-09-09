@@ -2,16 +2,7 @@ Index: openwrt/target/linux/bcm27xx/image/gen_rpi_sdcard_img.sh
 ===================================================================
 --- openwrt.orig/target/linux/bcm27xx/image/gen_rpi_sdcard_img.sh
 +++ openwrt/target/linux/bcm27xx/image/gen_rpi_sdcard_img.sh
-@@ -7,6 +7,8 @@ if [ $# -ne 5 ]; then
-     exit 1
- fi
- 
-+exit 1
-+
- OUTPUT="$1"
- BOOTFS="$2"
- ROOTFS="$3"
-@@ -23,6 +25,8 @@ set $(ptgen -o $OUTPUT -h $head -s $sect
+@@ -23,6 +23,8 @@ set $(ptgen -o $OUTPUT -h $head -s $sect
  
  BOOTOFFSET="$(($1 / 512))"
  ROOTFSOFFSET="$(($3 / 512))"
