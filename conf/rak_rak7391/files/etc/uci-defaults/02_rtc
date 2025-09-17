@@ -1,7 +1,0 @@
-. /lib/functions/uci-defaults.sh
-. /lib/functions.sh
-. /lib/functions/system.sh
-
-sed "s|exit 0|echo pcf8563 0x51 > /sys/bus/i2c/devices/i2c-1/new_device\nexit 0|" -i /etc/rc.local 
-
-exit 0
