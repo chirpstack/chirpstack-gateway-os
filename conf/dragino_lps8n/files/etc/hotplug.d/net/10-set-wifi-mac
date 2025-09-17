@@ -1,0 +1,9 @@
+[ "$ACTION" == "add" ] || exit 0
+[ "$DEVTYPE" == "wlan" ] || exit 0
+
+. /lib/functions.sh
+. /lib/functions/system.sh
+
+uci set wireless.@wifi-iface[0].macaddr=$(mtd_get_mac_binary art 0x0)
+uci commit wireless
+wifi reload

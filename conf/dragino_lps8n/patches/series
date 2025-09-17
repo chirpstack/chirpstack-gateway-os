@@ -1,0 +1,2 @@
+add_dragino_lps8n_device.patch
+kernel_spidev.patch
