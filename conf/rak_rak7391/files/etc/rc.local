@@ -1,0 +1,2 @@
+echo pcf8563 0x51 > /sys/bus/i2c/devices/i2c-1/new_device
+exit 0
