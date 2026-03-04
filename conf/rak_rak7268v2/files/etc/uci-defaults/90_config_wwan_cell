@@ -1,0 +1,16 @@
+if [ ! -c "/dev/cdc-wdm0" ]; then
+    echo "No wwan_cell /dev/cdc-wdm0 not found"
+    return
+fi
+
+uci -q batch << EOI
+set network.wwan_cell=interface
+set network.wwan_cell.proto='qmi'
+set network.wwan_cell.device='/dev/cdc-wdm0'
+set network.wwan_cell.auth='none'
+set network.wwan_cell.pdptype='ipv4'
+commit network
+
+add_list firewall.@zone[0].network='wwan_cell'
+commit firewall
+EOI
