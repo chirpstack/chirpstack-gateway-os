@@ -1,4 +1,2 @@
 no-uart-console.patch
 boot-config.patch
-add_designware_spi_kmod.patch
-image-with-padded-rootfs.patch

@@ -1,4 +1,4 @@
-src-git packages https://git.openwrt.org/feed/packages.git^953b6d47b4e9f0ad3c39547c6d3f9a828f10e206
-src-git luci https://git.openwrt.org/project/luci.git^d88390be4ec9722cb427fee03368fc8c8582627d
-src-git routing https://git.openwrt.org/feed/routing.git^178a40d321d6c11f18528f34777f4e24ce62b19a
+src-git packages https://git.openwrt.org/feed/packages.git^506c37591d7cd9b3cfd812e69e708349268f9865
+src-git luci https://git.openwrt.org/project/luci.git^27a9c0c94264063894d40420956696d19b175744
+src-git routing https://git.openwrt.org/feed/routing.git^662b57dff7d20634f2b8676400cf4299611cfe4b
 src-link chirpstack /workdir/feeds/chirpstack-openwrt-feed

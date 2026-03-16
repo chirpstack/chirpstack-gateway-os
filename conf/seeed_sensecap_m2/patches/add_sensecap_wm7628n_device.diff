@@ -143,26 +143,11 @@ Index: openwrt/target/linux/ramips/dts/mt7628an_sensecap_wm7628n.dts
 +&wmac {
 +	status = "okay";
 +};
-Index: openwrt/target/linux/ramips/image/mt76x8.mk
-===================================================================
---- openwrt.orig/target/linux/ramips/image/mt76x8.mk
-+++ openwrt/target/linux/ramips/image/mt76x8.mk
-@@ -1178,3 +1178,10 @@ define Device/zyxel_keenetic-extra-ii
- 	check-size | zyimage -d 6162 -v "ZyXEL Keenetic Extra II"
- endef
- TARGET_DEVICES += zyxel_keenetic-extra-ii
-+
-+define Device/sensecap_wm7628n
-+  IMAGE_SIZE := 32448k
-+  DEVICE_VENDOR := SenseCAP
-+  DEVICE_MODEL := WM7628N
-+endef
-+TARGET_DEVICES += sensecap_wm7628n
 Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
 ===================================================================
 --- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
 +++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
-@@ -197,6 +197,10 @@ zyxel,keenetic-extra-ii)
+@@ -228,6 +228,10 @@ zyxel,keenetic-extra-ii)
  	ucidef_set_led_netdev "wifi_led" "wifi" "green:wifi" "wlan0"
  	ucidef_set_led_switch "internet" "internet" "green:internet" "switch0" "0x01"
  	;;
@@ -177,7 +162,7 @@ Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
 ===================================================================
 --- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
 +++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
-@@ -213,6 +213,10 @@ ramips_setup_interfaces()
+@@ -249,6 +249,10 @@ ramips_setup_interfaces()
  		ucidef_add_switch "switch0" \
  			"0:lan:2" "1:lan:1" "4:wan" "6@eth0"
  		;;
@@ -188,7 +173,7 @@ Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
  	esac
  }
  
-@@ -335,6 +339,9 @@ ramips_setup_macs()
+@@ -372,6 +376,9 @@ ramips_setup_macs()
  	xiaomi,mi-router-4c)
  		wan_mac=$(mtd_get_mac_binary factory 0x4)
  		;;
@@ -198,3 +183,18 @@ Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
  	esac
  
  	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac
+Index: openwrt/target/linux/ramips/image/mt76x8.mk
+===================================================================
+--- openwrt.orig/target/linux/ramips/image/mt76x8.mk
++++ openwrt/target/linux/ramips/image/mt76x8.mk
+@@ -1476,3 +1476,10 @@ define Device/teltonika_rut241
+   IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | check-size | append-metadata
+ endef
+ TARGET_DEVICES += teltonika_rut241
++
++define Device/sensecap_wm7628n
++  IMAGE_SIZE := 32448k
++  DEVICE_VENDOR := SenseCAP
++  DEVICE_MODEL := WM7628N
++endef
++TARGET_DEVICES += sensecap_wm7628n
