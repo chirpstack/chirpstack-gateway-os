@@ -1,0 +1,42 @@
+if ! uci get wireless; then
+    exit 0
+fi
+
+if [ "$(uci -q get wireless.default_radio0.ssid)" != "OpenWrt" ]; then
+    exit 0
+fi
+
+. /lib/functions.sh
+. /lib/functions/system.sh
+
+GWID_END=$(mtd_get_mac_binary factory 0x4 | awk -F\: '{print $4$5$6}')
+
+uci -q batch << EOI
+set dhcp.wwan=dhcp
+set dhcp.wwan.interface='wwan'
+set dhcp.wwan.start='100'
+set dhcp.wwan.limit='150'
+set dhcp.wwan.leasetime='12h'
+commit dhcp
+
+set network.wwan=interface
+set network.wwan.proto='static'
+set network.wwan.ipaddr='192.168.0.1'
+set network.wwan.netmask='255.255.255.0'
+commit network
+
+delete wireless.radio0.disabled
+set wireless.default_radio0=wifi-iface
+set wireless.default_radio0.device='radio0'
+set wireless.default_radio0.network='wwan'
+set wireless.default_radio0.mode='ap'
+set wireless.default_radio0.ssid="ChirpStackAP-${GWID_END}"
+set wireless.default_radio0.encryption='psk2'
+set wireless.default_radio0.key='ChirpStackAP'
+commit wireless
+
+add_list firewall.@zone[0].network='wwan'
+set firewall.@zone[0].masq='1'
+commit firewall
+
+EOI

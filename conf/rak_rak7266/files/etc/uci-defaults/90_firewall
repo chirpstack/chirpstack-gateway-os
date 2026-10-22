@@ -1,0 +1,16 @@
+uci -q batch << EOI
+add firewall rule
+set firewall.@rule[-1].name='Allow HTTPS'
+set firewall.@rule[-1].src='wan'
+set firewall.@rule[-1].dest_port='443'
+set firewall.@rule[-1].proto='tcp'
+set firewall.@rule[-1].target='ACCEPT'
+add firewall rule
+set firewall.@rule[-1].name='Allow SSH'
+set firewall.@rule[-1].src='wan'
+set firewall.@rule[-1].dest_port='22'
+set firewall.@rule[-1].proto='tcp'
+set firewall.@rule[-1].target='ACCEPT'
+commit firewall
+
+EOI

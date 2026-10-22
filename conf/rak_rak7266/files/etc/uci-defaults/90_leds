@@ -1,0 +1,15 @@
+uci -q batch << EOI
+set system.led_wifi_led.sysfs='mediatek:orange:wifi'
+set system.led_wifi_led.dev='phy0-sta0'
+set system.led_wifi_led.mode='link'
+
+set system.led_eth_led.sysfs='rak:green:eth'
+set system.led_eth_led.trigger='netdev'
+set system.led_eth_led.dev='eth0.1'
+
+delete system.led_eth_led.mode
+add_list system.led_eth_led.mode='link'
+add_list system.led_eth_led.mode='tx'
+add_list system.led_eth_led.mode='rx' 
+EOI
+uci commit system

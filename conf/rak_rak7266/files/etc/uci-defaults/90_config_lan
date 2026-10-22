@@ -1,0 +1,6 @@
+uci -q batch << EOI
+set network.lan.proto='dhcp'
+delete network.lan.ipaddr
+delete network.lan.netmask
+delete network.lan.ip6assign
+EOI
