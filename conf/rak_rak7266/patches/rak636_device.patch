@@ -1,0 +1,256 @@
+Index: openwrt/target/linux/ramips/dts/mt7628an_rakwireless_rak636.dts
+===================================================================
+--- /dev/null
++++ openwrt/target/linux/ramips/dts/mt7628an_rakwireless_rak636.dts
+@@ -0,0 +1,193 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
++
++#include "mt7628an.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++
++/ {
++	compatible = "rakwireless,rak636", "mediatek,mt7628an-soc";
++	model = "Rakwireless RAK636";
++
++	leds {
++		compatible = "gpio-leds";
++		lora {
++			label = "rak:green:lora";
++			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
++		};
++		ethernet {
++			label = "rak:green:eth";
++			gpios = <&gpio 43 GPIO_ACTIVE_LOW>;
++		};
++		lora1 {
++			label = "rak:green:lora1";
++			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
++		};
++
++		wifi {
++			label = "mediatek:orange:wifi";
++			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
++		};
++	};
++
++    keys {
++		compatible = "gpio-keys-polled";
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++		poll-interval = <20>;
++
++		reset {
++			label = "reset";
++			gpios = <&gpio 38 1>;
++			linux,code = <0x198>;
++		};
++
++		dying-gasp {
++			label = "dying-gasp";
++			gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
++			linux,code = <BTN_7>;
++		};
++	};
++};
++
++&state_default {
++	i2s {
++		groups = "i2s";
++		function = "gpio";
++	};
++	spis {
++		groups = "spis";
++		function = "gpio";
++	};
++	p0led_an {
++		groups = "p0led_an";
++		function = "gpio";
++	};
++	p1led_an {
++		groups = "p1led_an";
++		function = "gpio";
++	};
++	p2led_an {
++		groups = "p2led_an";
++		function = "gpio";
++	};
++	p3led_an {
++		groups = "p3led_an";
++		function = "gpio";
++	};
++	p4led_an {
++		groups = "p4led_an";
++		function = "gpio";
++	};
++	wled_an {
++		groups = "wled_an";
++		function = "gpio";
++	};
++};
++
++&spi0 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi_pins>, <&spi_cs1_pins>;
++
++	flash@0 {
++		compatible = "jedec,spi-nor";
++		reg = <0>;
++		spi-max-frequency = <10000000>;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			partition@0 {
++				label = "u-boot";
++				reg = <0x0 0x30000>;
++				read-only;
++			};
++
++			partition@30000 {
++				label = "u-boot-env";
++				reg = <0x30000 0x10000>;
++				read-only;
++			};
++
++			factory: partition@40000 {
++				label = "factory";
++				reg = <0x40000 0xe000>;
++			};
++
++			partition@4e000 {
++				label = "pst-data"; /* persistent data */
++				reg = <0x4e000 0x2000>;
++			};
++
++			partition@50000 {
++				compatible = "denx,uimage";
++				label = "firmware";
++				reg = <0x50000 0x1fb0000>;	/* support 32MB norflash */
++			};
++		};
++	};
++
++	spidev@1 {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		compatible = "spidev";
++		reg = <1>;
++		spi-max-frequency = <40000000>;
++	};
++};
++
++&i2c {
++	status = "okay";
++};
++
++&i2s {
++	status = "disabled";
++};
++
++&uart1 {
++	status = "okay";
++};
++
++&uart2 {
++	status = "okay";
++};
++
++&gdma {
++	status = "okay";
++};
++
++&ethernet {
++	mtd-mac-address = <&factory 0x4>;
++};
++
++&pinctrl {
++	ephy-digital;
++
++	sdxc_iot_mode: sdxc_iot_mode {
++		esd {
++			groups = "esd";
++			function = "iot";
++		};
++
++		sdxc {
++			groups = "sdmode";
++			function = "sdxc";
++		};
++	};
++};
++
++&sdhci {
++	status = "okay";
++
++	pinctrl-0 = <&sdxc_iot_mode>;
++	pinctrl-1 = <&sdxc_iot_mode>;
++};
++
++&wmac {
++	status = "okay";
++};
+Index: openwrt/target/linux/ramips/image/mt76x8.mk
+===================================================================
+--- openwrt.orig/target/linux/ramips/image/mt76x8.mk
++++ openwrt/target/linux/ramips/image/mt76x8.mk
+@@ -521,6 +521,14 @@ define Device/rakwireless_rak633
+ endef
+ TARGET_DEVICES += rakwireless_rak633
+ 
++define Device/rakwireless_rak636
++  IMAGE_SIZE := 32448k
++  DEVICE_VENDOR := Rakwireless
++  DEVICE_MODEL := RAK636
++  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci uboot-envtools kmod-sdhci-mt7620
++endef
++TARGET_DEVICES += rakwireless_rak636
++
+ define Device/ravpower_rp-wd009
+   IMAGE_SIZE := 14272k
+   DEVICE_VENDOR := RAVPower
+Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
+===================================================================
+--- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
++++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/01_leds
+@@ -70,6 +70,10 @@ oraybox,x1)
+ rakwireless,rak633)
+ 	ucidef_set_led_netdev "wifi_led" "wifi" "blue:wifi" "wlan0"
+ 	;;
++rakwireless,rak636)
++	ucidef_set_led_netdev "wifi_led" "wifi" "mediatek:orange:wifi" "ra0" "tx"
++	ucidef_set_led_switch "eth_led" "eth" "rak:green:eth" "switch0" "0x1"
++	;;
+ tama,w06)
+ 	ucidef_set_led_netdev "wan" "WAN" "green:wan" "eth0"
+ 	ucidef_set_led_wlan "wlan" "WLAN" "green:wlan" "phy0tpt"
+Index: openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
+===================================================================
+--- openwrt.orig/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
++++ openwrt/target/linux/ramips/mt76x8/base-files/etc/board.d/02_network
+@@ -157,7 +157,8 @@ ramips_setup_interfaces()
+ 		ucidef_add_switch "switch0" \
+ 			"3:lan" "6@eth0"
+ 		;;
+-	rakwireless,rak633)
++	rakwireless,rak633|\
++	rakwireless,rak636)
+ 		ucidef_add_switch "switch0" \
+ 			"0:wan" "1:lan" "2:lan" "3:lan" "4:lan" "6t@eth0"
+ 		;;
+@@ -283,6 +284,9 @@ ramips_setup_macs()
+ 	zyxel,keenetic-extra-ii)
+ 		wan_mac=$(mtd_get_mac_binary rf-eeprom 0x28)
+ 		;;
++	rakwireless,rak636)
++		wan_mac=$(mtd_get_mac_binary factory 0x4)
++		;;
+ 	linksys,e5400)
+ 		wan_mac=$(mtd_get_mac_binary factory 0x22)
+ 		;;
