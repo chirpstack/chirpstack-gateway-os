@@ -1,0 +1,36 @@
+# Point ChirpStack Gateway Mesh at the slot 1 concentratord.
+#
+# This gateway runs one concentratord instance per slot, bound to
+# ipc:///tmp/concentratord_slot1_* and ipc:///tmp/concentratord_slot2_*.
+# chirpstack-gateway-mesh ships with ipc:///tmp/concentratord_event, which is
+# right for single-slot gateways but is never created here, so out of the box
+# both mesh backends point at a socket that does not exist.
+#
+# Both backends move to slot 1, the same layout a single-slot gateway gets.
+# Slot 2 is often not fitted, so it stays an opt-in.
+#
+# Only the single-slot value is replaced. uci-defaults run again after every
+# sysupgrade, so an unconditional write would undo an operator who picked
+# slot 2.
+
+SINGLE_EVENT="ipc:///tmp/concentratord_event"
+
+SLOT1_EVENT="ipc:///tmp/concentratord_slot1_event"
+SLOT1_COMMAND="ipc:///tmp/concentratord_slot1_command"
+
+# retarget <event_url option> <command_url option>
+retarget() {
+    [ "$(uci -q get "$1")" = "$SINGLE_EVENT" ] || return 0
+    uci set "$1=$SLOT1_EVENT"
+    uci set "$2=$SLOT1_COMMAND"
+}
+
+if uci -q get chirpstack-gateway-mesh.backend_concentratord >/dev/null; then
+    retarget chirpstack-gateway-mesh.backend_concentratord.event_url \
+             chirpstack-gateway-mesh.backend_concentratord.command_url
+    retarget chirpstack-gateway-mesh.backend_mesh_concentratord.event_url \
+             chirpstack-gateway-mesh.backend_mesh_concentratord.command_url
+    uci commit chirpstack-gateway-mesh
+fi
+
+exit 0
