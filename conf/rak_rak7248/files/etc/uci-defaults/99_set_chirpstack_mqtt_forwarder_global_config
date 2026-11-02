@@ -1,0 +1,4 @@
+uci get chirpstack-mqtt-forwarder.@global[0]
+if [ $? -eq 1 ]; then
+  uci add chirpstack-mqtt-forwarder global
+fi

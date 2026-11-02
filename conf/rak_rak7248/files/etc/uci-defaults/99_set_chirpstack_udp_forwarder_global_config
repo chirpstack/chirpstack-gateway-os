@@ -1,0 +1,4 @@
+uci get chirpstack-udp-forwarder.@global[0]
+if [ $? -eq 1 ]; then
+  uci add chirpstack-udp-forwarder global
+fi

@@ -1,0 +1,2 @@
+# update rc.local file as sysupgrades will preserve the old file
+cp /rom/etc/rc.local /etc/rc.local

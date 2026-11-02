@@ -1,0 +1,16 @@
+Index: openwrt/target/linux/bcm27xx/image/config.txt
+===================================================================
+--- openwrt.orig/target/linux/bcm27xx/image/config.txt
++++ openwrt/target/linux/bcm27xx/image/config.txt
+@@ -11,4 +11,10 @@
+ include distroconfig.txt
+ 
+ [all]
+-# Place your custom settings here.
++# The RAK2287 Pi HAT wires header pin 26 (GPIO7, SPI0 CE1) to the SX1302,
++# so SPI0 runs with CE0 only.
++dtoverlay=spi0-1cs
++enable_uart=1
++dtparam=i2c1=on
++dtparam=i2c_arm=on
++dtoverlay=dwc2
