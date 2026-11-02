@@ -1,0 +1,3 @@
+no-uart-console.patch
+boot-config.patch
+image-with-padded-rootfs.patch

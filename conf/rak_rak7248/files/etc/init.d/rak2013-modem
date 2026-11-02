@@ -1,0 +1,258 @@
+#!/bin/sh /etc/rc.common
+#
+# Power on the modem of the RAK2013 cellular HAT (Quectel BG96 or EG95) once
+# per boot, and wait for its USB data device before networking starts.
+#
+# PWRKEY toggles. A press while the modem is off switches it on, and a press
+# while it is on switches it off. The modem keeps its power across a warm
+# reboot of the Pi, so pulsing PWRKEY on every boot would switch a working
+# modem OFF each time. This script therefore reads STATUS first and pulses
+# PWRKEY only when STATUS shows the modem off, at most once per run, with no
+# retry. Any doubt (a failed read, an empty or unexpected value, a failed
+# earlier GPIO step) means no pulse. The two mistakes are not equal: a missed
+# pulse leaves the modem off until the next boot, while a wrong pulse switches
+# off a modem that was working. Even if the modem is slow to come up, a second
+# press could switch it off just as it appears, so there is none.
+#
+# Pi lines, by the GPIOn names the Pi 4 device tree gives them:
+#   GPIO18  PWRKEY     output, 1 = key pressed,   0 = released
+#   GPIO6   RESET      output, 1 = modem in reset, 0 = released
+#   GPIO5   W_DISABLE  output, 1 = airplane mode,  0 = radio allowed
+#   GPIO26  AP_READY   output, 1 = asserted,       0 = inactive
+#   GPIO21  STATUS     input,  INVERTED: reads 0 when the modem is on and 1
+#                      when it is off
+# The four outputs drive open-collector transistor stages, so the Pi's 1
+# asserts the function and its 0 leaves it inactive. STATUS goes through an
+# inverting stage with a pull-up on the HAT, hence the inverted reading.
+#
+# Is a HAT fitted? Without the HAT GPIO21 is unconnected and floats, so it
+# follows whichever internal bias is set on it. With the HAT, the pull-up or
+# the transistor holds it far more firmly than the Pi's internal bias can, so
+# it reads the same under pull-up and under pull-down. If the two reads differ
+# there is no HAT and nothing else is touched, which keeps a plain RAK7248 from
+# pulsing pins that go nowhere.
+#
+# Before PWRKEY is considered, RESET and W_DISABLE are driven low. The BCM2711
+# resets GPIO5 and GPIO6 with pull-ups, and through these transistor stages a
+# pull-up can switch the stage on and hold the modem in reset or airplane mode
+# until the Pi drives the pins low itself.
+#
+# Why start() blocks until the USB device shows up: procd runs boot scripts one
+# at a time and never times out a start, so this script finishes before the
+# network script (START=20) runs. netifd's QMI handler marks an interface as
+# having no device if /dev/cdc-wdm* does not exist when it starts, and nothing
+# retries that later, so the operator's QMI interface would stay down. The cost
+# is that boot waits here, for at most STATUS_TIMEOUT + USB_TIMEOUT seconds when
+# the modem never appears. A warm reboot that finds the modem already on waits
+# for the device to enumerate for the same reason.
+#
+# stop() does nothing. Switching the modem off at shutdown would defeat the
+# point of reading STATUS: a warm reboot is meant to leave the modem on.
+#
+# GPIO access uses the libgpiod 2.x command line tools (gpiod-tools). Sysfs GPIO
+# is not used because the kernel's GPIO numbering base moves between releases
+# and sysfs cannot set a pull bias.
+#  - Lines are addressed by name, not by chip and offset. A name that does not
+#    exist makes the tool fail, whereas a wrong chip number would drive another
+#    line: the Pi's firmware GPIO expander also has lines 5 and 6, which are
+#    the camera GPIO and the SD card power.
+#  - gpioset keeps a line driven only until it exits, so it normally blocks.
+#    "-t 0" (one toggle period of zero) sets the lines and exits at once, and
+#    "-t <period>,0" holds the initial levels for the period, toggles every
+#    line once and exits, which is a pulse that ends low. This relies on the Pi
+#    kernel keeping an output pin's level after the line is released (the
+#    pinctrl-bcm2835 persist_gpio_outputs parameter, on by default). If that
+#    were switched off the pins would fall back to inputs, GPIO5 and GPIO6 would
+#    take their pull-ups again, and the modem would be held in reset.
+#  - Fractional sleeps are not used, as busybox here may not support them. The
+#    millisecond timing of the pulse is left to gpioset.
+#
+# The script logs exactly one line per run and always returns 0.
+
+START=15
+
+# ---------------------------------------------------------------------------
+# Tunables
+#
+# PULSE_MS         How long PWRKEY is held pressed, in milliseconds. It has to
+#                  be long enough for the modem to register the press, yet
+#                  shorter than the hold time at which the modem treats the
+#                  press as a request to power off. One value has to suit both
+#                  the BG96 and the EG95.
+# STATUS_TIMEOUT   Seconds to wait, after the pulse, for STATUS to show the
+#                  modem on. If it never does, the script gives up without a
+#                  second pulse.
+# USB_TIMEOUT      Seconds to wait for /dev/cdc-wdm* once the modem is on. It
+#                  has to cover the slowest USB enumeration of either modem
+#                  with some margin.
+#
+# The two waits are the extra boot time on a unit whose modem never appears,
+# because every later boot script waits for this one. Keep STATUS_TIMEOUT +
+# USB_TIMEOUT at 30 seconds or less.
+# ---------------------------------------------------------------------------
+PULSE_MS=500
+STATUS_TIMEOUT=10
+USB_TIMEOUT=20
+# ---------------------------------------------------------------------------
+
+LOG_TAG=rak2013-modem
+GPIO_CONSUMER=rak2013-modem
+
+PIN_PWRKEY=GPIO18
+PIN_RESET=GPIO6
+PIN_W_DISABLE=GPIO5
+PIN_AP_READY=GPIO26
+PIN_STATUS=GPIO21
+
+# Where the modem's QMI control device appears. Only overridden to try the
+# script against a fake directory on a host.
+CDC_WDM_DIR=${CDC_WDM_DIR:-/dev}
+
+# Read STATUS once with the given internal bias (pull-up or pull-down). The
+# 10 ms hold lets the pad settle after the bias changes before it is sampled.
+# Prints whatever gpioget printed, stderr included, and returns its exit
+# status. A usable reading is exactly "0" or "1".
+rak2013_read_status() {
+	gpioget --numeric -C "$GPIO_CONSUMER" -b "$1" -p 10ms "$PIN_STATUS" 2>&1
+}
+
+# Make captured tool output safe for the one-line log: a single line of
+# bounded length.
+rak2013_clean() {
+	printf '%s' "$1" | tr '\n\r\t' '   ' | cut -c1-80
+}
+
+# Seconds since the epoch, or 0 if date gives nothing usable. Only used to
+# report how long the modem took, never to decide anything.
+rak2013_now() {
+	rak2013_t=$(date +%s 2>/dev/null)
+	case $rak2013_t in
+	'' | *[!0-9]*) rak2013_t=0 ;;
+	esac
+	echo "$rak2013_t"
+}
+
+# Wait up to STATUS_TIMEOUT seconds for STATUS to read exactly 0 (modem on).
+# A failed or odd read counts as "not on yet". The last raw read is kept for
+# the log.
+rak2013_wait_status_on() {
+	rak2013_waited=0
+	rak2013_last=
+	while [ "$rak2013_waited" -lt "$STATUS_TIMEOUT" ]; do
+		sleep 1
+		rak2013_waited=$((rak2013_waited + 1))
+		rak2013_last=$(rak2013_read_status pull-down) || continue
+		[ "$rak2013_last" = 0 ] && return 0
+	done
+	return 1
+}
+
+# Wait up to USB_TIMEOUT seconds for a /dev/cdc-wdm* device. The name of the
+# first one found is left in rak2013_dev.
+rak2013_wait_usb() {
+	rak2013_waited=0
+	while :; do
+		set -- "$CDC_WDM_DIR"/cdc-wdm*
+		if [ -e "$1" ]; then
+			rak2013_dev=${1##*/}
+			return 0
+		fi
+		[ "$rak2013_waited" -lt "$USB_TIMEOUT" ] || return 1
+		sleep 1
+		rak2013_waited=$((rak2013_waited + 1))
+	done
+}
+
+# The whole sequence. Every path leaves one sentence in RAK2013_MSG for
+# start() to log, and returns 0.
+rak2013_power_on() {
+	# 1. Is a RAK2013 fitted? Two successful reads that agree, and are 0 or 1,
+	# mean the line is held by the HAT. Reads that differ mean it floats.
+	if ! rak2013_up=$(rak2013_read_status pull-up); then
+		RAK2013_MSG="STATUS probe failed under pull-up ('$(rak2013_clean "$rak2013_up")'), modem left alone"
+		return 0
+	fi
+	if ! rak2013_down=$(rak2013_read_status pull-down); then
+		RAK2013_MSG="STATUS probe failed under pull-down ('$(rak2013_clean "$rak2013_down")'), modem left alone"
+		return 0
+	fi
+	case "$rak2013_up/$rak2013_down" in
+	0/0 | 1/1) ;;
+	0/1 | 1/0)
+		RAK2013_MSG="no RAK2013 detected (STATUS follows the pull bias), modem left alone"
+		return 0
+		;;
+	*)
+		RAK2013_MSG="STATUS probe gave unexpected values ('$(rak2013_clean "$rak2013_up")' under pull-up, '$(rak2013_clean "$rak2013_down")' under pull-down), modem left alone"
+		return 0
+		;;
+	esac
+
+	# 2. Release RESET and W_DISABLE (and AP_READY) before anything depends
+	# on them. One call, so either all three are driven or none is.
+	if ! rak2013_out=$(gpioset -C "$GPIO_CONSUMER" -t 0 \
+		"$PIN_W_DISABLE=0" "$PIN_RESET=0" "$PIN_AP_READY=0" 2>&1); then
+		RAK2013_MSG="cannot drive RESET, W_DISABLE and AP_READY low ('$(rak2013_clean "$rak2013_out")'), modem left alone"
+		return 0
+	fi
+
+	# 3. Read STATUS again, now that RESET and W_DISABLE are released. Only a
+	# successful read of exactly 1 (modem off) goes on to a pulse.
+	if ! rak2013_out=$(rak2013_read_status pull-down); then
+		RAK2013_MSG="STATUS read failed ('$(rak2013_clean "$rak2013_out")'), no PWRKEY pulse"
+		return 0
+	fi
+	case "$rak2013_out" in
+	1) ;;
+	0)
+		if rak2013_wait_usb; then
+			RAK2013_MSG="modem already on (STATUS 0), no PWRKEY pulse, $rak2013_dev present"
+		else
+			RAK2013_MSG="modem already on (STATUS 0), no PWRKEY pulse, but no cdc-wdm device after ${USB_TIMEOUT}s"
+		fi
+		return 0
+		;;
+	*)
+		RAK2013_MSG="STATUS read gave an unexpected value ('$(rak2013_clean "$rak2013_out")'), no PWRKEY pulse"
+		return 0
+		;;
+	esac
+
+	# 4. The only PWRKEY pulse: high for PULSE_MS, then low. If the tool fails
+	# the key may be left pressed, so drive it low once more. That is not a
+	# second pulse, and there is no retry.
+	if ! rak2013_out=$(gpioset -C "$GPIO_CONSUMER" -t "${PULSE_MS}ms,0" \
+		"$PIN_PWRKEY=1" 2>&1); then
+		gpioset -C "$GPIO_CONSUMER" -t 0 "$PIN_PWRKEY=0" >/dev/null 2>&1
+		RAK2013_MSG="PWRKEY pulse failed ('$(rak2013_clean "$rak2013_out")'), key released, not retrying"
+		return 0
+	fi
+
+	# 5. Wait for the modem to report on, then for its USB device. Times in
+	# the log are counted from the end of the pulse.
+	rak2013_t0=$(rak2013_now)
+	if ! rak2013_wait_status_on; then
+		RAK2013_MSG="PWRKEY pulsed once but STATUS still not on after ${STATUS_TIMEOUT}s (last read '$(rak2013_clean "$rak2013_last")'), giving up without a second pulse"
+		return 0
+	fi
+	rak2013_t1=$(rak2013_now)
+	rak2013_status_s=$((rak2013_t1 - rak2013_t0))
+	if rak2013_wait_usb; then
+		rak2013_t2=$(rak2013_now)
+		RAK2013_MSG="modem powered on: STATUS on ${rak2013_status_s}s and $rak2013_dev present $((rak2013_t2 - rak2013_t0))s after the pulse"
+	else
+		RAK2013_MSG="modem powered on (STATUS on ${rak2013_status_s}s after the pulse) but no cdc-wdm device after another ${USB_TIMEOUT}s"
+	fi
+	return 0
+}
+
+start() {
+	RAK2013_MSG="no outcome recorded"
+	rak2013_power_on
+	logger -t "$LOG_TAG" "$RAK2013_MSG"
+	return 0
+}
+
+stop() {
+	return 0
+}

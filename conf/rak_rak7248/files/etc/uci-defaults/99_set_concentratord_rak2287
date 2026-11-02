@@ -1,0 +1,29 @@
+# Preselect the RAK2287 on its Pi HAT: SX1302 over SPI, with the u-blox GNSS on
+# the Pi's UART. The service stays disabled until a region is picked.
+#
+# The rak_2287 model already knows its SPI device, reset pin and GNSS port, so
+# no paths are written here. Explicit paths would also override the defaults
+# of any other model the operator switches to later.
+#
+# uci-defaults run again after every sysupgrade, against the operator's kept
+# config. So nothing changes once a chipset has been chosen, and each value is
+# replaced only while it still holds the package's shipped default. A model or
+# GNSS setting changed by hand before any chipset was picked is left alone.
+
+CFG=chirpstack-concentratord
+
+# preset <option> <shipped value> <board value>
+preset() {
+    [ "$(uci -q get "$CFG.$1")" = "$2" ] || return 0
+    uci set "$CFG.$1=$3"
+}
+
+[ -n "$(uci -q get "$CFG.@global[0]")" ] || exit 0
+[ -z "$(uci -q get "$CFG.@global[0].chipset")" ] || exit 0
+
+preset '@global[0].chipset' '' sx1302
+preset '@sx1302[0].model' semtech_sx1302css868gw1 rak_2287
+preset '@sx1302[0].gnss' 0 1
+uci commit "$CFG"
+
+exit 0
